@@ -1,37 +1,31 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
+$sayfano = 44;
 $sayfa_adi = 'phpKF Mobil Android Servis';
-$user_agent = $_SERVER['HTTP_USER_AGENT'];
-
-
-if (@preg_match('/phpKF\ Android\ Uygulamasi/', $user_agent)) $sayfano = '44,0';
-elseif (@preg_match('/Firefox\//', $user_agent)) $sayfano = '44,1';
-elseif (@preg_match('/Chrome\//', $user_agent)) $sayfano = '44,2';
-else $sayfano = '44,0';
-
+$dosya_mobil = 'mobil/index.php';
 
 
 // kip verisi alınıyor
-if (isset($_GET['kip']))
+if (isset($_GET['kip'])) 
 {
 	$_GET['kip'] = @str_replace(array('-','x','.'), '', $_GET['kip']);
 	if (is_numeric($_GET['kip'])) $kip = $_GET['kip'];
@@ -53,7 +47,7 @@ if (isset($_GET['denetim']))
 
 		if ( (isset($_COOKIE['kullanici_kimlik'])) AND ($_COOKIE['kullanici_kimlik'] != '') )
 		{
-			if (!defined('DOSYA_GERECLER')) include '../phpkf-bilesenler/gerecler.php';
+			if (!defined('DOSYA_GERECLER')) include '../bilesenler/gerecler.php';
 
 			$_COOKIE['kullanici_kimlik'] = @zkTemizle($_COOKIE['kullanici_kimlik']);
 
@@ -80,12 +74,18 @@ if (isset($_GET['denetim']))
 
 
 include_once('../ayar.php');
-include_once('../phpkf-bilesenler/oturum.php');
-include_once('../phpkf-bilesenler/kullanici_kimlik.php');
+include_once('../bilesenler/oturum.php');
+include_once('../bilesenler/kullanici_kimlik.php');
 header("Content-type: text/xml; charset=UTF-8");
 $sayfa_cikis = '';
 $bilsayi = 0;
 
+
+
+// forum alanadı ve dizini
+if ($ayarlar['f_dizin'] == '/') $af_dizin = '';
+else $af_dizin = $ayarlar['f_dizin'];
+$alanadi = 'http://'.$ayarlar['alanadi'].$af_dizin.'/';
 
 
 $tarih = time();
@@ -103,12 +103,8 @@ else
 	else $zaman = 0;
 }
 
-
 $bul = array('<b>', ',</b>');
 $cevir = array('', '');
-
-$bul2 = array('&amp;', '&lt;', '&gt;', '&#34;');
-$cevir2 = array('&', '<', '>', '"');
 
 
 
@@ -116,7 +112,7 @@ $cevir2 = array('&', '<', '>', '"');
 $bosbildirim = '<BILDIRIM>
 <BASLIK> </BASLIK>
 <KONU> </KONU>
-<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.$phpkf_dosyalar['mobil'].']]></ADRES>
+<ADRES><![CDATA['.$alanadi.$dosya_mobil.']]></ADRES>
 <ZAMAN>'.$tarih.'</ZAMAN>
 <TARIH>'.$guncel_saat.'</TARIH>
 <YAZAN> </YAZAN>
@@ -127,7 +123,7 @@ $bosbildirim = '<BILDIRIM>
 $takipuyari1 = '<BILDIRIM>
 <BASLIK>Takip Uyarı</BASLIK>
 <KONU>Takip için seçim yapılmalıdır</KONU>
-<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.$phpkf_dosyalar['profil_degistir'].'?kosul=takip]]></ADRES>
+<ADRES><![CDATA['.$alanadi.'profil_degistir.php?kosul=takip]]></ADRES>
 <ZAMAN>'.$tarih.'</ZAMAN>
 <TARIH>'.$guncel_saat.'</TARIH>
 <YAZAN>'.$ayarlar['alanadi'].'</YAZAN>
@@ -138,7 +134,7 @@ $takipuyari1 = '<BILDIRIM>
 $takipuyari2 = '<BILDIRIM>
 <BASLIK>Takip Uyarı</BASLIK>
 <KONU>Takip için üye girişi yapılmalıdır</KONU>
-<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.$phpkf_dosyalar['mobil'].']]></ADRES>
+<ADRES><![CDATA['.$alanadi.$dosya_mobil.']]></ADRES>
 <ZAMAN>'.$tarih.'</ZAMAN>
 <TARIH>'.$guncel_saat.'</TARIH>
 <YAZAN>'.$ayarlar['alanadi'].'</YAZAN>
@@ -182,7 +178,8 @@ if ($zaman != 0)
 
 
 					$sorgu = $vt->query("SELECT id FROM $tablo_mesajlar WHERE $takip_eksorgu") or die ();
-					$sorgu1 = "SELECT id,yazan,mesaj_baslik,son_mesaj_tarihi,cevap_sayi,son_cevap,son_cevap_yazan FROM $tablo_mesajlar WHERE $takip_eksorgu ORDER BY son_mesaj_tarihi DESC LIMIT 10";
+					$sorgu1 = "SELECT id,yazan,mesaj_baslik,son_mesaj_tarihi,cevap_sayi,son_cevap,son_cevap_yazan
+					FROM $tablo_mesajlar WHERE $takip_eksorgu ORDER BY son_mesaj_tarihi DESC LIMIT 10";
 
 					$konu_sayi = $vt->num_rows($sorgu);
 					$m_arama_sonuc = $vt->query($sorgu1) or die ();
@@ -228,9 +225,8 @@ if ($zaman != 0)
 			while ($mesaj_satir = $vt->fetch_assoc($m_arama_sonuc))
 			{
 				$bilsayi++;
-				$bildirim_tarihi = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $mesaj_satir['son_mesaj_tarihi']);
-				$bildirim_tarihi = @str_replace($bul, $cevir, $bildirim_tarihi);
-				$mesaj_baslik = @str_replace($bul2, $cevir2, $mesaj_satir['mesaj_baslik']);
+				$mesaj_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $mesaj_satir['son_mesaj_tarihi']);
+				$mesaj_tarih = @str_replace($bul, $cevir, $mesaj_tarih);
 
 
 				// Yeni Cevap ise
@@ -252,10 +248,10 @@ if ($zaman != 0)
 					// Bildirim XML
 					$sayfa_cikis .= '<BILDIRIM>
 					<BASLIK><![CDATA[Yeni bir cevap var]]></BASLIK>
-					<KONU><![CDATA[Cevap: '.$mesaj_baslik.']]></KONU>
-					<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.$phpkf_dosyalar['mobil'].'?ak='.$mesaj_satir['id'].$sonagit.']]></ADRES>
+					<KONU><![CDATA[Cevap: '.$mesaj_satir['mesaj_baslik'].']]></KONU>
+					<ADRES><![CDATA['.$alanadi.$dosya_mobil.'?ak='.$mesaj_satir['id'].$sonagit.']]></ADRES>
 					<ZAMAN>'.$tarih.'</ZAMAN>
-					<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
+					<TARIH><![CDATA['.$mesaj_tarih.']]></TARIH>
 					<YAZAN><![CDATA['.$mesaj_satir['son_cevap_yazan'].']]></YAZAN>
 					<UYARI>1</UYARI>
 					</BILDIRIM>';
@@ -267,10 +263,10 @@ if ($zaman != 0)
 					// Bildirim XML
 					$sayfa_cikis .= '<BILDIRIM>
 					<BASLIK><![CDATA[Yeni bir konu var]]></BASLIK>
-					<KONU><![CDATA[Konu: '.$mesaj_baslik.']]></KONU>
-					<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.$phpkf_dosyalar['mobil'].'?ak='.$mesaj_satir['id'].']]></ADRES>
+					<KONU><![CDATA[Konu: '.$mesaj_satir['mesaj_baslik'].']]></KONU>
+					<ADRES><![CDATA['.$alanadi.$dosya_mobil.'?ak='.$mesaj_satir['id'].']]></ADRES>
 					<ZAMAN>'.$tarih.'</ZAMAN>
-					<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
+					<TARIH><![CDATA['.$mesaj_tarih.']]></TARIH>
 					<YAZAN><![CDATA['.$mesaj_satir['yazan'].']]></YAZAN>
 					<UYARI>1</UYARI>
 					</BILDIRIM>';
@@ -312,7 +308,7 @@ if (isset($kullanici_kim['id']))
 			$sayfa_cikis .= '<BILDIRIM>
 			<BASLIK><![CDATA[Yeni bir özel iletiniz var]]></BASLIK>
 			<KONU><![CDATA[Özel ileti: '.$oi_satir['ozel_baslik'].']]></KONU>
-			<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.'mobil/oi_oku.php?oino='.$oi_satir['id'].'#hzlcvp]]></ADRES>
+			<ADRES><![CDATA['.$alanadi.'mobil/oi_oku.php?oino='.$oi_satir['id'].']]></ADRES>
 			<ZAMAN>'.$tarih.'</ZAMAN>
 			<TARIH><![CDATA['.$oi_tarih.']]></TARIH>
 			<YAZAN><![CDATA['.$oi_satir['kimden'].']]></YAZAN>
@@ -352,7 +348,7 @@ if (isset($kullanici_kim['id']))
 			$sayfa_cikis .= '<BILDIRIM>
 			<BASLIK><![CDATA[Yeni bir profil yorumunuz var]]></BASLIK>
 			<KONU><![CDATA[Profil yorumu]]></KONU>
-			<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.$phpkf_dosyalar['profil'].']]></ADRES>
+			<ADRES><![CDATA['.$alanadi.'profil.php]]></ADRES>
 			<ZAMAN>'.$tarih.'</ZAMAN>
 			<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
 			<YAZAN><![CDATA['.$bildirim['bildirim'].']]></YAZAN>
@@ -372,7 +368,7 @@ if (isset($kullanici_kim['id']))
 			$sayfa_cikis .= '<BILDIRIM>
 			<BASLIK><![CDATA[Bir yazınıza teşekkür edildi]]></BASLIK>
 			<KONU><![CDATA[Teşekkür edildi]]></KONU>
-			<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.'konu.php?'.$tsk_konu[1].']]></ADRES>
+			<ADRES><![CDATA['.$alanadi.'konu.php?'.$tsk_konu[1].']]></ADRES>
 			<ZAMAN>'.$tarih.'</ZAMAN>
 			<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
 			<YAZAN><![CDATA['.$tsk_konu[0].']]></YAZAN>
@@ -391,7 +387,7 @@ if (isset($kullanici_kim['id']))
 			$sayfa_cikis .= '<BILDIRIM>
 			<BASLIK><![CDATA[Onaysız yorum var]]></BASLIK>
 			<KONU><![CDATA[Onaysız yorum]]></KONU>
-			<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.'phpkf-yonetim/yorumlar.php]]></ADRES>
+			<ADRES><![CDATA['.$alanadi.'phpkf-yonetim/yorumlar.php]]></ADRES>
 			<ZAMAN>'.$tarih.'</ZAMAN>
 			<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
 			<YAZAN><![CDATA['.$bildirim['bildirim'].']]></YAZAN>
@@ -410,7 +406,7 @@ if (isset($kullanici_kim['id']))
 			$sayfa_cikis .= '<BILDIRIM>
 			<BASLIK><![CDATA[Yeni bir sipariş var]]></BASLIK>
 			<KONU><![CDATA[Ürün Sipariş]]></KONU>
-			<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.'phpkf-yonetim/ozel_sayfa.php?s=phpkf-bilesenler/eklentiler/urunler/urunler_yonetim.php&siparisler]]></ADRES>
+			<ADRES><![CDATA['.$alanadi.'phpkf-yonetim/ozel_sayfa.php?s=phpkf-bilesenler/eklentiler/urunler/urunler_yonetim.php&siparisler]]></ADRES>
 			<ZAMAN>'.$tarih.'</ZAMAN>
 			<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
 			<YAZAN><![CDATA['.$bildirim['bildirim'].']]></YAZAN>
@@ -429,7 +425,7 @@ if (isset($kullanici_kim['id']))
 			$sayfa_cikis .= '<BILDIRIM>
 			<BASLIK><![CDATA[Yeni bir ödeme var]]></BASLIK>
 			<KONU><![CDATA[Ürün Ödeme]]></KONU>
-			<ADRES><![CDATA['.$TEMA_SITE_ANADIZIN.'phpkf-yonetim/ozel_sayfa.php?s=phpkf-bilesenler/eklentiler/urunler/urunler_yonetim.php&siparisler]]></ADRES>
+			<ADRES><![CDATA['.$alanadi.'phpkf-yonetim/ozel_sayfa.php?s=../phpkf-bilesenler/eklentiler/urunler/urunler_yonetim.php&siparisler]]></ADRES>
 			<ZAMAN>'.$tarih.'</ZAMAN>
 			<TARIH><![CDATA['.$bildirim_tarihi.']]></TARIH>
 			<YAZAN><![CDATA['.$bildirim['bildirim'].']]></YAZAN>

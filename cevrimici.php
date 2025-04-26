@@ -1,41 +1,42 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3'";
+@ini_set('magic_quotes_runtime', 0);
+
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-include_once('phpkf-bilesenler/seo.php');
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
+include_once('bilesenler/seo.php');
 
 
 $sayfano = 5;
 $sayfa_adi = 'Çevrimiçi Kullanıcılar';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
-include_once('phpkf-bilesenler/hangi_sayfada.php');
+include_once('bilesenler/sayfa_baslik.php');
+include_once('bilesenler/hangi_sayfada.php');
 
 
 if (empty($_GET['sayfa'])) $_GET['sayfa'] = 0;
 else $_GET['sayfa'] = @zkTemizle($_GET['sayfa']);
 
 
-$zaman_asimi = $ayarlar['uye_cevrimici_sure'];
+$zaman_asimi = $ayarlar['cevrimici'];
 $tarih = time();
 $cevrimici_kota = 30;
 
@@ -153,7 +154,7 @@ if ($kullanici_kim['yetki'] == 1)
 {
     $uye_sayfa = HangiSayfada($cevirimici['sayfano'], $cevirimici['hangi_sayfada']);
 
-    $uye_ip = '<a href="phpkf-yonetim/forum_ip_yonetimi.php?kip=1&amp;ip='.$cevirimici['kul_ip'].'">'.$cevirimici['kul_ip'].'</a>';
+    $uye_ip = '<a href="yonetim/ip_yonetimi.php?kip=1&amp;ip='.$cevirimici['kul_ip'].'">'.$cevirimici['kul_ip'].'</a>';
 }
 
 else
@@ -193,7 +194,7 @@ $misafir_son_hareket = zonedate2('H:i:s', $ayarlar['saat_dilimi'], false, $misaf
 
 $misafir_sayfa = HangiSayfada($misafirler['sayfano'], $misafirler['hangi_sayfada']);
 
-if ($kullanici_kim['yetki'] == '1') $misafir_ip = '<a href="phpkf-yonetim/forum_ip_yonetimi.php?kip=1&amp;ip='.$misafirler['kul_ip'].'">'.$misafirler['kul_ip'].'</a>';
+if ($kullanici_kim['yetki'] == '1') $misafir_ip = '<a href="yonetim/ip_yonetimi.php?kip=1&amp;ip='.$misafirler['kul_ip'].'">'.$misafirler['kul_ip'].'</a>';
 else $misafir_ip = '';
 
 
@@ -215,7 +216,7 @@ $sayfalama = '';
 if ($satir_sayi > $cevrimici_kota):
 
 $sayfalama .= '<p>
-<table cellspacing="1" cellpadding="4" border="0" align="right" class="tablo_border">
+<table cellspacing="1" cellpadding="2" border="0" align="right" class="tablo_border">
     <tr>
     <td class="forum_baslik">
 Toplam '.$toplam_sayfa.' Sayfa:&nbsp;
@@ -274,10 +275,9 @@ endif;
 
 
 
-$cevrimici_sure = ($zaman_asimi/60);
+
 $kullanici_sayi += $gizli_sayi;
-$gizli_sayi = '('.$gizli_sayi.' '.$l['gizli'].')';
-$cevrimici_bilgi = str_replace('{00}', $cevrimici_sure, $l['cevrimici_bilgi']);
+$gizli_sayi = '('.$gizli_sayi.' tanesi gizli)';
 
 
 
@@ -366,7 +366,7 @@ $dongusuz = array('{HUCRE_SAYISI}' => $hucre_sayisi,
 '{YONETICI}' => $ayarlar['yonetici'],
 '{YARDIMCI}' => $ayarlar['yardimci'],
 '{BLM_YRD}' => $ayarlar['blm_yrd'],
-'{ZAMAN_ASIMI}' => $cevrimici_sure,
+'{ZAMAN_ASIMI}' => ($zaman_asimi / 60),
 '{MISAFIR SAYI}' => $misafir_sayi,
 '{MISAFIR}' => 'Misafir',
 '{SAYFALAMA}' => $sayfalama);

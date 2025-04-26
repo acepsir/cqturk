@@ -1,32 +1,32 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
 if ( (isset($_GET['fno'])) AND (isset($_GET['kip'])) OR (isset($_POST['fno'])) AND (isset($_POST['kip'])) ):
 
+@ini_set('magic_quotes_runtime', 0);
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3' OR kip='6'";
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 if ( isset($_GET['mesaj_no']) ) $mesaj_no = zkTemizle($_GET['mesaj_no']);
@@ -222,7 +222,7 @@ else
 	}
 }
 
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -242,18 +242,21 @@ if ($forum_satir['alt_forum'] != '0')
 	$vtsonuc_ust = $vt->query($vtsorgu) or die ($vt->hata_ver());
 	$forum_satir_ust = $vt->fetch_assoc($vtsonuc_ust);
 
-	$ust_forum_baslik = '<span><a href="forum.php?f='.$forum_satir_ust['id'].'">'.$forum_satir_ust['forum_baslik'].'</a></span>';
+	$ust_forum_baslik = '<a href="forum.php?f='.$forum_satir_ust['id'].'">'.$forum_satir_ust['forum_baslik'].'</a> &nbsp;&raquo;&nbsp; ';
 
-	$alt_forum_baslik = '<span><a href="forum.php?f='.$fno.'&amp;fs='.$fsayfa.'">'.$forum_satir['forum_baslik'].'</a></span>';
+	$alt_forum_baslik = '<a href="forum.php?f='.$fno.'&amp;fs='.$fsayfa.'">'.$forum_satir['forum_baslik'].'</a>';
 }
 
 else
 {
-	$ust_forum_baslik = '<span><a href="forum.php?f='.$fno.'&amp;fs='.$fsayfa.'">'.$forum_satir['forum_baslik'].'</a></span>';
+	$ust_forum_baslik = '<a href="forum.php?f='.$fno.'&amp;fs='.$fsayfa.'">'.$forum_satir['forum_baslik'].'</a>';
 	$alt_forum_baslik = '';
 }
 
-$sayfa_baslik = '<span><a href="konu.php?k='.$mesaj_no.'&amp;fs='.$fsayfa.'&amp;ks='.$sayfa.'">'.$baslik.'</a></span>';
+
+
+
+$sayfa_baslik = '<a href="konu.php?k='.$mesaj_no.'&amp;fs='.$fsayfa.'&amp;ks='.$sayfa.'">'.$baslik.'</a>';
 
 
 
@@ -273,7 +276,7 @@ if ( isset($_POST['mesaj_onizleme']) ):
 
 // MESAJ SAHİBİNİN PROFİLİ ÇEKİLİYOR //
 
-$vtsorgu = "SELECT id,kullanici_adi,gercek_ad,resim,katilim_tarihi,mesaj_sayisi,sehir_goster,sehir,web,imza,yetki,ozel_ad,engelle,gizli,son_hareket,sayfano
+$vtsorgu = "SELECT id,kullanici_adi,gercek_ad,resim,katilim_tarihi,mesaj_sayisi,sehir_goster,sehir,web,imza,yetki,ozel_ad
 FROM $tablo_kullanicilar WHERE kullanici_adi='$yazan' LIMIT 1";
 
 $vtsonuc = $vt->query($vtsorgu) or die ($vt->hata_ver());
@@ -286,14 +289,14 @@ $mesaj_sahibi = $vt->fetch_assoc($vtsonuc);
 if (get_magic_quotes_gpc())
 {
 	$_POST['mesaj_baslik'] = @ileti_yolla(stripslashes($_POST['mesaj_baslik']),3);
-	$_POST['mesaj_icerik'] = @ileti_yolla(stripslashes($_POST['mesaj_icerik']),5);
+	$_POST['mesaj_icerik'] = @ileti_yolla(stripslashes($_POST['mesaj_icerik']),4);
 }
 
 //	magic_quotes_gpc kapalıysa	//
 else
 {
 	$_POST['mesaj_baslik'] = @ileti_yolla($_POST['mesaj_baslik'],3);
-	$_POST['mesaj_icerik'] = @ileti_yolla($_POST['mesaj_icerik'],5);
+	$_POST['mesaj_icerik'] = @ileti_yolla($_POST['mesaj_icerik'],4);
 }
 
 
@@ -320,7 +323,7 @@ else $onizleme_yetki = '<font class="kullanici">'.$ayarlar['kullanici'].'</font>
 
 
 if ($mesaj_sahibi['resim']) $onizleme_resim = '<img src="'.$mesaj_sahibi['resim'].'" alt="Kulanıcı Resmi">';
-elseif ($ayarlar['v-uye_resmi'] != '') $onizleme_resim = '<img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi">';
+elseif ($ayarlar['kul_resim'] != '') $onizleme_resim = '<img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi">';
 else $onizleme_resim = '';
 
 
@@ -329,30 +332,9 @@ $onizleme_katilim = zonedate('d.m.Y', $ayarlar['saat_dilimi'], false, $mesaj_sah
 
 
 if ($mesaj_sahibi['sehir_goster'] == 1)
-{
-	if ($mesaj_sahibi['sehir'] != '') $onizleme_sehir = $mesaj_sahibi['sehir'];
-	else $onizleme_sehir = 'Yok';
-}
+	$onizleme_sehir = $mesaj_sahibi['sehir'];
 
-else $onizleme_sehir = 'Gizli';
-
-
-
-if (empty($mesaj_sahibi['gercek_ad']))
-	$onizleme_durum = '<font color="#FF0000">üye silinmiş</font>';
-
-elseif ($mesaj_sahibi['engelle'] == 1)
-	$onizleme_durum = '<font color="#FF0000">üye uzaklaştırılmış</font>';
-
-elseif ($mesaj_sahibi['gizli'] == 1)
-	$onizleme_durum = '<font color="#FF0000">Gizli</font>';
-
-elseif ( (($mesaj_sahibi['son_hareket'] + $ayarlar['uye_cevrimici_sure']) > time() ) AND
-		($mesaj_sahibi['sayfano'] != '-1') )
-	$onizleme_durum = '<font color="#339900">Forumda</font>';
-
-else $onizleme_durum = '<font color="#FF0000">Forumda Değil</font>';
-
+else $onizleme_sehir = '';
 
 
 $onizleme_eposta = '<a title="Forum üzerinden e-posta gönder" href="eposta.php?kim='.$mesaj_sahibi['kullanici_adi'].'">';
@@ -404,7 +386,6 @@ $ornek1->kosul('1', array('{ONIZLEME_BASLIK}' => $_POST['mesaj_baslik'],
 '{ONIZLEME_KATILIM}' => $onizleme_katilim,
 '{ONIZLEME_MESAJ_SAYI}' => NumaraBicim($mesaj_sahibi['mesaj_sayisi']),
 '{ONIZLEME_SEHIR}' => $onizleme_sehir,
-'{ONIZLEME_DURUM}' => $onizleme_durum,
 '{ONIZLEME_EPOSTA}' => $onizleme_eposta,
 '{ONIZLEME_WEB}' => $onizleme_web,
 '{ONIZLEME_OI}' => $onizleme_io,
@@ -541,15 +522,12 @@ elseif ( ($kip == 'mesaj') AND ($kullanici_kim['yetki'] == 3) )
 
 
 
-// link ağacı
-$forum_anasayfa = '<span><a href="'.$phpkf_dosyalar['forum'].'">Forum Ana Sayfası</a></span>';
-
 
 if (isset($_GET['alinti'])) $mesaj_alinti = $_GET['alinti'];
 else $mesaj_alinti = '';
 
 
-$form_bilgi1 = '<form action="phpkf-bilesenler/mesaj_degistir_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+$form_bilgi1 = '<form action="bilesenler/mesaj_degistir_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 <input type="hidden" name="mesaj_degisti_mi" value="form_dolu">
 <input type="hidden" name="sayfa_onizleme" value="mesaj_degistir">
 <input type="hidden" name="mesaj_onizleme" value="Önizleme">
@@ -571,7 +549,7 @@ $ornek1->kosul('3', array('' => ''), false);
 $ornek1->kosul('5', array('' => ''), false);
 
 
-$dongusuz = array('{FORUM_ANASAYFA}' => $forum_anasayfa,
+$dongusuz = array('{FORUM_ANASAYFA}' => '<a href="'.$forum_index.'">Forum Ana Sayfası</a>',
 '{FORUM_BASLIK}' => $ust_forum_baslik,
 '{ALT_FORUM_BASLIK}' => $alt_forum_baslik,
 '{SAYFA_BASLIK}' => $sayfa_baslik,

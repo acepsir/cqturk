@@ -1,21 +1,21 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
@@ -42,7 +42,7 @@ if (@strlen($_POST['posta']) ==  ''):
 	exit();
 endif;
 
-if (@strlen($_POST['posta']) > 100):
+if (@strlen($_POST['posta']) > 70):
 	header('Location: hata.php?hata=40');
 	exit();
 endif;
@@ -57,9 +57,8 @@ endif;
 //	FORM DOĞRU DOLDURULDUYSA İŞLEMLERE DEVAM	//
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='4'";
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 $_POST['posta'] = @zkTemizle($_POST['posta']);
@@ -110,30 +109,34 @@ $vtsonuc = $vt->query($vtsorgu) or die ($vt->hata_ver());
 //		... BELİRTİLEN YERLERE YENİ BİLGİLER GİRİLİYOR		// 
 
 
-$site_link = $TEMA_SITE_ANADIZIN.'yeni_sifre.php?kulid='.$yeni_sifre['id'].'&ys=';
 
-if (!($dosya_ac = fopen('./phpkf-bilesenler/postalar/yeni_sifre.txt','r'))) die ('Dosya Açılamıyor');
+if (!($dosya_ac = fopen('./bilesenler/postalar/yeni_sifre.txt','r'))) die ('Dosya Açılamıyor');
 $posta_metni = fread($dosya_ac,1024);
 fclose($dosya_ac);
 
-$bul = array('{siteadi}',
+$bul = array('{forumadi}',
+'{alanadi}',
+'{f_dizin}',
 '{kullanici_adi}',
-'{sifre_sifirlama_link}',
-'{sifre_sifirlama_iptal_link}',
-);
+'{kulid}',
+'{yeni_sifre}');
 
-$cevir = array($ayarlar['site_adi'],
+$cevir = array($ayarlar['anasyfbaslik'],
+$ayarlar['alanadi'],
+$ayarlar['f_dizin'],
 $yeni_sifre['kullanici_adi'],
-$site_link.$rastgele,
-$site_link.'iptal',
-);
+$yeni_sifre['id'],
+$rastgele);
+
+if ($cevir[2] == '/')
+$cevir[2] = '';
 
 $posta_metni = str_replace($bul,$cevir,$posta_metni);
 
 
 //	YENİ ŞİFRE TALEBİ BİLGİLERİ POSTALANIYOR		//
 
-require('phpkf-bilesenler/sinif_eposta.php');
+require('bilesenler/eposta_sinif.php');
 $mail = new eposta_yolla();
 
 
@@ -142,17 +145,17 @@ elseif ($ayarlar['eposta_yontem'] == 'smtp') $mail->SMTPKullan();
 
 
 $mail->sunucu = $ayarlar['smtp_sunucu'];
-if ($ayarlar['smtp_kd'] == '1') $mail->smtp_dogrulama = true;
+if ($ayarlar['smtp_kd'] == 'true') $mail->smtp_dogrulama = true;
 else $mail->smtp_dogrulama = false;
 $mail->kullanici_adi = $ayarlar['smtp_kullanici'];
 $mail->sifre = $ayarlar['smtp_sifre'];
 
-$mail->gonderen = $ayarlar['site_posta'];
-$mail->gonderen_adi = $ayarlar['site_adi'];
+$mail->gonderen = $ayarlar['y_posta'];
+$mail->gonderen_adi = $ayarlar['anasyfbaslik'];
 $mail->GonderilenAdres($yeni_sifre['posta']);
-$mail->YanitlamaAdres($ayarlar['site_posta']);
+$mail->YanitlamaAdres($ayarlar['y_posta']);
 
-$mail->konu = $ayarlar['site_adi'].' - Yeni Şifre Başvurusu';
+$mail->konu = $ayarlar['anasyfbaslik'].' - Yeni Şifre Başvurusu';
 $mail->icerik = $posta_metni;
 
 
@@ -194,7 +197,7 @@ endif;
 elseif (isset($_POST['kayit_yapildi_mi']) AND ($_POST['kayit_yapildi_mi'] == 'sifre_olustur')):
 
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 $_POST['kulid'] = zkTemizle($_POST['kulid']);
@@ -203,7 +206,7 @@ $_POST['ys'] = zkTemizle($_POST['ys']);
 
 //	KULID VE YENİ ŞİFRENİN DOĞRULUĞU KONTROL EDİLİYOR	//	
 
-if ( (strlen($_POST['ys']) != 7) OR (!is_numeric($_POST['ys'])) OR (!is_numeric($_POST['kulid'])) ):
+if ( (strlen($_POST['ys']) !=  7) OR (is_numeric($_POST['ys']) == false) OR (is_numeric($_POST['kulid']) == false) ):
 	header('Location: hata.php?hata=96');
 	exit();
 endif;
@@ -269,12 +272,12 @@ else :
 if ( (isset($_GET['kulid'])) AND (isset($_GET['ys'])) AND ($_GET['ys'] == 'iptal')  )
 {
     if (!defined('DOSYA_AYAR')) include 'ayar.php';
-    if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+    if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
-	if (!is_numeric($_GET['kulid']))
+	if (is_numeric($_GET['kulid']) == false)
 	{
-		header('Location: hata.php?hata=96');
+		header('Location: hata.php?hata=49');
 		exit();
 	}
 
@@ -296,14 +299,16 @@ if ( (isset($_GET['kulid'])) AND (isset($_GET['ys'])) AND ($_GET['ys'] == 'iptal
 if ( (isset($_GET['kulid'])) AND (isset($_GET['ys'])) )
 {
     if (!defined('DOSYA_AYAR')) include 'ayar.php';
-    if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+    if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
     @session_start();
 
 
 	//	yeni şifre deneme sayısı her defasında arttırılıyor	//
 
-    if (empty($_SESSION['yenisifre_deneme'])) $_SESSION['yenisifre_deneme'] = 1;
-    else $_SESSION['yenisifre_deneme']++;
+    if (empty($_SESSION['yenisifre_deneme'])) 
+    $_SESSION['yenisifre_deneme'] = 1;
+    else
+    $_SESSION['yenisifre_deneme']++;
 
     $_GET['kulid'] = @zkTemizle($_GET['kulid']);
     $_GET['ys'] = @zkTemizle($_GET['ys']);
@@ -311,7 +316,7 @@ if ( (isset($_GET['kulid'])) AND (isset($_GET['ys'])) )
 
     //  bilgiler hatalıysa  //
 
-	if ( (strlen($_GET['ys']) !=  7) OR (!is_numeric($_GET['ys'])) OR (!is_numeric($_GET['kulid'])) )
+	if ( (strlen($_GET['ys']) !=  7) OR (is_numeric($_GET['ys']) == false) OR (is_numeric($_GET['kulid']) == false) )
 	{
 		header('Location: hata.php?hata=96');
 		exit();
@@ -351,7 +356,7 @@ if ( (isset($_GET['kulid'])) AND (isset($_GET['ys'])) )
 
 $sayfano = 33;
 $sayfa_adi = 'Yeni Şifre Başvurusu';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 

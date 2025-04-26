@@ -1,9 +1,0 @@
-
-Sayın {kullanici_adi};
-
-{siteadi} Sitesinde bulunan hesabınızın E-Posta adresini değiştirdiniz.
-Adres değişikliğini tamamlamak için alttaki bağlantıyı tıklayın.
-
-
-{tiklanacak_baglanti}
-

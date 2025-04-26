@@ -1,0 +1,260 @@
+@charset "utf-8";
+
+#mesaj_tamekran{
+z-index:1000;
+float:left;
+width:100%;
+/*resize:both;
+overflow:hidden;*/
+}
+
+.duzenleyici_baslik{
+ background:#555555;
+ border-left:5px solid #555555;
+ border-top:1px solid #555555;
+ border-bottom:2px solid #333333;
+ border-right:2px solid #333333;
+ height:17px;
+ margin:0;
+ padding:3px;
+ line-height:14px;
+}
+
+.duzenleyici_baslik2{
+ font-family:verdana, sans-serif, tahoma, arial, helvetica;
+ color:#c3c3c3;
+ text-decoration:none;
+ font-weight:normal;
+ font-size:11px;
+ background:#555555;
+ border-left:0px solid #555555;
+ margin:2px;
+ padding:0;
+ float:left;
+}
+
+.bbcode_alt{
+ box-sizing: border-box;
+ width:100%;
+ float:left;
+ margin:0;
+ padding:0;
+ background:#555555;
+ border-top:1px solid #000000;
+ border-left:5px solid #444444;
+ border-bottom:0px solid #aaaaaa;
+ border-right:2px solid #333333;
+}
+
+.goster-gizle{
+ font-family:verdana, sans-serif, tahoma, arial, helvetica;
+ color:#ffffff;
+ text-decoration:none;
+ font-weight:bold;
+ font-size:12px;
+ background:#555555;
+ border-left:1px solid #888888;
+ border-top:1px solid #888888;
+ border-bottom:1px solid #333333;
+ border-right:1px solid #333333;
+ text-align:center;
+ height:16px;
+ width:32px;
+ float:right;
+ margin:0 0 0 7px;
+ padding:0;
+ cursor:pointer;
+}
+
+.goster-gizle:hover{
+ border-left:1px solid #333333;
+ border-top:1px solid #333333;
+ border-bottom:1px solid #888888;
+ border-right:1px solid #888888;
+}
+
+#goster-gizlek, #goster-gizleb{
+ font-size:16px;
+ line-height:13px;
+}
+
+/* IE için */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+ #goster-gizlek, #goster-gizleb{
+  font-size:16px;
+  line-height:15px;
+ }
+}
+
+/* Chrome için */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ #goster-gizlek, #goster-gizleb{
+  font-size:15px;
+  line-height:16px;
+ }
+}
+
+.sabit_katman{
+ position:relative;
+ float:left;
+ width:27px;
+ height:30px;
+}
+
+.bbcode{
+ cursor:pointer;
+ border-top:3px solid #777777;
+ border-bottom:3px solid #777777;
+ border-left:2px solid #bbbbbb;
+ border-right:2px solid #dddddd;
+}
+
+.formlar_mesajyaz{
+ box-sizing: border-box;
+ float:left;
+ margin:0;
+ padding:5px;
+ width:100%;
+ height:367px;
+ font-family:verdana, sans-serif, tahoma, arial, helvetica;
+ font-size:11px;
+ line-height:18px;
+ color:#000000;
+ text-decoration:none;
+ background:#ffffff;
+ border-left:5px solid #444444;
+ border-top:1px solid #555555;
+ border-bottom:2px solid #000000;
+ border-right:2px solid #000000;
+ overflow:auto;
+ font-weight:normal;
+ cursor:text;
+ text-align:left;
+ resize:both;
+}
+.formlar_mesajyaz:focus{
+ color:#000000;
+ background:#ffffff;
+ border-left:5px solid #444444;
+ border-top:1px solid #555555;
+ border-bottom:2px solid #000000;
+ border-right:2px solid #000000;
+}
+
+.formlar_mesajyaz img{
+ max-width:80%;
+}
+
+#mesaj_icerik_div p{
+ margin:0;
+}
+
+#mesaj_icerik_div blockquote, pre{
+	border:1px dashed #aaa;
+	margin:5px 0;
+	overflow:hidden;
+	padding:6px 8px;
+	background:#efefef;
+}
+
+#renk_tablosu{
+ position: absolute;
+ left:0;
+ top:28px;
+ z-index:1;
+ float:left;
+ background:#ffffff;
+ border:1px solid #cccccc;
+ visibility:hidden;
+ display:none;
+ font-family:arial;
+ font-size:1px;
+}
+
+#renk_tablosu td{
+ border:1px solid #aaaaaa;
+ width:18px;
+ height:18px;
+ cursor:pointer;
+}
+
+#renk_tablosu a{
+ display:block;
+ width:18px;
+ height:18px;
+ text-decoration:none;
+}
+
+#renk_tablosu td:hover{
+ border:1px solid #000000;
+}
+
+#yaziboyutu_tablosu{
+ position:absolute;
+ left:0;
+ top:28px;
+ z-index:2;
+ float:left;
+ width:440px;
+ background:#ffffff;
+ border:1px solid #cccccc;
+ visibility:hidden;
+ display:none;
+ font-family:arial;
+ font-size:1px;
+}
+
+#yaziboyutu_tablosu td{
+ border:1px solid #ffffff;
+ font-family:arial;
+ font-size:1px;
+ width:395px;
+ cursor:pointer;
+ margin:1px;
+}
+
+#yaziboyutu_tablosu a{
+ font-family:arial;
+ color:#000000;
+ text-decoration:none;
+}
+
+#yaziboyutu_tablosu td:hover{
+ border:1px solid #99ffff;
+ background:#ddffff;
+}
+
+#yazitipi_tablosu{
+ position:absolute;
+ left:0;
+ top:28px;
+ z-index:3;
+ float:left;
+ width:130px;
+ background:#ffffff;
+ border:1px solid #cccccc;
+ visibility:hidden;
+ display:none;
+ font-family:arial;
+ font-size:1px;
+}
+
+#yazitipi_tablosu td{
+ border:1px solid #ffffff;
+ font-family:arial;
+ font-size:1px;
+ width:120px;
+ cursor:pointer;
+ margin:1px;
+}
+
+#yazitipi_tablosu a{
+ color:#000000;
+ font-size:15px;
+ text-decoration:none;
+}
+
+#yazitipi_tablosu td:hover{
+ border:1px solid #99ffff;
+ background:#ddffff;
+}

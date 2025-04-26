@@ -1,28 +1,35 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='2'";
 if (!defined('PHPKF_ICINDEN')) define('PHPKF_ICINDEN', true);
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
 $sayfano = 9;
+
+
+// üye alımı kapalıysa
+if ($ayarlar['uye_kayit'] != 1)
+{
+	header('Location: hata.php?uyari=9');
+	exit();
+}
 
 
 //  KULLANICI ADI KONTROLÜ - BAŞI  //
@@ -30,25 +37,26 @@ $sayfano = 9;
 if ((isset($_GET['kosul'])) AND ($_GET['kosul'] == 'kadi')):
 
 header("Content-type: text/html; charset=utf-8");
+
 @session_start();
 
 
 
 if ((!isset($_GET['kadi'])) OR ($_GET['kadi'] == ''))
 {
-	echo $l['ad_girilmedi'];
+	echo 'Kullanıcı adı girmediniz.';
 	exit();
 }
 
 if (!@preg_match('/^[A-Za-z0-9-_ğĞüÜŞşİıÖöÇç.]+$/', $_GET['kadi']))
 {
-	echo $l['gecersiz_karakter'];
+	echo 'Geçersiz karakterler var.';
 	exit();
 }
 
 if ((@strlen($_GET['kadi']) > 20) OR (@strlen($_GET['kadi']) < 4))
 {
-	echo $l['4_20_karakter'];
+	echo 'En az 4, en fazla 20 karakter olmalıdır.';
 	exit();
 }
 
@@ -81,7 +89,7 @@ if ($ysk_kuladd[0] != '')
 
 		if (preg_match("/$ysk_kuladd[$d]/i", $_GET['kadi']))
 		{
-			echo $l['ad_yasak'];
+			echo 'Bu kullanıcı adı yasaklanmıştır.';
 			exit();
 		}
 	}
@@ -95,7 +103,7 @@ $vtsonuc = $vt->query($vtsorgu) or die ($vt->hata_ver());
 
 if ($vt->num_rows($vtsonuc))
 {
-	echo $l['ad_kullaniliyor'];
+	echo 'Bu kullanıcı adı kullanılmaktadır.';
 	exit();
 }
 
@@ -104,7 +112,7 @@ if ($vt->num_rows($vtsonuc))
 $_SESSION['fbkullanici_adi'] = $_GET['kadi'];
 
 
-echo '<font color="green"><b>'.$l['uygun'].'</b></font>';
+echo '<font color="green"><b>Uygun</b></font>';
 
 //  KULLANICI ADI KONTROLÜ - SONU  //
 
@@ -117,22 +125,15 @@ echo '<font color="green"><b>'.$l['uygun'].'</b></font>';
 
 else:
 
-// üye alımı kapalıysa
-if ($ayarlar['kayit_uyelik'] != 1)
-{
-	header('Location: hata.php?uyari=9');
-	exit();
-}
-
 
 //	GEÇERSİZ BİR ÇEREZ VARSA ÇIKIS SAYFASINA YÖNLENDİRİLİYOR	//
 
 if (isset($_COOKIE['kullanici_kimlik'])):
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
 
 if (empty($kullanici_kim['id'])):
 setcookie('kullanici_kimlik', '', 0, $cerez_dizin, $cerez_alanadi);
-header('Location: '.$phpkf_dosyalar['forum']);
+header('Location: '.$forum_index);
 exit();
 
 
@@ -155,12 +156,12 @@ else:
 
 if ( (isset($_GET['kosul'])) AND ($_GET['kosul'] == 'kabul') ):
 $sayfa_adi = 'Forum Üyelik Koşulları';
-if (!defined('DOSYA_TEMA_SINIF')) include 'phpkf-bilesenler/sinif_tema_forum.php';
+if (!defined('DOSYA_TEMA_SINIF')) include 'bilesenler/tema_sinif.php';
 
 //	TEMA UYGULANIYOR	//
 
 $ornek1 = new phpkf_tema();
-$tema_dosyasi = 'temalar/'.$temadizini.'/kayit.php';
+$tema_dosyasi = 'temalar/'.$ayarlar['temadizini'].'/kayit.php';
 eval($ornek1->tema_dosyasi($tema_dosyasi));
 $ornek1->kosul('1', array('' => ''), true);
 $ornek1->kosul('2', array('' => ''), false);
@@ -175,7 +176,7 @@ exit();
 
 else:
 $sayfa_adi = 'Kullanıcı Kayıt';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -228,7 +229,7 @@ else
 
 // onay kodu açık ise
 
-if ($ayarlar['kayit_onay_kodu'] == '1')
+if ($ayarlar['onay_kodu'] == '1')
 {
 	$ornek1->kosul('4', array('{ONAY_ID}' => $onay_id), true);
 	$form_alan_sayi++;
@@ -240,6 +241,81 @@ else $ornek1->kosul('4', array('' => ''), false);
 
 //  session dizisi siliniyor  - burası -
 $_SESSION = 0;
+
+
+$javascript_kodu = '<script type="text/javascript"><!-- //
+//  php Kolay Forum (phpKF)
+//  =======================
+//  Telif - Copyright (c) 2007 - 2018 phpKF Ekibi
+//  http://www.phpkf.com   -   phpkf @ phpkf.com
+//  Tüm hakları saklıdır - All Rights Reserved
+
+function denetle(){ 
+var dogruMu = true;
+
+if ((document.form1.kullanici_adi.value == \'\') || (document.form1.posta.value == \'\') || (document.form1.sifre.value == \'\') || (document.form1.sifre2.value == \'\') || (document.form1.onay_kodu.value == \'\') ){
+dogruMu = false; 
+alert(\'TÜM ALANLARIN DOLDURULMASI ZORUNLUDUR !\');}
+if (document.form1.sifre.value != document.form1.sifre2.value){
+	dogruMu = false; 
+	alert(\'YAZDIĞINIZ ŞİFRELER UYUŞMUYOR !\');}
+if (document.form1.kosul.checked != true ){
+	dogruMu = false; 
+	alert(\'Kayıt olmak için üyelik koşullarını kabul etmelisiniz !\');}
+return dogruMu;}
+function dogrula(girdi_ad, girdi_deger){
+var alan = girdi_ad + \'-alan\';
+if (girdi_ad == \'kullanici_adi\'){
+	var kucuk = 4;
+	var buyuk = 20;
+	var desen = /^[A-Za-z0-9-_ğĞüÜŞşİıÖöÇç.]+$/;
+	var katman = document.getElementById("kullanici_adi-alan2");
+	katman.innerHTML = \'<a href="javascript:void(0);" onclick="KAdi()"><b>Kontrol Et</b></a>\';}
+else if (girdi_ad == \'posta\'){
+	var kucuk = 4;
+	var buyuk = 70;
+	var desen = /^([-!#\$%&*+./0-9=?A-Z^_`a-z{|}~])+\@(([-!#\$%&*+/0-9=?A-Z^_`a-z{|}~])+\.)+([a-zA-Z0-9]{2,4})+$/;}
+else if (girdi_ad == \'sifre\'){
+	var kucuk = 5;
+	var buyuk = 20;
+	var desen = /^[A-Za-z0-9-_.&]+$/;}
+else if (girdi_ad == \'sifre2\'){
+	var kucuk = 5;
+	var buyuk = 20;
+	var desen = /^[A-Za-z0-9-_.&]+$/;}
+else if (girdi_ad == \'onay_kodu\'){
+	var kucuk = 6;
+	var buyuk = 6;
+	var desen = /^[A-Za-z0-9]+$/;}
+if ( girdi_deger.length < kucuk || girdi_deger.length > buyuk )
+	document.getElementById(alan).innerHTML=\'<img width="17" height="17" src="temalar/'.$temadizini.'/resimler/yanlis.png" alt="yanlış">\';
+else if ( !girdi_deger.match(desen) )
+	document.getElementById(alan).innerHTML=\'<img width="17" height="17" src="temalar/'.$temadizini.'/resimler/yanlis.png" alt="yanlış">\';
+else document.getElementById(alan).innerHTML=\'<img width="17" height="17" src="temalar/'.$temadizini.'/resimler/dogru.png" alt="doğru">\';}
+function GonderAl(adres,katman){
+var katman1 = document.getElementById(katman);
+var veri_yolla = "name=value";
+if (document.all) var istek = new ActiveXObject("Microsoft.XMLHTTP");
+else var istek = new XMLHttpRequest();
+istek.open("GET", adres, true);
+istek.onreadystatechange = function(){
+if (istek.readyState == 4){
+	if (istek.status == 200) katman1.innerHTML = istek.responseText;
+	else katman1.innerHTML = "<b>Bağlantı Kurulamadı !</b>";}};
+istek.send(veri_yolla);}
+function KAdi(){
+var veri = document.form1.kullanici_adi.value;
+if(veri != \'\'){
+var adres = "kayit.php?kosul=kadi&kadi="+veri;
+var katman = "kullanici_adi-alan2";
+var katman1 = document.getElementById(katman);
+katman1.innerHTML = \'<img src="dosyalar/yukleniyor.gif" width="18" height="18" alt="Yü." title="Yükleniyor...">\';
+setTimeout("GonderAl(\'"+adres+"\',\'"+katman+"\')",1000);}}
+//  -->
+</script>';
+
+
+
 $session_id = @session_id();
 if (isset($_COOKIE['PHPSESSID']))
 {
@@ -247,21 +323,6 @@ if (isset($_COOKIE['PHPSESSID']))
 	$php_session = zkTemizle($php_session);
 }
 else $php_session = '';
-
-
-$javascript_kodu = '
-<script type="text/javascript"><!-- //
-var dosya_kayit="'.$phpkf_dosyalar['kayit'].'";
-function SayiArttir(){
-var now=new Date();
-var sayac=Math.random();
-sayac++;
-document.images.onaykodu.src="phpkf-bilesenler/onay_kodu.php?a=1&sayi="+sayac+"&oturum='.$session_id.'";
-document.getElementById("onay_kodu").value="";
-}
-// -->
-</script>';
-
 
 
 $ornek1->kosul('1', array('' => ''), false);

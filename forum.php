@@ -1,30 +1,31 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3'";
+@ini_set('magic_quotes_runtime', 0);
+
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
-include_once('phpkf-bilesenler/seo.php');
-$zaman_asimi = $ayarlar['uye_cevrimici_sure'];
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
+include_once('bilesenler/seo.php');
+$zaman_asimi = $ayarlar['cevrimici'];
 
 
 //	SAYFA DEĞERLERİ YOKSA SIFIR YAPILIYOR
@@ -182,7 +183,7 @@ elseif ($forum_satir['okuma_izni'] == 3)
 $sayfano = '3,'.$forum_satir['id'];
 $sayfa_adi = $forum_satir['forum_baslik'].$baslik_ek;
 
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -259,17 +260,17 @@ while ($yardimci = $vt->fetch_assoc($ysonuc))
 
 $forum_klasor = '';
 
-if ($alt_forum_satir['okuma_izni'] == 0) $forum_klasor .= $acik_forum.' alt="." title="'.$l['herkese_acik'].'"';
-elseif ($alt_forum_satir['okuma_izni'] == 1) $forum_klasor .= $yonetici_forum.' alt="." title="'.$l['yoneticilere_acik'].'"';
-elseif ($alt_forum_satir['okuma_izni'] == 2) $forum_klasor .= $yardimci_forum.' alt="." title="'.$l['yardimcilara_acik'].'"';
-elseif ($alt_forum_satir['okuma_izni'] == 3) $forum_klasor .= $ozel_forum.' alt="." title="'.$l['ozel_forum'].'"';
-elseif ($alt_forum_satir['okuma_izni'] == 4) $forum_klasor .= $uyeler_forum.' alt="." title="'.$l['uyelere_acik'].'"';
-elseif ($alt_forum_satir['okuma_izni'] == 5) $forum_klasor .= $kapali_forum.' alt="." title="'.$l['kapali_forum'].'"';
+if ($alt_forum_satir['okuma_izni'] == 0) $forum_klasor .= $acik_forum.' alt="Herkese Açık Forum" title="Herkese Açık Forum"';
+elseif ($alt_forum_satir['okuma_izni'] == 1) $forum_klasor .= $yonetici_forum.' alt="Sadece Yöneticilere Açık Forum" title="Sadece Yöneticilere Açık Forum"';
+elseif ($alt_forum_satir['okuma_izni'] == 2) $forum_klasor .= $yardimci_forum.' alt="Sadece Yöneticilere ve Yardımcılara Açık Forum" title="Sadece Yöneticilere ve Yardımcılara Açık Forum"';
+elseif ($alt_forum_satir['okuma_izni'] == 3) $forum_klasor .= $ozel_forum.' alt="Sadece Özel Yetkilere Sahip Üyelere Açık Forum" title="Sadece Özel Yetkilere Sahip Üyelere Açık Forum"';
+elseif ($alt_forum_satir['okuma_izni'] == 4) $forum_klasor .= $uyeler_forum.' alt="Sadece Üyelere Açık Forum" title="Sadece Üyelere Açık Forum"';
+elseif ($alt_forum_satir['okuma_izni'] == 5) $forum_klasor .= $kapali_forum.' alt="Kapalı Forum" title="Kapalı Forum"';
 
 
 if (empty($alt_forum_satir['resim']))
-$forum_ozel_klasor = 'src="temalar/'.$temadizini.'/resimler/forum01.gif" alt="."';
-else $forum_ozel_klasor = 'src="'.$alt_forum_satir['resim'].'" alt="."';
+$forum_ozel_klasor = 'src="temalar/'.$temadizini.'/resimler/forum01.gif" alt="Forum Özel Klasör"';
+else $forum_ozel_klasor = 'src="'.$alt_forum_satir['resim'].'" alt="Forum Özel Klasör"';
 
 
 
@@ -281,8 +282,8 @@ $forum_baglanti = linkver('forum.php?f='.$alt_forum_satir['id'], $alt_forum_sati
 
 if (isset($yardimcilar))
 {
-	if (preg_match('/,/', $yardimcilar)) $forum_yardimcilari = '<br><b><i>'.$l['bolum_yardimcilari'].':</i></b> '.$yardimcilar;
-	else $forum_yardimcilari = '<br><b><i>'.$l['bolum_yardimcisi'].':</i></b> '.$yardimcilar;
+	if (preg_match('/,/', $yardimcilar)) $forum_yardimcilari = '<br><b><i>Bölüm yardımcıları:</i></b> '.$yardimcilar;
+	else $forum_yardimcilari = '<br><b><i>Bölüm yardımcısı:</i></b> '.$yardimcilar;
 }
 
 
@@ -297,7 +298,7 @@ $son_mesaj = $vt->fetch_assoc($vtsonuc3);
 
 // forumda hiç konu yoksa
 if (!isset($son_mesaj['id'])):
-$sonmesaj_baslik = '<span class="baslik_kisalt">'.$l['forum_yazi_yok'].'</span>';
+$sonmesaj_baslik = '<span class="baslik_kisalt">Henüz yazı<br>bulunmamaktadır</span>';
 $sonmesaj_yazan = '';
 $sonmesaj_tarih = '';
 $sonmesaj_git = '';
@@ -311,17 +312,17 @@ $sonmesaj_baslik = '<a class="baslik_kisalt" title="'.$son_mesaj['mesaj_baslik']
 // cevap yoksa
 if ($son_mesaj['cevap_sayi'] == 0)
 {
-	$sonmesaj_yazan = '<b>'.$l['yazan'].': </b><a href="'.linkver('profil.php?kim='.$son_mesaj['yazan'],$son_mesaj['yazan']).'" title="Kullanıcı Profilini Görüntüle">'.$son_mesaj['yazan'].'</a>';
-	$sonmesaj_tarih = '<b>'.$l['tarih'].': </b>'.zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $son_mesaj['son_mesaj_tarihi']);
-	$sonmesaj_git = '<a href="'.linkver('konu.php?k='.$son_mesaj['id'], $son_mesaj['mesaj_baslik']).'" style="text-decoration: none">&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="." title="'.$l['son_ileti'].'">&nbsp;</a>';
+	$sonmesaj_yazan = '<b>Yazan: </b><a href="'.linkver('profil.php?kim='.$son_mesaj['yazan'],$son_mesaj['yazan']).'" title="Kullanıcı Profilini Görüntüle">'.$son_mesaj['yazan'].'</a>';
+	$sonmesaj_tarih = '<b>Tarih: </b>'.zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $son_mesaj['son_mesaj_tarihi']);
+	$sonmesaj_git = '<a href="'.linkver('konu.php?k='.$son_mesaj['id'], $son_mesaj['mesaj_baslik']).'" style="text-decoration: none">&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="Son iletiye git" title="Son iletiye git">&nbsp;</a>';
 }
 
 
 // cevap varsa
 else
 {
-	$sonmesaj_yazan = '<b>'.$l['yazan'].': </b><a href="'.linkver('profil.php?kim='.$son_mesaj['son_cevap_yazan'],$son_mesaj['son_cevap_yazan']).'" title="Kullanıcı Profilini Görüntüle">'.$son_mesaj['son_cevap_yazan'].'</a>';
-	$sonmesaj_tarih = '<b>'.$l['tarih'].': </b>'.zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $son_mesaj['son_mesaj_tarihi']);
+	$sonmesaj_yazan = '<b>Yazan: </b><a href="'.linkver('profil.php?kim='.$son_mesaj['son_cevap_yazan'],$son_mesaj['son_cevap_yazan']).'" title="Kullanıcı Profilini Görüntüle">'.$son_mesaj['son_cevap_yazan'].'</a>';
+	$sonmesaj_tarih = '<b>Tarih: </b>'.zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $son_mesaj['son_mesaj_tarihi']);
 
 	// başlık çok sayfalı ise son sayfaya git
 	if ($son_mesaj['cevap_sayi'] > $ayarlar['ksyfkota'])
@@ -335,7 +336,7 @@ else
 
 	else $sonmesaj_git = '<a href="'.linkver('konu.php?k='.$son_mesaj['id'], $son_mesaj['mesaj_baslik'], '#c'.$son_mesaj['son_cevap']).'" style="text-decoration: none">&nbsp;';
 
-	$sonmesaj_git .= '<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="." title="'.$l['son_ileti'].'">&nbsp;</a>';
+	$sonmesaj_git .= '<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="Son iletiye git" title="Son iletiye git">&nbsp;</a>';
 }
 
 endif;
@@ -459,7 +460,7 @@ if (isset($baslik_sirala)):
 $sayfalama_cikis ='';
 
 if ($satir_sayi > $ayarlar['fsyfkota']):
-$sayfalama_cikis = '<table cellspacing="1" cellpadding="4" border="0" align="right" class="tablo_border">
+$sayfalama_cikis = '<table cellspacing="1" cellpadding="2" border="0" align="right" class="tablo_border">
 	<tbody>
 	<tr>
 	<td class="forum_baslik">
@@ -548,7 +549,7 @@ else
 if ( ($ustkonu_sayi == 0) AND ($satir_sayi == 0) ):
 
 	$kosul1_varmi = true;
-	$temakosul1 = array('{KONU_YOK_UYARI}' => $l['forum_yazi_yok']);
+	$temakosul1 = array('{KONU_YOK_UYARI}' => 'Bu forumda henüz hiçbir yazı bulunmamaktadır.');
 	$forum_konulari = '';
 
 else:
@@ -574,10 +575,10 @@ else $satir_renk = 'satir_renk2';
 
 
 if ($ustkonu_satir['kilitli'] == 1)
-	$konu_klasor = '<img '.$kilitli_konu.' alt="." title="'.$l['kilitli_ust_konu'].'">';
+	$konu_klasor = '<img '.$kilitli_konu.' alt="Kilitli Üst Konu" title="Kilitli Üst Konu">';
 
 else
-	$konu_klasor =  '<img '.$ust_konu.' alt="." title="'.$l['ust_konu'].'">';
+	$konu_klasor =  '<img '.$ust_konu.' alt="Sabit Üst Konu" title="Sabit Üst Konu">';
 
 $konu_baglanti = '<a href="'.linkver('konu.php?k='.$ustkonu_satir['id'], $ustkonu_satir['mesaj_baslik']).'">';
 
@@ -648,7 +649,7 @@ $sonmesaj_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], fa
 
 $cevap_yazan_baglanti = '<a href="'.linkver('profil.php?kim='.$ustkonu_satir['yazan'],$ustkonu_satir['yazan']).'">';
 
-$sonmesaj_baglanti = '<a href="'.linkver('konu.php?k='.$ustkonu_satir['id'], $ustkonu_satir['mesaj_baslik']).'" style="text-decoration: none">&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="." title="'.$l['son_ileti'].'"></a>';
+$sonmesaj_baglanti = '<a href="'.linkver('konu.php?k='.$ustkonu_satir['id'], $ustkonu_satir['mesaj_baslik']).'" style="text-decoration: none">&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="Son iletiye git" title="Son iletiye git"></a>';
 
 $cevap_yazan = $ustkonu_satir['yazan'];
 
@@ -677,7 +678,7 @@ if ($ustkonu_satir['cevap_sayi'] > $ayarlar['ksyfkota'])
 
 else $sonmesaj_baglanti = '<a href="'.linkver('konu.php?k='.$ustkonu_satir['id'], $ustkonu_satir['mesaj_baslik'], '#c'.$ustkonu_satir['son_cevap']).'" style="text-decoration: none">';
 
-$sonmesaj_baglanti .= '&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="." title="'.$l['son_ileti'].'"></a>';
+$sonmesaj_baglanti .= '&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="Son iletiye git" title="Son iletiye git"></a>';
 
 
 endif;
@@ -721,9 +722,9 @@ if (($satir_renklendir % 2)) $satir_renk = 'satir_renk1';
 else $satir_renk = 'satir_renk2';
 
 
-if ($satir['kilitli'] == 1) $konu_klasor = '<img '.$kilitli_konu.' alt="." title="'.$l['kilitli_konu'].'">';
+if ($satir['kilitli'] == 1) $konu_klasor = '<img '.$kilitli_konu.' alt="Kilitli Konu" title="Kilitli Konu">';
 
-else $konu_klasor = '<img '.$acik_konu.' alt="." title="'.$l['uyelere_acik'].'">';
+else $konu_klasor = '<img '.$acik_konu.' alt="Herkese Açık Konu" title="Herkese Açık Konu">';
 
 
 $konu_baglanti = '<a href="'.linkver('konu.php?k='.$satir['id'].$fs, $satir['mesaj_baslik']).'">';
@@ -797,7 +798,7 @@ $cevap_yazan_baglanti = '<a href="'.linkver('profil.php?kim='.$satir['yazan'],$s
 
 $cevap_yazan = $satir['yazan'];
 
-$sonmesaj_baglanti = '<a href="'.linkver('konu.php?k='.$satir['id'].$fs, $satir['mesaj_baslik']).'" style="text-decoration: none">&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="." title="'.$l['son_ileti'].'"></a>';
+$sonmesaj_baglanti = '<a href="'.linkver('konu.php?k='.$satir['id'].$fs, $satir['mesaj_baslik']).'" style="text-decoration: none">&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="Son iletiye git" title="Son iletiye git"></a>';
 
 
 
@@ -824,7 +825,7 @@ if ($satir['cevap_sayi'] > $ayarlar['ksyfkota'])
 
 else $sonmesaj_baglanti = '<a href="'.linkver('konu.php?k='.$satir['id'].$fs, $satir['mesaj_baslik'], '#c'.$satir['son_cevap']).'" style="text-decoration: none">';
 
-$sonmesaj_baglanti .= '&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="." title="'.$l['son_ileti'].'"></a>';
+$sonmesaj_baglanti .= '&nbsp;<img src="'.$sonileti_rengi.'" border="0" width="13" height="9" alt="Son iletiye git" title="Son iletiye git"></a>';
 
 
 endif;
@@ -898,7 +899,7 @@ else {$gor_kisi = ''; $gor_uyeler = '';}
 
 
 // link ağacı
-$forum_anasayfa = '<span><a href="'.$phpkf_dosyalar['forum'].'">'.$l['forum'].' '.$l['anasayfa'].'</a></span>';
+$forum_anasayfa = '<span><a href="'.$forum_index.'">Forum Ana Sayfası</a></span>';
 
 if ($forum_satir['alt_forum'] != '0')
 {

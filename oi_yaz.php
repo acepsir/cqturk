@@ -1,25 +1,26 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='6'";
+@ini_set('magic_quotes_runtime', 0);
+
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
 
 
@@ -43,9 +44,8 @@ else
 }
 
 
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 
@@ -62,7 +62,7 @@ if (isset($_GET['uye_ara']))
 	{
 		if ($_GET['kip'] == '1')
 		{
-			$formadi = 'duzenleyici_form';
+			$formadi = 'form1';
 			$formkime = 'ozel_kime';
 			$sayfano = 0;
 			$sayfa_adi = 'Özel ileti Üye Arama';
@@ -78,7 +78,7 @@ if (isset($_GET['uye_ara']))
 
 	else
 	{
-		$formadi = 'duzenleyici_form';
+		$formadi = 'form1';
 		$formkime = 'ozel_kime';
 		$_GET['kip'] = '1';
 		$sayfano = 0;
@@ -86,7 +86,7 @@ if (isset($_GET['uye_ara']))
 	}
 
 
-	if (!defined('DOSYA_OTURUM')) include 'phpkf-bilesenler/oturum.php';
+	if (!defined('DOSYA_OTURUM')) include 'bilesenler/oturum.php';
 
 
 	echo '<center><font style="font-family:verdana;font-weight:bold;font-size:18px;">- ÜYE ARAMA -</font><br><br>
@@ -165,7 +165,7 @@ if (isset($_GET['uye_ara']))
 
 
 $renkver = 1;
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 if (isset($_POST['ozel_kime'])) $ozel_kime = @zkTemizle($_POST['ozel_kime']);
@@ -211,7 +211,7 @@ $javascript_kapali = '';
 if (get_magic_quotes_gpc())
 {
 	$_POST['mesaj_baslik'] = @ileti_yolla(stripslashes($_POST['mesaj_baslik']),3);
-	$_POST['mesaj_icerik'] = @ileti_yolla(stripslashes($_POST['mesaj_icerik']),5);
+	$_POST['mesaj_icerik'] = @ileti_yolla(stripslashes($_POST['mesaj_icerik']),4);
 }
 
 
@@ -219,7 +219,7 @@ if (get_magic_quotes_gpc())
 else
 {
 	$_POST['mesaj_baslik'] = @ileti_yolla($_POST['mesaj_baslik'],3);
-	$_POST['mesaj_icerik'] = @ileti_yolla($_POST['mesaj_icerik'],5);
+	$_POST['mesaj_icerik'] = @ileti_yolla($_POST['mesaj_icerik'],4);
 }
 
 
@@ -307,7 +307,7 @@ else $form_yanitla = '';
 
 
 
-$form_bilgi1 = '<form action="phpkf-bilesenler/oi_yaz_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+$form_bilgi1 = '<form action="bilesenler/oi_yaz_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 <input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 <input type="hidden" name="sayfa_onizleme" value="oi_yaz">
 <input type="hidden" name="mesaj_onizleme" value="Önizleme">

@@ -1,30 +1,31 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3'";
-if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-include_once('phpkf-bilesenler/seo.php');
+@ini_set('magic_quotes_runtime', 0);
 
-$zaman_asimi = $ayarlar['uye_cevrimici_sure'];
+if (!defined('DOSYA_AYAR')) include 'ayar.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
+include_once('bilesenler/seo.php');
+
+$zaman_asimi = $ayarlar['cevrimici'];
 $tarih = time();
 
 
@@ -52,7 +53,7 @@ if ( (isset($_GET['u'])) AND ($_GET['u'] != '') )
 	}
 
 	$sayfano = '4,'.$satir['id'];
-	$sayfa_adi = 'Profil Görüntüle: '.$satir['kullanici_adi'];
+	$sayfa_adi = 'Profil Görüntüleme: '.$satir['kullanici_adi'];
 	$sayfa_baslik2 = 'Üye Profili';
 	$bildirim_kapat = '';
 
@@ -90,7 +91,7 @@ elseif ( (isset($_GET['kim'])) AND ($_GET['kim'] != '') )
 	}
 
 	$sayfano = '4,'.$satir['id'];
-	$sayfa_adi = 'Profil Görüntüle: '.$satir['kullanici_adi'];
+	$sayfa_adi = 'Profil Görüntüleme: '.$satir['kullanici_adi'];
 	$sayfa_baslik2 = 'Kullanıcı Profili';
 	$bildirim_kapat = '';
 
@@ -108,8 +109,8 @@ elseif ( (isset($_GET['kim'])) AND ($_GET['kim'] != '') )
 
 else
 {
-	if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-	if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+	if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+	if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
 
 	$satir = $kullanici_kim;
 	$sayfano = '4,'.$satir['id'];
@@ -134,8 +135,8 @@ if ( (isset($_SERVER['REQUEST_URI'])) AND ($_SERVER['REQUEST_URI'] != '') AND (!
 
 
 
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
-include 'phpkf-bilesenler/hangi_sayfada.php';
+include_once('bilesenler/sayfa_baslik.php');
+include 'bilesenler/hangi_sayfada.php';
 
 
 //	TEMA SINIFI ÖRNEĞİ OLUŞTURULUYOR	//
@@ -212,11 +213,7 @@ elseif ($satir['dogum_tarihi_goster'] == 2)
 else {$uye_dogum = 'Gizli'; $dogum_yas = 'Doğum Tarihi';}
 
 
-if ($satir['sehir_goster'] == 1)
-{
-	if ($satir['sehir'] != '') $uye_sehir = $satir['sehir'];
-	else $uye_sehir = 'Yok';
-}
+if ($satir['sehir_goster'] == 1) $uye_sehir = $satir['sehir'];
 else $uye_sehir = 'Gizli';
 
 
@@ -230,7 +227,7 @@ $uye_oi = '<a href="oi_yaz.php?ozel_kime='.$satir['kullanici_adi'].'">Özel ilet
 
 
 
-if ($satir['web']) $uye_web = '<a href="'.$satir['web'].'" target="_blank" rel="nofollow">Tıklayın</a>';
+if ($satir['web']) $uye_web = '<a href="'.$satir['web'].'" target="_blank" rel="nofollow">'.str_replace(array('http://', 'https://'), '', $satir['web']).'</a>';
 else $uye_web = '';
 
 
@@ -348,35 +345,36 @@ else $uye_skype = '';
 
 // Skype
 if ($satir['msn'] != '')
-$uye_msn = '<a href="skype:'.$satir['msn'].'?userinfo" target="_blank" rel="nofollow">Tıklayın</a>';
+$uye_msn = '<script src="https://secure.skypeassets.com/i/scom/js/skype-uri.js"></script>
+<div id="SkypeButton_Call_'.$satir['msn'].'_1" class="skype-buton"><script>
+Skype.ui({"name":"chat","element":"SkypeButton_Call_'.$satir['msn'].'_1","participants":["'.$satir['msn'].'"],"imageSize":16});
+</script></div>';
 else $uye_msn = '';
 
 
 // YAHOO
-if ($satir['yahoo'] != '') $uye_yahoo = '<a href="http://members.yahoo.com/interests?.oc=t&amp;.kw='.$satir['yahoo'].'&amp;.sb=1" target="_blank" rel="nofollow">Tıklayın</a>';
+if ($satir['yahoo'] != '') $uye_yahoo = '<a href="http://members.yahoo.com/interests?.oc=t&amp;.kw='.$satir['yahoo'].'&amp;.sb=1" target="_blank" rel="nofollow">'.$satir['yahoo'].'</a>';
 else $uye_yahoo = '';
 
 
 // ICQ
-if ($satir['icq'] != '') $uye_icq = '<a href="http://wwp.icq.com/scripts/search.dll?to='.$satir['icq'].'" target="_blank" rel="nofollow">Tıklayın</a>';
+if ($satir['icq'] != '') $uye_icq = '<a href="http://wwp.icq.com/scripts/search.dll?to='.$satir['icq'].'" target="_blank" rel="nofollow">'.$satir['icq'].'</a>';
 else $uye_icq = '';
 
 
-// RESIM - AVATAR
 if ($satir['resim'] != '') $uye_resim = '<img src="'.$satir['resim'].'" alt="Kullanıcı Resmi" title="Kullanıcı Resmi" style="max-width:98%" />';
-elseif ($ayarlar['v-uye_resmi'] != '') $uye_resim = '<img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" style="max-width:98%" />';
+elseif ($ayarlar['kul_resim'] != '') $uye_resim = '<img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" style="max-width:98%" />';
 else $uye_resim = '';
 
 
 
-// cinsiyet
+
 if ($satir['cinsiyet'] == '1') $uye_cinsiyet = 'Erkek';
 elseif ($satir['cinsiyet'] == '2') $uye_cinsiyet = 'Kadın';
 else $uye_cinsiyet = 'Belirtilmemiş';
 
 
 
-// imza
 if ( (isset($satir['imza'])) AND ($satir['imza'] != '') )
 {
 	$uye_imza = '<br>';
@@ -388,7 +386,6 @@ else $uye_imza = '<br>Üyenin imzası bulunmamaktadır.<br><br>';
 
 
 
-// hakkında
 if ( (isset($satir['hakkinda'])) AND ($satir['hakkinda'] != '') )
 {
 	$uye_hakkinda = '<br>';
@@ -414,7 +411,7 @@ var mesaj_sayisi = '.$satir['mesaj_sayisi'].';
 var yrm_sayi = '.$satir['yrm_sayi'].';
 // -->
 </script>
-<script type="text/javascript" src="phpkf-bilesenler/js/betik_profil.js"></script>';
+<script type="text/javascript" src="bilesenler/js/betik_profil.js"></script>';
 
 
 

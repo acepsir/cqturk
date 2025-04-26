@@ -1,28 +1,26 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='4'";
-if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
 
 
 
@@ -44,7 +42,8 @@ if (($_POST['eposta_baslik']=='') or ( strlen($_POST['eposta_baslik']) < 3) or (
 	exit();
 }
 
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_AYAR')) include 'ayar.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 //	ZARARLI KODLAR TEMİZLENİYOR	//
@@ -63,7 +62,7 @@ if (get_magic_quotes_gpc())
 
 $tarih = time();
 
-if (($kullanici_kim['son_ileti']) > ($tarih - $ayarlar['yorum_sure']))
+if (($kullanici_kim['son_ileti']) > ($tarih - $ayarlar['ileti_sure']))
 {
 	header('Location: hata.php?hata=6');
 	exit();
@@ -72,7 +71,8 @@ if (($kullanici_kim['son_ileti']) > ($tarih - $ayarlar['yorum_sure']))
 
 //	GÖNDERİLEN KİŞİNİN BİLGİLERİ ÇEKİLİYOR	//
 
-$vtsorgu = "SELECT posta,kullanici_adi FROM $tablo_kullanicilar WHERE kullanici_adi='$_POST[eposta_kime]' LIMIT 1";
+$vtsorgu = "SELECT posta,kullanici_adi FROM $tablo_kullanicilar
+			WHERE kullanici_adi='$_POST[eposta_kime]' LIMIT 1";
 $vtsonuc = $vt->query($vtsorgu) or die ($vt->hata_ver());
 $eposta_gonderilen = $vt->fetch_array($vtsonuc);
 
@@ -88,19 +88,17 @@ if (empty($eposta_gonderilen))
 
 
 
-if (!($dosya_ac = fopen('./phpkf-bilesenler/postalar/ozel_posta.txt','r'))) die ('Dosya Açılamıyor');
+if (!($dosya_ac = fopen('./bilesenler/postalar/ozel_posta.txt','r'))) die ('Dosya Açılamıyor');
 $posta_metni = fread($dosya_ac,1024);
 fclose($dosya_ac);
 
-$bul = array('{siteadi}',
-'{uye_adi}',
-'{gonderen_adi}',
+$bul = array('{forumadi}',
+'{kullanici_adi}',
 '{eposta_baslik}',
 '{eposta_icerik}');
 
-$cevir = array($ayarlar['site_adi'],
+$cevir = array($ayarlar['title'],
 $kullanici_kim['kullanici_adi'],
-$eposta_gonderilen['kullanici_adi'],
 $_POST['eposta_baslik'],
 $_POST['eposta_icerik']);
 
@@ -110,7 +108,7 @@ $posta_metni = str_replace($bul,$cevir,$posta_metni);
 
 //		POSTA YOLLANIYOR		//
 
-require('phpkf-bilesenler/sinif_eposta.php');
+require('bilesenler/eposta_sinif.php');
 $mail = new eposta_yolla();
 
 
@@ -119,7 +117,7 @@ elseif ($ayarlar['eposta_yontem'] == 'smtp') $mail->SMTPKullan();
 
 
 $mail->sunucu = $ayarlar['smtp_sunucu'];
-if ($ayarlar['smtp_kd'] == '1') $mail->smtp_dogrulama = true;
+if ($ayarlar['smtp_kd'] == 'true') $mail->smtp_dogrulama = true;
 else $mail->smtp_dogrulama = false;
 $mail->kullanici_adi = $ayarlar['smtp_kullanici'];
 $mail->sifre = $ayarlar['smtp_sifre'];
@@ -131,7 +129,7 @@ $mail->GonderilenAdres($eposta_gonderilen['posta']);
 if (!empty($_POST['eposta_kopya'])) $mail->DigerAdres($kullanici_kim['posta']);
 
 $mail->YanitlamaAdres($kullanici_kim['posta']);
-$mail->konu = $ayarlar['site_adi'].' - Üye E-Postası';
+$mail->konu = $ayarlar['title'].' - Kullanıcı E-Postası';
 $mail->icerik = $posta_metni;
 
 
@@ -179,7 +177,7 @@ $_GET['kim'] = @zkTemizle4(@zkTemizle(trim($_GET['kim'])));
 // sayfa başlığı
 $sayfano = 12;
 $sayfa_adi = 'E-Posta Gönder: '.$_GET['kim'];
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 

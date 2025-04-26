@@ -1,34 +1,34 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
 if (!@is_file('../ayar.php'))
 {
 	// ayar.php yok, kurulum yapılmamış, kurulum sayfasına yönlendir.
-	header('Location: ../phpkf-kurulum/index.php');
+	header('Location: ../kurulum/index.php');
 	exit();
 }
 
 
 if (!defined('DOSYA_AYAR')) include '../ayar.php';
-if (!defined('DOSYA_GERECLER')) include '../phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GERECLER')) include '../bilesenler/gerecler.php';
 $sayfano = 41;
 $sayfa_adi = 'Ana Sayfa';
 $tarih = time();
@@ -102,7 +102,7 @@ if ($mesaj_satir['mesaj_baslik'] != '')
 else $sayfa_adi = 'Mobil Sürüm Konu: Yok';
 
 $sayfano = '47,'.$_GET['ak'];
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 // Dizin - Dosya adı
 if ($dizin_bilgi == '')
@@ -379,7 +379,7 @@ else
 			else $form_ksayfa = $satir_sayi - ($satir_sayi % $sinir);
 		}
 
-		$form_bilgi = '<form action="'.$dizin_bilgi.'phpkf-bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+		$form_bilgi = '<form action="'.$dizin_bilgi.'bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 		<input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 		<input type="hidden" name="sayfa_onizleme" value="mesaj_yaz">
 		<input type="hidden" name="mesaj_onizleme" value="Önizleme">
@@ -406,7 +406,7 @@ else
 if (isset($tekli1)) $ornek1->tekli_dongu('1',$tekli1);
 
 
-$ornek1->dongusuz(array('{SAYFA_BASLIK}' => $ayarlar['site_adi'],
+$ornek1->dongusuz(array('{SAYFA_BASLIK}' => $ayarlar['anasyfbaslik'],
 '{FORUM_BASLIK}' => $ust_forum_baslik,
 '{ALT_FORUM_BASLIK}' => $alt_forum_baslik,
 '{KONU_BASLIK}' => $mesaj_satir['mesaj_baslik'],
@@ -466,7 +466,7 @@ if ($forum_satir['forum_baslik'] != '')
 else $sayfa_adi = 'Mobil Sürüm Bölüm: Yok';
 
 $sayfano = '48,'.$_GET['af'];
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 // Dizin - Dosya adı
 if ($dizin_bilgi == '')
@@ -692,7 +692,7 @@ else
 
 	if (isset($kullanici_kim['id']))
 	{
-		$form_bilgi = '<form action="'.$dizin_bilgi.'phpkf-bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+		$form_bilgi = '<form action="'.$dizin_bilgi.'bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 		<input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 		<input type="hidden" name="sayfa_onizleme" value="mesaj_yaz">
 		<input type="hidden" name="mesaj_onizleme" value="Önizleme">
@@ -717,7 +717,7 @@ else
 if (isset($tekli1)) $ornek1->tekli_dongu('1',$tekli1);
 
 
-$ornek1->dongusuz(array('{SAYFA_BASLIK}' => $ayarlar['site_adi'],
+$ornek1->dongusuz(array('{SAYFA_BASLIK}' => $ayarlar['anasyfbaslik'],
 '{FORUM_BASLIK}' => $ust_forum_baslik,
 '{ALT_FORUM_BASLIK}' => $alt_forum_baslik,
 '{DIZIN}' => $dizin_bilgi,
@@ -742,7 +742,7 @@ exit();
 
 
 $sayfano = 41;
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 $ornek1 = new phpkf_tema();
 $tema_dosyasi = 'temalar/'.$temadizini.'/index.php';
@@ -965,7 +965,7 @@ else
 if (isset($tekli1)) $ornek1->tekli_dongu('1',$tekli1);
 else $ornek1->kosul('3', array('' => ''), false);
 
-$ornek1->dongusuz(array('{SAYFA_BASLIK}' => $ayarlar['site_adi'], '{DIZIN}' => $dizin_bilgi));
+$ornek1->dongusuz(array('{SAYFA_BASLIK}' => $ayarlar['anasyfbaslik'], '{DIZIN}' => $dizin_bilgi));
 ini_set('include_path', 'mobil');
 eval(TEMA_UYGULA);
 exit();

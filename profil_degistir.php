@@ -1,29 +1,29 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3' OR kip='6'";
+@ini_set('magic_quotes_runtime', 0);
+
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
 
 
 
@@ -35,7 +35,7 @@ if ( (isset($_GET['kosul'])) AND ($_GET['kosul'] == 'sifre') ):
 
 $sayfano = 29;
 $sayfa_adi = 'E-Posta ve Şifre Değiştir';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 // tema dosyası
 $ornek1 = new phpkf_tema();
@@ -43,7 +43,8 @@ $tema_dosyasi = 'temalar/'.$temadizini.'/profil_degistir.php';
 eval($ornek1->tema_dosyasi($tema_dosyasi));
 
 
-$javascript_kodu = '<script type="text/javascript"><!--
+$javascript_kodu = '<script type="text/javascript">
+<!--
 function denetle(){
 var dogruMu = true;
 for (var i=0; i<7; i++){
@@ -73,7 +74,7 @@ else $okunmamis_oi = '';
 //	TEMA UYGULANIYOR	//
 
 $ornek1->dongusuz(array('{JAVASCRIPT_KODU}' => $javascript_kodu,
-'{FORM_BILGI}' => '<form name="form1" action="phpkf-bilesenler/profil_degistir_yap_forum.php?o='.$o.'" method="post" onsubmit="return denetle()">
+'{FORM_BILGI}' => '<form name="form1" action="bilesenler/profil_degistir_yap.php?o='.$o.'" method="post" onsubmit="return denetle()">
 <input type="hidden" name="profil_degisti_mi" value="form_dolu">
 <input type="hidden" name="islem_turu" value="sifre">',
 '{ALAN_BILGI}' => '<font size="1"><i>&nbsp;&nbsp; * işaretli alanların doldurulması zorunludur!</i></font>',
@@ -106,7 +107,7 @@ elseif ( (isset($_GET['kosul'])) AND ($_GET['kosul'] == 'yuklemeler') ):
 
 $sayfano = 40;
 $sayfa_adi = 'Yüklemeler';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 // tema dosyası
 $ornek1 = new phpkf_tema();
@@ -151,7 +152,7 @@ if ($vt->num_rows($vtsonuc2))
 
 		$ara = '<a href="arama.php?a=1&amp;b=1&amp;forum=tum&amp;tarih=tum_zamanlar&amp;sozcuk_hepsi='.$yukleme['dosya'].'">Ara</a>';
 
-		$ac = '<a href="'.$ayarlar['yukleme_dizin'].'/'.$yukleme['dosya'].'" target="_blank">Aç</a>';
+		$ac = '<a href="dosyalar/yuklemeler/'.$yukleme['dosya'].'" target="_blank">Aç</a>';
 
 		$tboyut += $yukleme['boyut'];
 
@@ -224,7 +225,7 @@ elseif ( (isset($_GET['kosul'])) AND ($_GET['kosul'] == 'bildirim') ):
 
 $sayfano = 43;
 $sayfa_adi = 'Bildirimler';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 // tema dosyası
@@ -348,7 +349,7 @@ istek.send(veri_yolla);}
 function bsil(sira,o,sil){
 var adres = "profil_degistir.php?kosul=bsil";
 var katman1 = document.getElementById("bildirimks"+sira);
-katman1.innerHTML = \'<img src="phpkf-dosyalar/yukleniyor.gif" width="15" height="15" border="0" alt="Yü." title="Yükleniyor...">\';
+katman1.innerHTML = \'<img src="dosyalar/yukleniyor.gif" width="15" height="15" border="0" alt="Yü." title="Yükleniyor...">\';
 setTimeout("GonderAl(\'"+adres+"\',\'"+sira+"\',\'"+o+"\',\'"+sil+"\')",1000);}
 //  -->
 </script>';
@@ -390,7 +391,7 @@ elseif ( (isset($_GET['kosul'])) AND ($_GET['kosul'] == 'takip') ):
 
 $sayfano = 45;
 $sayfa_adi = 'Takip Edilenler';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 if ($kullanici_kim['takip'] != '')
@@ -525,7 +526,7 @@ for(var i=0,l=select.options.length,o;i<l;i++)select.options[i].selected=false;}
 //	TEMA UYGULANIYOR	//
 
 $ornek1->dongusuz(array('{JAVASCRIPT_KODU}' => $javascript_kodu,
-'{FORM_BILGI}' => '<form name="form1" action="phpkf-bilesenler/profil_degistir_yap_forum.php?o='.$o.'" method="post">
+'{FORM_BILGI}' => '<form name="form1" action="bilesenler/profil_degistir_yap.php?o='.$o.'" method="post">
 <input type="hidden" name="profil_degisti_mi" value="form_dolu">
 <input type="hidden" name="islem_turu" value="takip">',
 '<input class="dugme" type="submit" value="Değiştir">' => '<input type="submit" value="Uygula" class="dugme">',
@@ -673,7 +674,7 @@ if (!isset($dosya['id']))
 
 
 // dosya sunucudan siliniyor
-@unlink($ayarlar['yukleme_dizin'].'/'.$dosya['dosya']);
+@unlink('dosyalar/yuklemeler/'.$dosya['dosya']);
 
 
 // dosya girdisi veritabanından siliniyor
@@ -698,7 +699,7 @@ else:
 
 $sayfano = 30;
 $sayfa_adi = 'Profil Değiştir';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 // tema dosyası
 $ornek1 = new phpkf_tema();
@@ -710,11 +711,11 @@ eval($ornek1->tema_dosyasi($tema_dosyasi));
 			//	RESİM YÜKLEME AYARLARI - BAŞI	//
 
 
-if ( ($ayarlar['uye_uzak_resim'] == 1) OR ($ayarlar['uye_resim_yukle'] == 1) OR
-	($ayarlar['uye_resim_galerisi'] == 1) )
+if ( ($ayarlar['uzak_resim'] == 1) OR ($ayarlar['resim_yukle'] == 1) OR
+	($ayarlar['resim_galerisi'] == 1) )
 {
 	$resim_yuleme_bilgi = 'Resim sadece jpeg, gif veya png tipinde olabilir.<br>
-Dosya <b>boyutu '.($ayarlar['uye_resim_boyut']/1024).'</b> kilobayt, <b>yüksekliği '.$ayarlar['uye_resim_yukseklik'].'</b> ve <b>genişliği '.$ayarlar['uye_resim_genislik'].'</b> noktadan büyük olamaz.';
+Dosya <b>boyutu '.($ayarlar['resim_boyut']/1024).'</b> kilobayt, <b>yüksekliği '.$ayarlar['resim_yukseklik'].'</b> ve <b>genişliği '.$ayarlar['resim_genislik'].'</b> noktadan büyük olamaz.';
 
 
 	// GEÇERLİ RESİM GÖSTERİLİYOR	//
@@ -737,7 +738,7 @@ Dosya <b>boyutu '.($ayarlar['uye_resim_boyut']/1024).'</b> kilobayt, <b>yüksekl
 
 	// RESİM YÜKLEME AÇIKSA	//
 
-	if ($ayarlar['uye_resim_yukle'] == 1)
+	if ($ayarlar['resim_yukle'] == 1)
 		$ornek1->kosul('2', array('' => ''), true);
 
 	else $ornek1->kosul('2', array('' => ''), false);
@@ -745,7 +746,7 @@ Dosya <b>boyutu '.($ayarlar['uye_resim_boyut']/1024).'</b> kilobayt, <b>yüksekl
 
 	// UZAK RESİM YÜKLEME AÇIKSA	//
 
-	if ($ayarlar['uye_uzak_resim'] == 1)
+	if ($ayarlar['uzak_resim'] == 1)
 		$ornek1->kosul('3', array('' => ''), true);
 
 	else $ornek1->kosul('3', array('' => ''), false);
@@ -753,7 +754,7 @@ Dosya <b>boyutu '.($ayarlar['uye_resim_boyut']/1024).'</b> kilobayt, <b>yüksekl
 
 	// RESİM GALERİSİ AÇIKSA	//
 
-	if ($ayarlar['uye_resim_galerisi'] == 1)
+	if ($ayarlar['resim_galerisi'] == 1)
 	{
 		if ( (isset($_POST['secim_yap'])) AND (isset($_POST['galeri_resimi']))
 				AND	($_POST['galeri_resimi'] != '') )
@@ -821,9 +822,13 @@ else $cevrimici_goster_hayir = '';
 
 
 // forum tema seçimi alanı
-$temalar = explode(',', $ayarlar['tema_secenek']);
+
+$temalar = explode(',',$ayarlar['tema_secenek']);
+
 $adet = count($temalar);
+
 $uye_tema = '<select class="formlar" name="tema_secim">';
+
 
 for ($i=0; $adet-1 > $i; $i++)
 {
@@ -838,9 +843,17 @@ $uye_tema .= '</select>';
 
 
 // portal tema seçimi alanı
+
 if ($portal_kullan == '1')
 {
-	$ptemalar = explode(',', $ayarlar['tema_secenek_portal']);
+	$tablo_portal_ayarlar = $tablo_oneki.'portal_ayarlar';
+
+	$vtsorgu = "SELECT * FROM $tablo_portal_ayarlar where isim='tema_secenek' LIMIT 1";
+	$pt_sonuc = @$vt->query($vtsorgu) or die ($vt->hata_ver());
+	$portal_temalari = $vt->fetch_assoc($pt_sonuc);
+
+
+	$ptemalar = explode(',',$portal_temalari['sayi']);
 	$adet = count($ptemalar);
 	$uye_portal_tema = '<select class="formlar" name="tema_secimp">';
 
@@ -878,7 +891,7 @@ else $okunmamis_oi = '';
 
 $dogum = explode('-', $kullanici_kim['dogum_tarihi']);
 
-$uye_dogum = '<select class="formlar" name="dogum_gun" required>';
+$uye_dogum = '<select class="formlar" name="dogum_gun">';
 if ($dogum[0] == '00') $uye_dogum .= '<option value="">Gün</option>';
 
 for ($i=1; $i<32; $i++)
@@ -890,7 +903,7 @@ for ($i=1; $i<32; $i++)
 	$uye_dogum .= '>'.$a.'</option>';
 }
 
-$uye_dogum .= '</select> &nbsp;<select class="formlar" name="dogum_ay" required>';
+$uye_dogum .= '</select> &nbsp;<select class="formlar" name="dogum_ay">';
 if ($dogum[1] == '00') $uye_dogum .= '<option value="">Ay</option>';
 
 for ($i=1; $i<13; $i++)
@@ -902,7 +915,7 @@ for ($i=1; $i<13; $i++)
 	$uye_dogum .= '>'.$a.'</option>';
 }
 
-$uye_dogum .= '</select> &nbsp;<select class="formlar" name="dogum_yil" required>';
+$uye_dogum .= '</select> &nbsp;<select class="formlar" name="dogum_yil">';
 if ($dogum[2] == '0000') $uye_dogum .= '<option value="">Yıl</option>';
 
 $i=date('Y');
@@ -930,7 +943,7 @@ $uye_cinsiyet .= '>Kadın</option></select>';
 
 
 $imza_bilgi = 'İmza bilgisi profil sayfasında ve foruma bıraktığınız yazıların altında görünür.
-<br>En fazla '.$ayarlar['uye_imza_uzunluk'].' karakter olabilir, BBCode ve ifade kullanabilirsiniz.';
+<br>En fazla '.$ayarlar['imza_uzunluk'].' karakter olabilir, BBCode ve ifade kullanabilirsiniz.';
 
 $hakkinda_uzunluk = 1000;
 
@@ -957,10 +970,10 @@ $javascript_kodu2 = '<script type="text/javascript">
 <!-- //
 function imzaUzunluk(){
 var div_katman = document.getElementById(\'imza_uzunluk\');
-div_katman.innerHTML = \'Eklenebilir karakter sayısı: \' + ('.$ayarlar['uye_imza_uzunluk'].'-document.form1.imza.value.length);
-if (document.form1.imza.value.length > '.$ayarlar['uye_imza_uzunluk'].'){
-alert(\'İmza alanına en fazla '.$ayarlar['uye_imza_uzunluk'].' karakter girebilirsiniz.\');
-document.form1.imza.value = document.form1.imza.value.substr(0,'.$ayarlar['uye_imza_uzunluk'].');
+div_katman.innerHTML = \'Eklenebilir karakter sayısı: \' + ('.$ayarlar['imza_uzunluk'].'-document.form1.imza.value.length);
+if (document.form1.imza.value.length > '.$ayarlar['imza_uzunluk'].'){
+alert(\'İmza alanına en fazla '.$ayarlar['imza_uzunluk'].' karakter girebilirsiniz.\');
+document.form1.imza.value = document.form1.imza.value.substr(0,'.$ayarlar['imza_uzunluk'].');
 div_katman.innerHTML = \'Eklenebilir karakter sayısı: 0\';}
 return true;}
 function hakkindaUzunluk(){
@@ -983,7 +996,7 @@ hakkindaUzunluk();
 
 $ornek1->dongusuz(array('{JAVASCRIPT_KODU}' => $javascript_kodu,
 '{SAYFA_BASLIK}' => 'ÜYELİK BİLGİLERİ',
-'{FORM_BILGI}' => '<form name="form1" action="phpkf-bilesenler/profil_degistir_yap_forum.php?o='.$o.'" method="post" enctype="multipart/form-data" onsubmit="return denetle()">
+'{FORM_BILGI}' => '<form name="form1" action="bilesenler/profil_degistir_yap.php?o='.$o.'" method="post" enctype="multipart/form-data" onsubmit="return denetle()">
 <input type="hidden" name="profil_degisti_mi" value="form_dolu">
 <input type="hidden" name="MAX_FILE_SIZE" value="1022999">
 <input type="hidden" name="islem_turu" value="normal">',

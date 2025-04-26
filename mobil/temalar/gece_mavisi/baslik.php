@@ -7,12 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php echo $meta_etiketler; ?>
 <link rel="canonical" href="<?php echo $meta_canonical; ?>" />
-<link href="{DIZIN}mobil/temalar/gece_mavisi/resimler/favicon.png" rel="icon" type="image/png" />
+<link href="{DIZIN}mobil/temalar/gece_mavisi/resimler/favicon.ico" rel="icon" type="image/png" />
 <link type="text/css" rel="stylesheet" href="{DIZIN}mobil/temalar/gece_mavisi/sablon.css" />
-<script src="{DIZIN}phpkf-bilesenler/diller/<?php echo $site_dili_js; ?>/javascript.js"></script>
-<script src="{DIZIN}phpkf-bilesenler/js/phpkf-jsk.js"></script>
-<script src="{DIZIN}phpkf-bilesenler/js/islemler_forum.js"></script>
-<script src="{DIZIN}mobil/mbetik.js"></script>
+<script type="text/javascript" src="{DIZIN}bilesenler/js/phpkf-jsk.js"></script>
+<script type="text/javascript" src="{DIZIN}bilesenler/js/islemler.js"></script>
+<script type="text/javascript" src="{DIZIN}mobil/mbetik.js"></script>
 </head>
 <body>
 <div class="mobilHeader">
@@ -29,15 +28,12 @@
 <div class="solMenu" id="solMenu">
 <ul>
 <li><a href="{DIZIN}{FORUM_INDEX}">Forum</a></li>
-<?php if ($portal_kullan == 1): ?>
 <li><a href="{DIZIN}{PORTAL_INDEX}">Portal</a></li>
-<?php endif; ?>
 <li><a href="{DIZIN}uyeler.php">Üyeler</a></li>
 </ul></div>
 <div class="uyeAlani clearfix" id="uyeAlani">
 <form class="girisFormu" action="{DIZIN}giris.php" name="giris" method="post" onsubmit="return denetle_giris()">
 <input type="hidden" name="kayit_yapildi_mi" value="form_dolu" />
-<input type="hidden" name="git" value="mobil/index.php" />
 <input type="text" name="kullanici_adi" class="giris-input" placeholder="Kullanıcı Adı" required />
 <input type="password" name="sifre" class="giris-input" placeholder="Şifre" required />
 <input type="submit" value="Giriş" class="giris-dugme" />
@@ -62,14 +58,14 @@
 </div>
 <div class="solMenu" id="solMenu">
 <ul>
-<li><a href="{ANASAYFA}">Ana Sayfa</a></li>
 <li><a href="{DIZIN}{FORUM_INDEX}">Forum</a></li>
+<li><a href="{DIZIN}{PORTAL_INDEX}">Portal</a></li>
 <li><a href="{DIZIN}uyeler.php">Üyeler</a></li>
 <li><a href="{DIZIN}mobil/arama.php">Arama</a></li>
 <li><a href="{DIZIN}ymesaj.php">Yeni iletiler</a></li>
 
 <!--__KOSUL_BASLAT-3__-->
-<li><a href="{DIZIN}phpkf-yonetim/index.php">Yönetim Masası</a></li>
+<li><a href="{DIZIN}yonetim/index.php">Yönetim Masası</a></li>
 <!--__KOSUL_BITIR-3__-->
 
 </ul>
@@ -81,7 +77,7 @@
 <ul>
 <li><a href="{DIZIN}mobil/ozel_ileti.php">Özel ileti{OKUNMAMIS_OI2}</a></li>
 <li><a href="{DIZIN}profil.php">Profil Bilgilerim</a></li>
-<li><a href="{DIZIN}cikis.php?o={O}" onclick="return window.confirm(jsl['cikis_uyari'])" title="Çıkış Yap">Çıkış Yap</a></li>
+<li><a href="{DIZIN}cikis.php?o={O}" onclick="return window.confirm('Çıkış yapmak istediğinize emin misiniz?')" title="Çıkış Yap">Çıkış Yap</a></li>
 </ul>
 </div>
 <div class="forumKutu clearfix">

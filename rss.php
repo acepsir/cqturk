@@ -1,29 +1,28 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR etiket='site_posta'";
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
-include_once('phpkf-bilesenler/seo.php');
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
+include_once('bilesenler/seo.php');
 
 
 $tarih = time();
@@ -31,7 +30,7 @@ $forum = '';
 $anasayfa_cikis = '';
 $forumlar_cikis = '';
 $sayfano = 31;
-$sayfa_adi = 'RSS Beslemesi';
+$sayfa_adi = 'RSS Beklemesi';
 
 
 function satir_atlama($metin)
@@ -134,7 +133,7 @@ $vtsorgu = "SELECT id,forum_baslik,okuma_izni,alt_forum FROM $tablo_forumlar WHE
 $vtsonuc2 = $vt->query($vtsorgu) or die ($vt->hata_ver());
 $forum_satir = $vt->fetch_assoc($vtsonuc2);
 $sayfano = '32,'.$forum_satir['id'];
-$sayfa_adi = 'RSS Beslemesi: '.$forum_satir['forum_baslik'];
+$sayfa_adi = 'RSS Beklemesi: '.$forum_satir['forum_baslik'];
 
 
 
@@ -165,6 +164,7 @@ if ($forum_satir['alt_forum'] == '0')
 	if ($vt->num_rows($vtsonuc6))
 $forum .= '<item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $tarih).$gmt_ekle.'</pubDate>
+<author><![CDATA['.$ayarlar['y_posta'].' ('.$ayarlar['title'].')]]></author>
 <category><![CDATA[ALT FORUMLAR]]></category>
 <title><![CDATA[ALT FORUMLAR]]></title>
 <link>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/rss.php?f='.$_GET['f'].'</link>
@@ -198,6 +198,7 @@ $baslik_sayi = $vt->num_rows($satir);
 
 if ($baslik_sayi == 0)
 $forum .= '<item>
+<author><![CDATA[a@b.com (.....)]]></author>
 <category><![CDATA['.$forum_satir['forum_baslik'].']]></category>
 <title><![CDATA[Henüz yazı bulunmamaktadır]]></title>
 <description><![CDATA[Bu forumda henüz hiçbir yazı bulunmamaktadır.]]></description>
@@ -220,6 +221,7 @@ if ($baslik_sirala['cevap_sayi'] == 0):
 
 $forum .= '<item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $baslik_sirala['tarih']).$gmt_ekle.'</pubDate>
+<author><![CDATA[a@b.com ('.$baslik_sirala['yazan'].')]]></author>
 <category><![CDATA['.$forum_satir['forum_baslik'].']]></category>
 <title><![CDATA['.satir_atlama($baslik_sirala['mesaj_baslik']).']]></title>
 <description><![CDATA[<b><u>Yazan:</u></b>&nbsp; <a href="'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.linkver('profil.php?kim='.$baslik_sirala['yazan'],$baslik_sirala['yazan']).'">'.$baslik_sirala['yazan'].'</a><br /><br />'.yazi_kisalt($baslik_sirala['mesaj_icerik']).']]></description>
@@ -252,6 +254,7 @@ if ($baslik_sirala['cevap_sayi'] > $ayarlar['ksyfkota'])
 
 	$forum .= '<item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $son_cevap['tarih']).$gmt_ekle.'</pubDate>
+<author><![CDATA[a@b.com ('.$son_cevap['cevap_yazan'].')]]></author>
 <category><![CDATA['.$forum_satir['forum_baslik'].']]></category>
 <title><![CDATA['.satir_atlama($baslik_sirala['mesaj_baslik']).']]></title>
 <description><![CDATA[<b><u>Yazan:</u></b>&nbsp; <a href="'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.linkver('profil.php?kim='.$son_cevap['cevap_yazan'],$son_cevap['cevap_yazan']).'">'.$son_cevap['cevap_yazan'].'</a><br /><br />'.yazi_kisalt($son_cevap['cevap_icerik']).']]></description>
@@ -266,6 +269,7 @@ if ($baslik_sirala['cevap_sayi'] > $ayarlar['ksyfkota'])
 else
 $forum .= '<item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $son_cevap['tarih']).$gmt_ekle.'</pubDate>
+<author><![CDATA[a@b.com ('.$son_cevap['cevap_yazan'].')]]></author>
 <category><![CDATA['.$forum_satir['forum_baslik'].']]></category>
 <title><![CDATA['.satir_atlama($baslik_sirala['mesaj_baslik']).']]></title>
 <description><![CDATA[<b><u>Yazan:</u></b>&nbsp; <a href="'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.linkver('profil.php?kim='.$son_cevap['cevap_yazan'],$son_cevap['cevap_yazan']).'">'.$son_cevap['cevap_yazan'].'</a><br /><br />'.yazi_kisalt($son_cevap['cevap_icerik']).']]></description>
@@ -299,6 +303,7 @@ $forumlar_cikis .= '<item>
 <category><![CDATA[TÜM FORUMLAR]]></category>
 <title><![CDATA[TÜM FORUMLAR]]></title>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $tarih).$gmt_ekle.'</pubDate>
+<author><![CDATA['.$ayarlar['y_posta'].' ('.$ayarlar['title'].')]]></author>
 <link>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/rss.php</link>
 <guid isPermaLink="false">'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/rss.php</guid>
 <description><![CDATA[ <b><font color="#ff0000">';
@@ -392,11 +397,12 @@ $konu_sayi = $vt->num_rows($vtsonuc2);
 
 if ($konu_sayi == 0):
 $anasayfa_cikis .= '<item>
-<category><![CDATA['.$ayarlar['site_adi'].']]></category>
+<author><![CDATA[a@b.com (.....)]]></author>
+<category><![CDATA['.$ayarlar['title'].']]></category>
 <title><![CDATA[Henüz yazı bulunmamaktadır]]></title>
 <description><![CDATA[Forumda henüz hiçbir yazı bulunmamaktadır.]]></description>
-<link>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.$phpkf_dosyalar['forum'].'</link>
-<guid isPermaLink="false">'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.$phpkf_dosyalar['forum'].'</guid>
+<link>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.$forum_index.'</link>
+<guid isPermaLink="false">'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/'.$forum_index.'</guid>
 </item>';
 
 
@@ -424,6 +430,7 @@ if ($son_konular['cevap_sayi'] == 0):
 $anasayfa_cikis .= '
 <item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $son_konular['tarih']).$gmt_ekle.'</pubDate>
+<author><![CDATA[a@b.com ('.$son_konular['yazan'].')]]></author>
 <category><![CDATA['.$tumforum_satir[$son_konular['hangi_forumdan']].']]></category>
 <title><![CDATA['.satir_atlama($son_konular['mesaj_baslik']).']]></title>
 ';
@@ -463,6 +470,7 @@ if ($son_konular['cevap_sayi'] > $ayarlar['ksyfkota'])
 
 	$anasayfa_cikis .= '<item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $son_cevap['tarih']).$gmt_ekle.'</pubDate>
+<author><![CDATA[a@b.com ('.$son_cevap['cevap_yazan'].')]]></author>
 <category><![CDATA['.$tumforum_satir[$son_konular['hangi_forumdan']].']]></category>
 <title><![CDATA['.satir_atlama($son_konular['mesaj_baslik']).']]></title>
 ';
@@ -487,6 +495,7 @@ else
 	$anasayfa_cikis .= '
 <item>
 <pubDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $son_cevap['tarih']).$gmt_ekle.'</pubDate>
+<author><![CDATA[a@b.com ('.$son_cevap['cevap_yazan'].')]]></author>
 <category><![CDATA['.$tumforum_satir[$son_konular['hangi_forumdan']].']]></category>
 <title><![CDATA['.satir_atlama($son_konular['mesaj_baslik']).']]></title>
 ';
@@ -515,7 +524,7 @@ endif; // ana sayfa yada forum
 
 //  BASLIK_KOD DAHİL EDİLİYOR   ///
 
-if (!defined('DOSYA_OTURUM')) include 'phpkf-bilesenler/oturum.php';
+if (!defined('DOSYA_OTURUM')) include 'bilesenler/oturum.php';
 
 
 
@@ -527,21 +536,21 @@ header("Content-type: text/xml; charset=utf-8");
 $rss_cikis = '<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-<title><![CDATA['.satir_atlama($ayarlar['site_adi']).']]></title>
+<title><![CDATA['.satir_atlama($ayarlar['title']).']]></title>
 <link>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'</link>
 <atom:link href="'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/rss.php'.$atom .'" rel="self" type="application/rss+xml" />
-<description><![CDATA['.$ayarlar['site_adi'].']]></description> 
+<description><![CDATA['.$ayarlar['anasyfbaslik'].']]></description> 
 <language>tr-TR</language>
-<copyright>phpKF 2007-'.date('Y').'</copyright>
+<copyright>phpKF © 2007-2017</copyright>
 <managingEditor>phpkf@phpkf.com (phpKF)</managingEditor>
-<webMaster>'.$ayarlar['site_posta'].' ('.$ayarlar['site_adi'].')</webMaster>
-<category><![CDATA['.$ayarlar['site_adi'].']]></category>
+<webMaster>'.$ayarlar['y_posta'].' ('.$ayarlar['title'].')</webMaster>
+<category><![CDATA['.$ayarlar['syfbaslik'].']]></category>
 <lastBuildDate>'.zonedate2('D, d M Y H:i:s', $ayarlar['saat_dilimi'], false, $tarih).$gmt_ekle.'</lastBuildDate>
-<generator>phpKF</generator>
+<generator>phpKF - php Kolay Forum</generator>
 <ttl>60</ttl>
 
 <image>
-<title><![CDATA['.satir_atlama($ayarlar['site_adi']).']]></title>
+<title><![CDATA['.satir_atlama($ayarlar['title']).']]></title>
 <link>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'</link>
 <url>'.$protocol.'://'.$ayarlar['alanadi'].$fdizin.'/temalar/varsayilan/resimler/phpkf-b.png</url>
 <width>100</width>

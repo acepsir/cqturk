@@ -30,10 +30,10 @@
 
 
 
-<table cellspacing="4" width="100%" cellpadding="0" border="0" align="center" class="tablo-ici">
+<table cellspacing="4" width="100%" cellpadding="0" border="0" align="center" class="tablo_ici">
 	<tr>
 	<td align="center">
-<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" class="tablo-ici">
+<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" bgcolor="#ffffff">
 	<tr>
 	<td align="left" valign="top" width="100%" height="35">
 <a href="oi_yaz.php" title="Özel ileti gönder">{OZEL_ILETI_GONDER}</a>
@@ -43,9 +43,9 @@
 	<tr>
 	<td align="center" valign="top" width="100%">
 
-<table cellspacing="1" width="100%" cellpadding="3" border="0" align="center" class="tablo-ana">
-	<tr class="forum-kategori-baslik">
-	<td colspan="4" height="35" class="liste-etiket" align="center">
+<table cellspacing="1" width="100%" cellpadding="3" border="0" align="center" bgcolor="#d0d0d0">
+	<tr>
+	<td colspan="4" height="35" class="liste-etiket" align="center" bgcolor="#f8f8f8">
 <a href="ozel_ileti.php">Gelen Kutusu</a> &nbsp; | &nbsp; 
 <a href="ozel_ileti.php?kip=ulasan">Ulaşan Kutusu</a> &nbsp; | &nbsp; 
 <a href="ozel_ileti.php?kip=gonderilen">Gönderilen Kutusu</a> &nbsp; | &nbsp; 
@@ -53,14 +53,14 @@
 	</td>
 	</tr>
 
-	<tr>
-	<td class="forum-kategori-alt-baslik" align="center" width="100%">
+	<tr bgcolor="#ffffff">
+	<td class="forum-kategori-alt-baslik" align="center" width="100%" >
 {OZEL_ILET_BASLIK}
 	</td>
 	</tr>
 
 	<tr>
-	<td class="liste-veri tablo-baslik border-beyaz" align="left" style="padding:6px 0px 2px 6px; font-weight:normal">
+	<td class="liste-veri" align="left" bgcolor="#ececec" style="color:#000000; border:1px solid #ffffff">
 <div style="position:relative; float:left; text-align:left; width:50px">
 <img src="{GONDEREN_RESIM}" width="36" style="border:1px solid #999999" alt="Kullanıcı Resmi" title="Kullanıcı Resmi"></div>
 <div style="position:relative; float:left; text-align:left;">
@@ -71,7 +71,7 @@
 	</tr>
 
 	<tr>
-	<td class="liste-veri tablo-ici" align="left">
+	<td class="liste-veri" bgcolor="#ffffff" align="left">
 <div style="position:relative; overflow:auto; padding:5px 10px 20px 10px;">
 {OI_ICERIK}
 </div>
@@ -83,7 +83,7 @@
 <!--__TEKLI_BASLAT-1__-->
 
 	<tr>
-	<td class="liste-veri tablo-baslik border-beyaz" align="left" style="padding:6px 0px 2px 6px; font-weight:normal">
+	<td class="liste-veri" align="left" bgcolor="#ececec" style="color:#000000; border:1px solid #ffffff">
 <div style="position:relative; float:left; text-align:left; width:50%">
 
 <div style="position:relative; float:left; width:50px">
@@ -100,7 +100,7 @@
 	</tr>
 
 	<tr>
-	<td class="liste-veri tablo-ici" align="left" valign="top">
+	<td class="liste-veri" bgcolor="#ffffff" align="left" valign="top">
 <div style="position:relative; overflow:auto; padding:5px 10px 20px 10px;">
 {OICEVAP_ICERIK}
 </div>
@@ -119,25 +119,24 @@
 	<tr>
 	<td align="left" valign="top" class="liste-veri">
 <a name="hzlcvp"></a>
-<div style="height:15px"></div>
-<div class="oihizlicevap_baslik">Hızlı Cevap:</div>
+<div align="left" style="position:relative; width:99.8%">
+<div align="left" class="oihizlicevap_baslik" style="width:100%; height:24px">
+<b style="position:relative; top:2px;">&nbsp;Hızlı Cevap:</b></div>
 
 {FORM_BILGI1}
+
 <input type="hidden" name="mesaj_baslik" value="Cvp:" />
 
-<div align="left">
 <?php
 // Hızlı Cevap için ayarlanan düzenleyici seçiliyor
 $duzenleyici = $ayarlar['yduzenleyici'];
-$duzenleyici_tip = 'hizli';
 
 // Düz textarea kodu
-$duzenleyici_textarea = '<textarea cols="77" rows="10" name="mesaj_icerik" id="mesaj_icerik" class="post" placeholder="Cevap Yaz..." style="width:100%; height:180px; margin:0px; box-sizing:border-box">{FORM_ICERIK}</textarea>';
+$duzenleyici_textarea = '<textarea class="formlar" cols="94" rows="8" name="mesaj_icerik" id="mesaj_icerik" style="width:100%; height:180px; color:#333333; margin:0px; padding:0px" placeholder="Cevap Yaz...">{FORM_ICERIK}</textarea>';
 
 // Düzenleyici (Editör) yükleniyor
-include_once('phpkf-bilesenler/editor/index.php');
+include_once('bilesenler/editor/index.php');
 ?>
-</div>
 
 <div align="left">
 <label style="cursor:pointer">
@@ -153,6 +152,7 @@ include_once('phpkf-bilesenler/editor/index.php');
 </div>
 
 </form>
+</div>
 
 	</td>
 	</tr>

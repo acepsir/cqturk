@@ -1,32 +1,33 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-if ((isset($_GET['fno'])) AND (isset($_GET['kip'])) OR  (isset($_POST['fno'])) AND (isset($_POST['kip']))):
+if ( (isset($_GET['fno'])) AND (isset($_GET['kip'])) OR 
+    (isset($_POST['fno'])) AND (isset($_POST['kip'])) ):
 
+@ini_set('magic_quotes_runtime', 0);
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3' OR kip='6'";
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 if ( isset($_GET['mesaj_no']) )
@@ -405,7 +406,7 @@ else
 	}
 }
 
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -417,7 +418,7 @@ eval($ornek1->tema_dosyasi($tema_dosyasi));
 
 
 // link ağacı
-$forum_anasayfa = '<span><a href="'.$phpkf_dosyalar['forum'].'">Forum Ana Sayfası</a></span>';
+$forum_anasayfa = '<span><a href="'.$forum_index.'">Forum Ana Sayfası</a></span>';
 
 if ($forum_satir['alt_forum'] != '0')
 {
@@ -468,14 +469,14 @@ if ( isset($_POST['mesaj_onizleme']) ):
 if (get_magic_quotes_gpc())
 {
 	$_POST['mesaj_baslik'] = @ileti_yolla(stripslashes($_POST['mesaj_baslik']),3);
-	$_POST['mesaj_icerik'] = @ileti_yolla(stripslashes($_POST['mesaj_icerik']),5);
+	$_POST['mesaj_icerik'] = @ileti_yolla(stripslashes($_POST['mesaj_icerik']),4);
 }
 
 //	magic_quotes_gpc kapalıysa	//
 else
 {
 	$_POST['mesaj_baslik'] = @ileti_yolla($_POST['mesaj_baslik'],3);
-	$_POST['mesaj_icerik'] = @ileti_yolla($_POST['mesaj_icerik'],5);
+	$_POST['mesaj_icerik'] = @ileti_yolla($_POST['mesaj_icerik'],4);
 }
 
 
@@ -503,39 +504,20 @@ else $onizleme_yetki = '';
 
 
 
-if ($kullanici_kim['resim'] != '') $onizleme_resim = '<img src="'.$kullanici_kim['resim'].'" alt="Kullanıcı Resmi">';
-elseif ($ayarlar['v-uye_resmi'] != '') $onizleme_resim = '<img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi">';
+if ($kullanici_kim['resim'])
+	$onizleme_resim = '<img src="'.$kullanici_kim['resim'].'" alt="Kullanıcı Resmi">';
+
 else $onizleme_resim = '';
+
 
 
 $onizleme_katilim = zonedate('d.m.Y', $ayarlar['saat_dilimi'], false, $kullanici_kim['katilim_tarihi']);
 
 
 if ($kullanici_kim['sehir_goster'] == 1)
-{
-	if ($kullanici_kim['sehir'] != '') $onizleme_sehir = $kullanici_kim['sehir'];
-	else $onizleme_sehir = 'Yok';
-}
+	$onizleme_sehir = $kullanici_kim['sehir'];
 
 else $onizleme_sehir = 'Gizli';
-
-
-
-if (empty($kullanici_kim['gercek_ad']))
-	$onizleme_durum = '<font color="#FF0000">üye silinmiş</font>';
-
-elseif ($kullanici_kim['engelle'] == 1)
-	$onizleme_durum = '<font color="#FF0000">üye uzaklaştırılmış</font>';
-
-elseif ($kullanici_kim['gizli'] == 1)
-	$onizleme_durum = '<font color="#FF0000">Gizli</font>';
-
-elseif ( (($kullanici_kim['son_hareket'] + $ayarlar['uye_cevrimici_sure']) > time() ) AND
-		($kullanici_kim['sayfano'] != '-1') )
-	$onizleme_durum = '<font color="#339900">Forumda</font>';
-
-else $onizleme_durum = '<font color="#FF0000">Forumda Değil</font>';
-
 
 
 $onizleme_eposta = '<a title="Forum üzerinden e-posta gönder" href="eposta.php?kim='.$kullanici_kim['kullanici_adi'].'">';
@@ -588,7 +570,6 @@ $ornek1->kosul('1', array('{ONIZLEME_BASLIK}' => $_POST['mesaj_baslik'],
 '{ONIZLEME_KATILIM}' => $onizleme_katilim,
 '{ONIZLEME_MESAJ_SAYI}' => NumaraBicim($kullanici_kim['mesaj_sayisi']),
 '{ONIZLEME_SEHIR}' => $onizleme_sehir,
-'{ONIZLEME_DURUM}' => $onizleme_durum,
 '{ONIZLEME_EPOSTA}' => $onizleme_eposta,
 '{ONIZLEME_WEB}' => $onizleme_web,
 '{ONIZLEME_OI}' => $onizleme_io,
@@ -642,7 +623,7 @@ $mesaj_alinti = $vt->fetch_array($vtsonuc);
 
 $form_icerik = '[quote="'.$mesaj_alinti['yazan'].'"]';
 $form_icerik .= "\n".$mesaj_alinti['mesaj_icerik'];
-$form_icerik .= "\n[/quote]\n";
+$form_icerik .= "\n".'[/quote]';
 
 
 //	CEVAP ALINTI TIKLANMIŞSA VERİTABANINDAN ÇEKİLİYOR	//
@@ -657,7 +638,7 @@ $cevap_alinti = $vt->fetch_array($vtsonuc);
 
 $form_icerik = '[quote="'.$cevap_alinti['cevap_yazan'].'"]';
 $form_icerik .= "\n".$cevap_alinti['cevap_icerik'];
-$form_icerik .= "\n[/quote]\n";
+$form_icerik .= "\n".'[/quote]';
 
 
 //	NORMAL YENİ MESAJ VEYA CEVAP ALANI	//
@@ -871,7 +852,7 @@ endif;
 
 
 
-$form_bilgi1 = '<form action="phpkf-bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+$form_bilgi1 = '<form action="bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 <input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 <input type="hidden" name="sayfa_onizleme" value="mesaj_yaz">
 <input type="hidden" name="mesaj_onizleme" value="Önizleme">

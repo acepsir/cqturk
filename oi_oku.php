@@ -1,28 +1,28 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
+@ini_set('magic_quotes_runtime', 0);
+
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_GUVENLIK')) include 'phpkf-bilesenler/guvenlik.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
 
 
 // özel ileti özelliği kapalıysa
@@ -32,6 +32,9 @@ if ($ayarlar['o_ileti'] == 0)
 	exit();
 }
 
+
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 $_GET['oino'] = zkTemizle($_GET['oino']);
 $tarih = time();
@@ -115,7 +118,7 @@ $kimden_yetki = $vt->fetch_assoc($vtsonucoi1);
 
 // gönderen kullanıcı resmi
 if ($kimden_yetki['resim'] != '') $gonderen_resim = $kimden_yetki['resim'];
-elseif ($ayarlar['v-uye_resmi'] != '') $gonderen_resim = $ayarlar['v-uye_resmi'];
+elseif ($ayarlar['kul_resim'] != '') $gonderen_resim = $ayarlar['kul_resim'];
 else $gonderen_resim = '';
 
 
@@ -185,14 +188,14 @@ if($ozel_ileti['cevap_sayi'] != 0)
 		if ($oi_cevaplar['kimden'] == $ozel_ileti['kimden']) 
 		{
 			if ($kimden_yetki['resim'] != '') $cgonderen_resim = $kimden_yetki['resim'];
-			elseif ($ayarlar['v-uye_resmi'] != '') $cgonderen_resim = $ayarlar['v-uye_resmi'];
+			elseif ($ayarlar['kul_resim'] != '') $cgonderen_resim = $ayarlar['kul_resim'];
 			else $cgonderen_resim = '';
 		}
 
 		else
 		{
 			if ($kime_resim['resim'] != '') $cgonderen_resim = $kime_resim['resim'];
-			elseif ($ayarlar['v-uye_resmi'] != '') $cgonderen_resim = $ayarlar['v-uye_resmi'];
+			elseif ($ayarlar['kul_resim'] != '') $cgonderen_resim = $ayarlar['kul_resim'];
 			else $cgonderen_resim = '';
 		}
 
@@ -236,12 +239,12 @@ if (!isset($ynt_kime)) $ynt_kime = $ozel_ileti['kimden'];
 
 $sayfano = 21;
 $sayfa_adi = 'Özel ileti Okuma';
-include 'phpkf-bilesenler/kullanici_kimlik.php';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include 'bilesenler/kullanici_kimlik.php';
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
-$form_bilgi1 = '<form action="phpkf-bilesenler/oi_yaz_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+$form_bilgi1 = '<form action="bilesenler/oi_yaz_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 <input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 <input type="hidden" name="sayfa_onizleme" value="oi_yaz">
 <input type="hidden" name="mesaj_onizleme" value="Önizleme">

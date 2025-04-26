@@ -1,26 +1,26 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.00                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2015 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
- |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
- |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
+ |  Ücretli olarak satılamaz veya phpKF.com`dan başka bir yerde dağıtılamaz  |
+ |  Yazılımı dağıtma ve resmi sürüm çıkartma hakları sadece phpKF`ye aittir  |
+ |  Yazılım kodları hiçbir şekilde başka bir yazılımda kullanılamaz.         |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
- |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GUVENLIK')) include 'bilesenler/guvenlik.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 // arama sonuç renklendirme
@@ -72,11 +72,6 @@ else $sozcuk_forum = 1;
 
 
 // Alanlar kontrol ediliyor
-$sozcuk_aynen = str_replace('%','',$sozcuk_aynen);
-$sozcuk_hepsi = str_replace('%','',$sozcuk_hepsi);
-$sozcuk_herhangi = str_replace('%','',$sozcuk_herhangi);
-
-
 if (($sozcuk_aynen=='')AND($sozcuk_hepsi=='')AND($sozcuk_herhangi=='')AND(strlen($yazar_ara)>=4)) $sozcuk_aynen = '%%%';
 
 
@@ -99,6 +94,7 @@ else $sozcuk_haric = @str_replace('*','%',$sozcuk_haric);
 if ($yazar_ara == '') $yazar_ara = '%';
 if (strlen($yazar_ara) >= 4)
 {
+
 	$yazar_ara = @str_replace('*','%',$yazar_ara);
 	$myazan_ara = " $tablo_mesajlar.yazan LIKE '$yazar_ara' AND ";
 	$cyazan_ara = " $tablo_cevaplar.cevap_yazan LIKE '$yazar_ara' AND ";
@@ -798,7 +794,7 @@ $dallar_sonuc = $vt->query($vtsorgu) or die ($vt->hata_ver());
 
 $sayfano = 10;
 $sayfa_adi = 'Konu ve İçerik Arama';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -865,17 +861,17 @@ while ($dallar_satir = $vt->fetch_array($dallar_sonuc))
 
 		if (!$vt->num_rows($vtsonuca))
 			$arama_secenek .= '
-			<option value="f'.$forum_satir['id'].'"> &nbsp; + '.$forum_satir['forum_baslik'];
+			<option value="f'.$forum_satir['id'].'"> &nbsp; - '.$forum_satir['forum_baslik'];
 
 
 		else
 		{
 			$arama_secenek .= '
-			<option value="u'.$forum_satir['id'].'"> &nbsp; + '.$forum_satir['forum_baslik'];
+			<option value="u'.$forum_satir['id'].'"> &nbsp; - '.$forum_satir['forum_baslik'];
 
 			while ($alt_forum_satir = $vt->fetch_array($vtsonuca))
 				$arama_secenek .= '
-				<option value="f'.$alt_forum_satir['id'].'"> &nbsp; &nbsp; &nbsp; - '.$alt_forum_satir['forum_baslik'];
+				<option value="f'.$alt_forum_satir['id'].'"> &nbsp; &nbsp; &nbsp; -- '.$alt_forum_satir['forum_baslik'];
 		}
 	}
 }
@@ -1079,7 +1075,7 @@ $sayfalama = '';
 
 if ($satir_sayi > $arama_kota):
 $sayfalama = '<p>
-<table cellspacing="1" cellpadding="4" border="0" align="right" class="tablo_border">
+<table cellspacing="1" cellpadding="2" border="0" align="right" class="tablo_border">
 	<tr>
 	<td class="forum_baslik">
 Toplam '.$toplam_sayfa.' Sayfa:&nbsp;

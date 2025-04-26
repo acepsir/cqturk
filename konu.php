@@ -1,29 +1,30 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='3'";
+@ini_set('magic_quotes_runtime', 0);
+
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'phpkf-bilesenler/kullanici_kimlik.php';
-include_once('phpkf-bilesenler/seo.php');
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include 'bilesenler/kullanici_kimlik.php';
+include_once('bilesenler/seo.php');
 
 
 if (isset($_GET['mesaj_no'])) $_GET['k'] = @zkTemizle($_GET['mesaj_no']);
@@ -64,7 +65,7 @@ else
 }
 
 
-$zaman_asimi = $ayarlar['uye_cevrimici_sure'];
+$zaman_asimi = $ayarlar['cevrimici'];
 $tarih = time();
 
 
@@ -300,7 +301,7 @@ $sayfano = '2,'.$mesaj_satir['id'].',3,'.$mesaj_satir['hangi_forumdan'];
 $sayfa_adi = $mesaj_satir['mesaj_baslik'].$baslik_ek;
 
 
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -311,7 +312,7 @@ include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
 $sayfalama_cikis = '';
 
 if ($satir_sayi > $ayarlar['ksyfkota']):
-$sayfalama_cikis = '<table cellspacing="1" cellpadding="4" border="0" align="right" class="tablo_border">
+$sayfalama_cikis = '<table cellspacing="1" cellpadding="2" border="0" align="right" class="tablo_border">
 	<tbody>
 	<tr>
 	<td class="forum_baslik">
@@ -407,7 +408,7 @@ else
 	else
 	{
 		$y_sayi = $satir_sayi - ($satir_sayi % $ayarlar['ksyfkota']);
-		$baslik_cevap .= '<a href="mesaj_yaz.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;mesaj_no='.$_GET['k'].'&amp;kip=cevapla&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$y_sayi.'" title="Bu Konuya Cevap Yazmak için Tıklayın">'.$cevapyaz_rengi.'</a>';
+		$baslik_cevap .= '<a href="mesaj_yaz.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;mesaj_no='.$_GET['k'].'&amp;kip=cevapla&amp;amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$y_sayi.'" title="Bu Konuya Cevap Yazmak için Tıklayın">'.$cevapyaz_rengi.'</a>';
 		$form_ksayfa = $y_sayi;
 	}
 }
@@ -422,9 +423,9 @@ if ($_GET['ks'] < 1 ):
 
 
 if ($mesaj_sahibi['engelle'] != 1)
-    $konu_acan = '<a href="'.linkver($phpkf_dosyalar['profil'].'?u='.$mesaj_sahibi['id'].'&kim='.$mesaj_satir['yazan'],$mesaj_satir['yazan']).'">'.$mesaj_satir['yazan'].'</a>';
+    $konu_acan = '<a href="'.linkver('profil.php?u='.$mesaj_sahibi['id'].'&kim='.$mesaj_satir['yazan'],$mesaj_satir['yazan']).'">'.$mesaj_satir['yazan'].'</a>';
 
-else $konu_acan = '<a href="'.linkver($phpkf_dosyalar['profil'].'?u='.$mesaj_sahibi['id'].'&kim='.$mesaj_satir['yazan'],$mesaj_satir['yazan']).'"><s>'.$mesaj_satir['yazan'].'</s></a>';
+else $konu_acan = '<a href="'.linkver('profil.php?u='.$mesaj_sahibi['id'].'&kim='.$mesaj_satir['yazan'],$mesaj_satir['yazan']).'"><s>'.$mesaj_satir['yazan'].'</s></a>';
 
 
 if (!empty($mesaj_sahibi['gercek_ad']))
@@ -450,8 +451,8 @@ elseif ($mesaj_sahibi['yetki'] == 3)
 else $konu_acan_yetkisi = '<font class="kullanici">'.$ayarlar['kullanici'].'</font>';
 
 
-if ($mesaj_sahibi['resim'] != '') $konu_acan_resmi = '<img src="'.$mesaj_sahibi['resim'].'" alt="." title='.$l['uye_resmi'].' style="max-width:98%" />';
-elseif ($ayarlar['v-uye_resmi'] != '') $konu_acan_resmi = '<img src="'.$ayarlar['v-uye_resmi'].'" alt="." title='.$l['varsayilan_uye_resmi'].' style="max-width:98%" />';
+if ($mesaj_sahibi['resim'] != '') $konu_acan_resmi = '<img src="'.$mesaj_sahibi['resim'].'" alt="Kullanıcı Resmi" style="max-width:98%" />';
+elseif ($ayarlar['kul_resim'] != '') $konu_acan_resmi = '<img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" style="max-width:98%" />';
 else $konu_acan_resmi = '';
 
 
@@ -468,10 +469,7 @@ if (!empty($mesaj_sahibi['mesaj_sayisi']))
 
 
 if ($mesaj_sahibi['sehir_goster'] == 1)
-{
-	if ($mesaj_sahibi['sehir'] != '') $konu_acan_sehir = $mesaj_sahibi['sehir'];
-	else $konu_acan_sehir = 'Yok';
-}
+	$konu_acan_sehir = $mesaj_sahibi['sehir'];
 
 else $konu_acan_sehir = 'Gizli';
 
@@ -486,20 +484,20 @@ elseif ($mesaj_sahibi['gizli'] == 1)
 	$konu_acan_durum = '<font color="#FF0000">Gizli</font>';
 
 elseif ( (($mesaj_sahibi['son_hareket'] + $zaman_asimi) > $tarih ) AND
-		($mesaj_sahibi['sayfano'] != '-1') )
+        ($mesaj_sahibi['sayfano'] != '-1') )
 	$konu_acan_durum = '<font color="#339900">Forumda</font>';
 
 else $konu_acan_durum = '<font color="#FF0000">Forumda Değil</font>';
 
 
-$konu_acan_eposta = '<a title="Forum üzerinden e-posta gönder" href="eposta.php?kim='.$mesaj_sahibi['kullanici_adi'].'">'.$l['eposta_gonder'].'</a>';
+$konu_acan_eposta = '<a title="Forum üzerinden e-posta gönder" href="eposta.php?kim='.$mesaj_sahibi['kullanici_adi'].'">E-Posta Gönder</a>';
 
 if ($mesaj_sahibi['web'])
-	$konu_acan_web = '<br><a href="'.$mesaj_sahibi['web'].'" target="_blank" rel="nofollow">'.$l['web_sitesi'].'</a>';
+	$konu_acan_web = '<br><a href="'.$mesaj_sahibi['web'].'" target="_blank">Web Adresi</a>';
 
 else $konu_acan_web = '';
 
-$konu_acan_ozel = '<a href="oi_yaz.php?ozel_kime='.$mesaj_sahibi['kullanici_adi'].'">'.$l['ozel_ileti_gonder'].'</a>';
+$konu_acan_ozel = '<a href="oi_yaz.php?ozel_kime='.$mesaj_sahibi['kullanici_adi'].'">Özel ileti Gönder</a>';
 
 $konu_tarihi = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $mesaj_satir['tarih']);
 
@@ -524,7 +522,7 @@ if (isset($kullanici_kim['id']))
 		$konu_alinti_duzenle .= '<a href="mesaj_yaz.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevapla&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;alinti=mesaj&amp;sayfa='.$y_sayi.'">';
 	}
 
-	$konu_alinti_duzenle .= '<img '.$simge_alinti.' alt="." title="Alıntı yaparak cevapla"></a>&nbsp;&nbsp;';
+	$konu_alinti_duzenle .= '<img '.$simge_alinti.' alt="Alıntı yaparak cevapla" title="Alıntı yaparak cevapla"></a>&nbsp;&nbsp;';
 }
 
 
@@ -535,27 +533,27 @@ if (isset($kullanici_kim['id']))
 //	YÖNETİCİ VE YARDIMCI İSE	//
 if ( ($kullanici_kim['yetki'] == 1) OR ($kullanici_kim['yetki'] == 2) ):
 
-$konu_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_sil.' alt="." title="Bu konuyu sil"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_sil.' alt="Bu konuyu sil" title="Bu konuyu sil"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="baslik_tasi.php?kip=tasi&amp;mesaj_no='.$mesaj_satir['id'].'"><img '.$simge_tasi.' alt="." title="Bu konuyu taşı"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="baslik_tasi.php?kip=tasi&amp;mesaj_no='.$mesaj_satir['id'].'"><img '.$simge_tasi.' alt="Bu konuyu taşı" title="Bu konuyu taşı"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="." title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="Bu konuyu değiştir" title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_degistir_yap.php?kip=kilitle&amp;mesaj_no='.$mesaj_satir['id'].'">';
+$konu_alinti_duzenle .= '<a href="bilesenler/mesaj_degistir_yap.php?kip=kilitle&amp;mesaj_no='.$mesaj_satir['id'].'">';
 
 if ($mesaj_satir['kilitli'] == 1)
-$konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="." title="Bu konunun kilitini aç"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="Bu konunun kilitini aç" title="Bu konunun kilitini aç"></a>&nbsp;&nbsp;';
 
-else $konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="." title="Bu konuyu kilitle"></a>&nbsp;&nbsp;';
+else $konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="Bu konuyu kilitle" title="Bu konuyu kilitle"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_degistir_yap.php?kip=ustkonu&amp;mesaj_no='.$mesaj_satir['id'].'">';
+$konu_alinti_duzenle .= '<a href="bilesenler/mesaj_degistir_yap.php?kip=ustkonu&amp;mesaj_no='.$mesaj_satir['id'].'">';
 
 if ($mesaj_satir['ust_konu'] == 1)
-$konu_alinti_duzenle .= '<img '.$simge_ust.' alt="." title="Alt konu yap"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<img '.$simge_ust.' alt="Alt konu yap" title="Alt konu yap"></a>&nbsp;&nbsp;';
 
-else $konu_alinti_duzenle .= '<img '.$simge_ust.' alt="." title="Üst konu yap"></a>&nbsp;&nbsp;';
+else $konu_alinti_duzenle .= '<img '.$simge_ust.' alt="Üst konu yap" title="Üst konu yap"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="phpkf-yonetim/forum_ip_yonetimi.php?kip=1&amp;ip='.$mesaj_satir['yazan_ip'].'"><img  '.$simge_ip.' alt="." title="Bu konuyu açanın ip adresi"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="yonetim/ip_yonetimi.php?kip=1&amp;ip='.$mesaj_satir['yazan_ip'].'"><img  '.$simge_ip.' alt="Bu konuyu açanın ip adresi" title="Bu konuyu açanın ip adresi"></a>&nbsp;&nbsp;';
 
 
 //	BÖLÜM YARDIMCI İSE	//
@@ -564,39 +562,39 @@ elseif ($kullanici_kim['yetki'] == 3):
 if ( (isset($yrd_yetkisi)) AND ($yrd_yetkisi == true) ):
 
 
-$konu_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_sil.' alt="." title="Bu konuyu sil"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_sil.' alt="Bu konuyu sil" title="Bu konuyu sil"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="baslik_tasi.php?kip=tasi&amp;mesaj_no='.$mesaj_satir['id'].'"><img '.$simge_tasi.' alt="." title="Bu konuyu taşı"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="baslik_tasi.php?kip=tasi&amp;mesaj_no='.$mesaj_satir['id'].'"><img '.$simge_tasi.' alt="Bu konuyu taşı" title="Bu konuyu taşı"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="." title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="Bu konuyu değiştir" title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_degistir_yap.php?kip=kilitle&amp;mesaj_no='.$mesaj_satir['id'].'">';
+$konu_alinti_duzenle .= '<a href="bilesenler/mesaj_degistir_yap.php?kip=kilitle&amp;mesaj_no='.$mesaj_satir['id'].'">';
 
 if ($mesaj_satir['kilitli'] == 1)
-$konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="." title="Bu konunun kilitini aç"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="Bu konunun kilitini aç" title="Bu konunun kilitini aç"></a>&nbsp;&nbsp;';
 
-else $konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="." title="Bu konuyu kilitle"></a>&nbsp;&nbsp;';
+else $konu_alinti_duzenle .= '<img '.$simge_kilitle.' alt="Bu konuyu kilitle" title="Bu konuyu kilitle"></a>&nbsp;&nbsp;';
 
-$konu_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_degistir_yap.php?kip=ustkonu&amp;mesaj_no='.$mesaj_satir['id'].'">';
+$konu_alinti_duzenle .= '<a href="bilesenler/mesaj_degistir_yap.php?kip=ustkonu&amp;mesaj_no='.$mesaj_satir['id'].'">';
 
 if ($mesaj_satir['ust_konu'] == 1)
-$konu_alinti_duzenle .= '<img '.$simge_ust.' alt="." title="Alt konu yap"></a>&nbsp;&nbsp;';
+$konu_alinti_duzenle .= '<img '.$simge_ust.' alt="Alt konu yap" title="Alt konu yap"></a>&nbsp;&nbsp;';
 
-else $konu_alinti_duzenle .= '<img '.$simge_ust.' alt="." title="Üst konu yap"></a>&nbsp;&nbsp;';
+else $konu_alinti_duzenle .= '<img '.$simge_ust.' alt="Üst konu yap" title="Üst konu yap"></a>&nbsp;&nbsp;';
 
 
 
 //	BU FORUMUN YARDIMCISI OLMADIĞI HALDE İLETİYİ YAZANSA	//
 
 elseif ($kullanici_kim['kullanici_adi'] == $mesaj_satir['yazan']):
-	$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="." title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
+	$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="Bu konuyu değiştir" title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
 endif;
 
 
 //	İLETİYİ YAZAN KİŞİYSE	//
 
 elseif ($kullanici_kim['kullanici_adi'] == $mesaj_satir['yazan']):
-	$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="." title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
+	$konu_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=mesaj&amp;mesaj_no='.$mesaj_satir['id'].'&amp;fsayfa='.$_GET['fs'].'"><img '.$simge_degistir.' alt="Bu konuyu değiştir" title="Bu konuyu değiştir"></a>&nbsp;&nbsp;';
 endif;
 
 
@@ -637,20 +635,15 @@ if ($mesaj_satir['degistirme_sayisi'] != 0):
 tarafından <b>'.zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $mesaj_satir['degistirme_tarihi']).'</b> tarihinde, toplamda '.$mesaj_satir['degistirme_sayisi'].' kez değiştirilmiştir.</i></font>';
 
 if ($kullanici_kim['yetki'] == 1):
-	$konu_degisme .= '&nbsp;<a href="phpkf-yonetim/forum_ip_yonetimi.php?kip=1&amp;ip='.$mesaj_satir['degistiren_ip'].'"><img  '.$simge_ip.' alt="." title="Bu konuyu değiştirenin ip adresi"></a>';
+	$konu_degisme .= '&nbsp;<a href="yonetim/ip_yonetimi.php?kip=1&amp;ip='.$mesaj_satir['degistiren_ip'].'"><img  '.$simge_ip.' alt="Bu konuyu değiştirenin ip adresi" title="Bu konuyu değiştirenin ip adresi"></a>';
 
 endif;
 endif;
-
-
-$konu_baglanti = '<a href="'.linkver('konu.php?k='.$mesaj_satir['id'], $mesaj_satir['mesaj_baslik']).'" style="color:#ffffff;text-decoration:none" title="Permalink">#</a>';
-
 
 
 //	veriler tema motoruna yollanıyor	//
 
 $kosul1 = array('{KONU_ANAME}' => '<a name="c0"></a>',
-'{KONU_BAGLANTI}' => $konu_baglanti,
 '{KONU_BASLIK2}' => $mesaj_satir['mesaj_baslik'],
 '{GOSTERIM}' => NumaraBicim(($mesaj_satir['goruntuleme']+1)),
 '{KONU_ACAN}' => $konu_acan,
@@ -704,9 +697,9 @@ $ileti_no++;
 
 
 if ($cevap_sahibi['engelle'] != 1)
-    $cevap_yazan = '<a href="'.linkver($phpkf_dosyalar['profil'].'?u='.$cevap_sahibi['id'].'&kim='.$cevap_satir['cevap_yazan'],$cevap_satir['cevap_yazan']).'">'.$cevap_satir['cevap_yazan'].'</a>';
+    $cevap_yazan = '<a href="'.linkver('profil.php?u='.$cevap_sahibi['id'].'&kim='.$cevap_satir['cevap_yazan'],$cevap_satir['cevap_yazan']).'">'.$cevap_satir['cevap_yazan'].'</a>';
 
-else $cevap_yazan = '<a href="'.linkver($phpkf_dosyalar['profil'].'?u='.$cevap_sahibi['id'].'&kim='.$cevap_satir['cevap_yazan'],$cevap_satir['cevap_yazan']).'"><s>'.$cevap_satir['cevap_yazan'].'</s></a>';
+else $cevap_yazan = '<a href="'.linkver('profil.php?u='.$cevap_sahibi['id'].'&kim='.$cevap_satir['cevap_yazan'],$cevap_satir['cevap_yazan']).'"><s>'.$cevap_satir['cevap_yazan'].'</s></a>';
 
 
 
@@ -735,9 +728,9 @@ else $cevap_yazan_yetkisi = '<font class="kullanici">'.$ayarlar['kullanici'].'</
 
 
 if ($cevap_sahibi['resim'] != '')
-	$cevap_yazan_resmi = '<img src="'.$cevap_sahibi['resim'].'" alt="." title='.$l['uye_resmi'].' style="max-width:98%" />';
-elseif ($ayarlar['v-uye_resmi'] != '')
-	$cevap_yazan_resmi = '<img src="'.$ayarlar['v-uye_resmi'].'" alt="." title='.$l['varsayilan_uye_resmi'].' style="max-width:98%" />';
+	$cevap_yazan_resmi = '<img src="'.$cevap_sahibi['resim'].'" alt="Kullanıcı Resmi" style="max-width:98%" />';
+elseif ($ayarlar['kul_resim'] != '')
+	$cevap_yazan_resmi = '<img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" style="max-width:98%" />';
 else $cevap_yazan_resmi = '';
 
 
@@ -754,10 +747,7 @@ else $cevap_yazan_mesajsayi = 0;
 
 
 if ($cevap_sahibi['sehir_goster'] == 1)
-{
-	if ($cevap_sahibi['sehir'] != '') $cevap_yazan_sehir = $cevap_sahibi['sehir'];
-	else $cevap_yazan_sehir = 'Yok';
-}
+	$cevap_yazan_sehir = $cevap_sahibi['sehir'];
 
 else $cevap_yazan_sehir = 'Gizli';
 
@@ -772,22 +762,22 @@ elseif ($cevap_sahibi['gizli'] == 1)
 	$cevap_yazan_durum = '<font color="#FF0000">Gizli</font>';
 
 elseif ( (($cevap_sahibi['son_hareket'] + $zaman_asimi) > $tarih ) AND
-		($cevap_sahibi['sayfano'] != '-1') )
+        ($cevap_sahibi['sayfano'] != '-1') )
 	$cevap_yazan_durum = '<font color="#339900">Forumda</font>';
 
 else $cevap_yazan_durum = '<font color="#FF0000">Forumda Değil</font>';
 
 
-$cevap_yazan_eposta = '<a title="Forum üzerinden e-posta gönder" href="eposta.php?kim='.$cevap_sahibi['kullanici_adi'].'">'.$l['eposta_gonder'].'</a>';
+$cevap_yazan_eposta = '<a title="Forum üzerinden e-posta gönder" href="eposta.php?kim='.$cevap_sahibi['kullanici_adi'].'">E-Posta Gönder</a>';
 
 
 if ($cevap_sahibi['web'])
-	$cevap_yazan_web = '<br><a href="'.$cevap_sahibi['web'].'" target="_blank" rel="nofollow">'.$l['web_sitesi'].'</a>';
+	$cevap_yazan_web = '<br><a href="'.$cevap_sahibi['web'].'" target="_blank">Web Adresi</a>';
 
 else $cevap_yazan_web = '';
 
 
-$cevap_yazan_ozel = '<a href="oi_yaz.php?ozel_kime='.$cevap_sahibi['kullanici_adi'].'">'.$l['ozel_ileti_gonder'].'</a>';
+$cevap_yazan_ozel = '<a href="oi_yaz.php?ozel_kime='.$cevap_sahibi['kullanici_adi'].'">Özel ileti Gönder</a>';
 
 $cevap_tarihi = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $cevap_satir['tarih']);
 
@@ -812,7 +802,7 @@ if (isset($kullanici_kim['id']))
 		$cevap_alinti_duzenle .= '<a href="mesaj_yaz.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevapla&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;alinti=cevap&amp;sayfa='.$y_sayi.'">';
 	}
 
-	$cevap_alinti_duzenle .= '<img '.$simge_alinti.' alt="." title="Alıntı yaparak cevapla"></a>&nbsp;&nbsp;';
+	$cevap_alinti_duzenle .= '<img '.$simge_alinti.' alt="Alıntı yaparak cevapla" title="Alıntı yaparak cevapla"></a>&nbsp;&nbsp;';
 }
 
 
@@ -823,11 +813,11 @@ if (isset($kullanici_kim['id']))
 
 if ( ($kullanici_kim['yetki'] == 1) OR ($kullanici_kim['yetki'] == 2) ):
 
-$cevap_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_sil.'  alt="." title="Bu cevabı sil"></a>&nbsp;&nbsp;';
+$cevap_alinti_duzenle .= '<a href="bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_sil.'  alt="Bu cevabı sil" title="Bu cevabı sil"></a>&nbsp;&nbsp;';
 
-$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="." title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
+$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="Bu cevabı değiştir" title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
 
-$cevap_alinti_duzenle .= '<a href="phpkf-yonetim/forum_ip_yonetimi.php?kip=1&amp;ip='.$cevap_satir['yazan_ip'].'"><img  '.$simge_ip.' alt="." title="Bu cevabı yazanın ip adresi"></a>&nbsp;&nbsp;';
+$cevap_alinti_duzenle .= '<a href="yonetim/ip_yonetimi.php?kip=1&amp;ip='.$cevap_satir['yazan_ip'].'"><img  '.$simge_ip.' alt="Bu cevabı yazanın ip adresi" title="Bu cevabı yazanın ip adresi"></a>&nbsp;&nbsp;';
 
 
 //	BÖLÜM YARDIMCI İSE	//
@@ -836,22 +826,22 @@ elseif ($kullanici_kim['yetki'] == 3):
 
 if ( (isset($yrd_yetkisi)) AND ($yrd_yetkisi == true) ):
 
-$cevap_alinti_duzenle .= '<a href="phpkf-bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_sil.' alt="." title="Bu cevabı sil"></a>&nbsp;&nbsp;';
+$cevap_alinti_duzenle .= '<a href="bilesenler/mesaj_sil.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_sil.' alt="Bu cevabı sil" title="Bu cevabı sil"></a>&nbsp;&nbsp;';
 
-$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="." title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
+$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="Bu cevabı değiştir" title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
 
 
 //	BU FORUMUN YARDIMCISI OLMADIĞI HALDE İLETİYİ YAZANSA	//
 
 elseif ($kullanici_kim['kullanici_adi'] == $cevap_satir['cevap_yazan']):
-	$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="." title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
+	$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="Bu cevabı değiştir" title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
 endif;
 
 
 //	İLETİYİ YAZAN KİŞİYSE	//
 
 elseif ($kullanici_kim['kullanici_adi'] == $cevap_satir['cevap_yazan']):
-	$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="." title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
+	$cevap_alinti_duzenle .= '<a href="mesaj_degistir.php?fno='.$mesaj_satir['hangi_forumdan'].'&amp;kip=cevap&amp;mesaj_no='.$mesaj_satir['id'].'&amp;cevap_no='.$cevap_satir['id'].'&amp;fsayfa='.$_GET['fs'].'&amp;sayfa='.$_GET['ks'].'"><img '.$simge_degistir.' alt="Bu cevabı değiştir" title="Bu cevabı değiştir"></a>&nbsp;&nbsp;';
 
 endif;
 
@@ -894,14 +884,14 @@ if ($cevap_satir['degistirme_sayisi'] != 0):
 tarafından <b>'.zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $cevap_satir['degistirme_tarihi']).'</b> tarihinde, toplamda '.$cevap_satir['degistirme_sayisi'].' kez değiştirilmiştir.</i></font>';
 
 if ($kullanici_kim['yetki'] == 1):
-	$cevap_degisme .= '&nbsp;<a href="phpkf-yonetim/forum_ip_yonetimi.php?kip=1&amp;ip='.$cevap_satir['degistiren_ip'].'"><img '.$simge_ip.' alt="." title="Bu cevabı değiştirenin ip adresi"></a>';
+	$cevap_degisme .= '&nbsp;<a href="yonetim/ip_yonetimi.php?kip=1&amp;ip='.$cevap_satir['degistiren_ip'].'"><img '.$simge_ip.' alt="Bu cevabı değiştirenin ip adresi" title="Bu cevabı değiştirenin ip adresi"></a>';
 
 endif;
 endif;
 
 
 
-$cevap_bag = '<a href="'.linkver('konu.php?k='.$mesaj_satir['id'].'&ks='.$_GET['ks'], $mesaj_satir['mesaj_baslik'], '#c'.$cevap_satir['id']).'" style="color:#ffffff;text-decoration:none" title="Cevap bağlantısı">'.$l['cevap'].': '.$ileti_no.'</a>';
+$cevap_bag = '<a href="'.linkver('konu.php?k='.$mesaj_satir['id'].'&ks='.$_GET['ks'], $mesaj_satir['mesaj_baslik'], '#c'.$cevap_satir['id']).'" style="color: #ffffff; text-decoration: none;" title="Cevap bağlantısı">Cevap: '.$ileti_no.'</a>';
 
 
 
@@ -939,7 +929,7 @@ endif;
 
 
 if (isset($kullanici_kim['id']))
-	$kullanici_cikis = '&nbsp; | &nbsp; <a href="'.$phpkf_dosyalar['cikis'].'?o='.$o.'" onclick="return window.confirm(\'Çıkış yapmak istediğinize emin misiniz?\')">Çıkış [ '.$kullanici_kim['kullanici_adi'].' ]</a>';
+	$kullanici_cikis = '&nbsp; | &nbsp; <a href="cikis.php?o='.$o.'" onclick="return window.confirm(\'Çıkış yapmak istediğinize emin misiniz?\')">Çıkış [ '.$kullanici_kim['kullanici_adi'].' ]</a>';
 
 else $kullanici_cikis = '';
 
@@ -963,14 +953,14 @@ if ($ayarlar['konu_kisi'] == 1)
 	{
 		if ($gor_uye['gizli'] == 0)
 		{
-			$gor_uyeler .= '<a href="'.linkver($phpkf_dosyalar['profil'].'?u='.$gor_uye['id'].'&kim='.$gor_uye['kullanici_adi'],$gor_uye['kullanici_adi']).'">'.$gor_uye['kullanici_adi'].'</a>, ';
+			$gor_uyeler .= '<a href="'.linkver('profil.php?u='.$gor_uye['id'].'&kim='.$gor_uye['kullanici_adi'],$gor_uye['kullanici_adi']).'">'.$gor_uye['kullanici_adi'].'</a>, ';
 			$gor_usayi++;
 		}
 
 		else
 		{
 			if ((isset($kullanici_kim['yetki'])) AND ($kullanici_kim['yetki'] == 1))
-				$gor_uyeler .= '<a href="'.linkver($phpkf_dosyalar['profil'].'?u='.$gor_uye['id'].'&kim='.$gor_uye['kullanici_adi'],$gor_uye['kullanici_adi']).'"><i>'.$gor_uye['kullanici_adi'].'</i></a>, ';
+				$gor_uyeler .= '<a href="'.linkver('profil.php?u='.$gor_uye['id'].'&kim='.$gor_uye['kullanici_adi'],$gor_uye['kullanici_adi']).'"><i>'.$gor_uye['kullanici_adi'].'</i></a>, ';
 			$gor_usayi2++;
 		}
 	}
@@ -987,7 +977,7 @@ else {$gor_kisi = ''; $gor_uyeler = '';}
 
 
 // link ağacı
-$forum_anasayfa = '<span><a href="'.$phpkf_dosyalar['forum'].'">'.$l['forum'].' '.$l['anasayfa'].'</a></span>';
+$forum_anasayfa = '<span><a href="'.$forum_index.'">Forum Ana Sayfası</a></span>';
 $konu_baslik = '<span>'.$mesaj_satir['mesaj_baslik'].'</span>';
 
 if ($forum_satir['alt_forum'] != '0')
@@ -1059,7 +1049,7 @@ else	$ornek1->kosul('2', array('' => ''), false);
 
 if (isset($kullanici_kim['id']))
 {
-	$form_bilgi1 = '<form action="phpkf-bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_yazi()" name="duzenleyici_form" id="duzenleyici_form">
+	$form_bilgi1 = '<form action="bilesenler/mesaj_yaz_yap.php" method="post" onsubmit="return denetle_duzenleyici()" name="form1" id="duzenleyici_form">
 	<input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 	<input type="hidden" name="sayfa_onizleme" value="mesaj_yaz">
 	<input type="hidden" name="mesaj_onizleme" value="Önizleme">

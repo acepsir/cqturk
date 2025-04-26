@@ -1,102 +1,84 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
 $phpkf_ayarlar_kip = "";
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 
 
+//  ZARARLI KODLAR TEMİZLENİYOR  //
+
+if ((!isset($_GET['mesaj_no'])) OR (!is_numeric($_GET['mesaj_no']))) $_GET['mesaj_no'] = 0;
+
+if ((!isset($_GET['cevapno'])) OR (!is_numeric($_GET['cevapno']))) $_GET['cevapno'] = 0;
+
+if ((!isset($_GET['cevap_no'])) OR (!is_numeric($_GET['cevap_no']))) $_GET['cevap_no'] = 0;
+
+if ((!isset($_GET['fno'])) OR (!is_numeric($_GET['fno']))) $_GET['fno'] = 0;
+
+if ((!isset($_GET['fno1'])) OR (!is_numeric($_GET['fno1']))) $_GET['fno1'] = 0;
+
+if ((!isset($_GET['fno2'])) OR (!is_numeric($_GET['fno2']))) $_GET['fno2'] = 0;
+
+if ((!isset($_GET['o'])) OR (!preg_match('/^[A-Za-z0-9]+$/', $_GET['o']))) $_GET['o'] = '';
 
 
-//  ZARARLI KODLAR TEMİZLENİYOR - BAŞI  //
 
-if (isset($_GET['mesaj_no'])) $mesaj_no = zkTemizleNumara($_GET['mesaj_no']);
-else $mesaj_no = 0;
-
-if (isset($_GET['cevap_no'])) $cevap_no = zkTemizleNumara($_GET['cevap_no']);
-else $cevap_no = 0;
-
-if (isset($_GET['fno'])) $fno = zkTemizleNumara($_GET['fno']);
-else $fno = 0;
-
-if (isset($_GET['fno1'])) $fno1 = zkTemizleNumara($_GET['fno1']);
-else $fno1 = 0;
-
-if (isset($_GET['fno2'])) $fno2 = zkTemizleNumara($_GET['fno2']);
-else $fno2 = 0;
-
-if (isset($_GET['hata2'])) $hata2 = zkTemizleNumara($_GET['hata2']);
-else $hata2 = 0;
-
-if (isset($_GET['o']))
-{
-	if (preg_match('/^[A-Za-z0-9]+$/', $_GET['o'])) $go = $_GET['o'];
-}
-else $go = '';
-
-
-// sayfalar
 if (isset($_GET['fsayfa']))
 {
-	$fsayfa = zkTemizleNumara($_GET['fsayfa']);
-	$fs = '&amp;fs='.$fsayfa;
-}
-else {$fsayfa = 0; $fs = '';}
-
-if (isset($_GET['sayfa']))
-{
-	$sayfa = zkTemizleNumara($_GET['sayfa']);
-	$ks = '&amp;ks='.$sayfa;
-}
-else {$sayfa = 0; $ks = '';}
-
-
-// gelinen adres
-if (isset($_GET['git']))
-{
-	$git = '?git='.@zkTemizle4($_GET['git']);
-	$git = @zkTemizle($git);
-	$gelinen = '';
-}
-elseif (isset($_SERVER['HTTP_REFERER']))
-{
-	$adres = @zkTemizle4($_SERVER['HTTP_REFERER']);
-	$adres = @zkTemizle($adres);
-	$git = '?git='.$adres;
-	$gelinen = $adres;
+	if (!is_numeric($_GET['fsayfa'])) $_GET['fsayfa'] = 0;
+	if ($_GET['fsayfa'] != 0) $fs = '&amp;fs='.$_GET['fsayfa'];
+	else $fs = '';
 }
 else
 {
-	$git = '';
-	$gelinen = '';
+	$fs = '';
+	$_GET['fsayfa'] = '';
 }
 
-//  ZARARLI KODLAR TEMİZLENİYOR - SONU  //
+if (isset($_GET['sayfa']))
+{
+	if (is_numeric($_GET['sayfa']) == false) $_GET['sayfa'] = 0;
+	if ($_GET['sayfa'] != 0) $ks = '&amp;ks='.$_GET['sayfa'];
+	else $ks = '';
+}
+else
+{
+	$ks = '';
+	$_GET['sayfa'] = '';
+}
 
+if (isset($_GET['git']))
+{
+	$git = '?git='.@zkTemizle($_GET['git']);
+	$git = @zkTemizle4($git);
+}
+elseif (isset($_SERVER['HTTP_REFERER']))
+{
+	$git = '?git='.@zkTemizle($_SERVER['HTTP_REFERER']);
+	$git = @zkTemizle4($git);
+}
+else $git = '';
 
-
-// Dil dosyası yükleniyor
-if (@include_once('phpkf-bilesenler/diller/'.$site_dili.'/hata.php'));
-else include_once('phpkf-bilesenler/diller/tr/hata.php');
 
 
 
@@ -104,121 +86,125 @@ else include_once('phpkf-bilesenler/diller/tr/hata.php');
 //  BİLGİ İLETİLERİ - BAŞI  //
 
 
-$bilgi_no[1] = $lb[1];
+$bilgi_no[1] = '<meta http-equiv="Refresh" content="5;url=konu.php?k='.$_GET['mesaj_no'].$ks.'#c'.$_GET['cevapno'].'">
+İletiniz gönderilmiştir, okumak için <a href="konu.php?k='.$_GET['mesaj_no'].$ks.'#c'.$_GET['cevapno'].'">tıklayın.</a>
+<br>Foruma dönmek için <a href="forum.php?f='.$_GET['fno'].'">tıklayın.</a>';
 
-$bilgi_no[2] = $lb[2];
+$bilgi_no[2] = '<meta http-equiv="Refresh" content="5;url=konu.php?k='.$_GET['mesaj_no'].'">
+İletiniz gönderilmiştir, okumak için <a href="konu.php?k='.$_GET['mesaj_no'].'">tıklayın.</a>
+<br>Foruma dönmek için <a href="forum.php?f='.$_GET['fno'].'">tıklayın.</a>';
 
-$bilgi_no[3] = $lb[3];
+$bilgi_no[3] = '<meta http-equiv="Refresh" content="5;url=konu.php?k='.$_GET['mesaj_no'].'&amp;f='.$_GET['fno'].$fs.'">
+İletiniz değiştirilmiştir, okumak için <a href="konu.php?k='.$_GET['mesaj_no'].'&amp;f='.$_GET['fno'].$fs.'">tıklayın.</a>
+<br>Foruma dönmek için <a href="forum.php?f='.$_GET['fno'].'">tıklayın.</a>';
 
-$bilgi_no[4] = $lb[4];
+$bilgi_no[4] = '<meta http-equiv="Refresh" content="5;url=konu.php?k='.$_GET['mesaj_no'].$ks.'&amp;f='.$_GET['fno'].$fs.'#c'.$_GET['cevapno'].'">
+İletiniz değiştirilmiştir, okumak için <a href="konu.php?k='.$_GET['mesaj_no'].$ks.'&amp;f='.$_GET['fno'].$fs.'#c'.$_GET['cevapno'].'">tıklayın.</a>
+<br>Foruma dönmek için <a href="forum.php?f='.$_GET['fno'].'">tıklayın.</a>';
 
-$bilgi_no[5] = $lb[5];
+$bilgi_no[5] = 'Konuyu ve altındaki tüm cevapları silmek istediğinize emin misiniz ?<br><br><a href="bilesenler/mesaj_sil.php?onay=kabul&amp;kip=mesaj&amp;fno='.$_GET['fno'].'&amp;mesaj_no='.$_GET['mesaj_no'].'&amp;o='.$_GET['o'].$fs.'">Evet</a> &nbsp; - &nbsp; <a href="konu.php?k='.$_GET['mesaj_no'].$fs.'">Hayır</a>';
 
-$bilgi_no[6] = $lb[6];
+$bilgi_no[6] = 'Konu ve tüm cevapları silinmiştir.<br><br>Foruma geri dönmek için <a href="forum.php?f='.$_GET['fno'].$fs.'">tıklayın</a>';
 
-$bilgi_no[7] = $lb[7];
+$bilgi_no[7] = 'Cevabı silmek istediğinize emin misiniz ?<br><br><a href="bilesenler/mesaj_sil.php?onay=kabul&amp;kip=cevap&amp;mesaj_no='.$_GET['mesaj_no'].'&amp;cevap_no='.$_GET['cevap_no'].'&amp;o='.$_GET['o'].$fs.$ks.'">Evet</a> &nbsp; - &nbsp; <a href="konu.php?k='.$_GET['mesaj_no'].$fs.$ks.'">Hayır</a>';
 
-$bilgi_no[8] = $lb[8];
+$bilgi_no[8] = 'Cevap silinmiştir.<br><br>Konuya geri dönmek için <a href="konu.php?k='.$_GET['mesaj_no'].$fs.$ks.'">tıklayın.</a>';
 
-$bilgi_no[9] = $lb[9];
+$bilgi_no[9] = 'Seçtiğiniz konu taşınmıştır.<br><br>Geldiğiniz bölüme dönmek için <a href="forum.php?f='.$_GET['fno1'].'">tıklayın.</a><br>Konuyu taşıdığınız bölüme dönmek için <a href="forum.php?f='.$_GET['fno2'].'">tıklayın.</a>';
 
-$bilgi_no[10] = $lb[10].'<br /><br /><a href="'.$phpkf_dosyalar['profil'].'">'.$lh['tikla_profil'].'</a><meta http-equiv="Refresh" content="5;url='.$phpkf_dosyalar['profil'].'">';
+$bilgi_no[10] = 'Profiliniz Güncellenmiştir...<br><br>Profilinizi görmek için <a href="profil.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=profil.php">';
 
-$bilgi_no[11] = $lb[11];
+$bilgi_no[11] = 'Özel iletiniz gönderilmiştir.<br><br>Gönderilen kutusuna gitmek için <a href="ozel_ileti.php?kip=gonderilen">tıklayın.</a><meta http-equiv="Refresh" content="5;url=ozel_ileti.php?kip=gonderilen"><br><br>Yazdığınız özel iletiyi görmek için <a href="oi_oku.php?oino='.$_GET['cevap_no'].'#hzlcvp">tıklayın.</a>';
 
-$bilgi_no[12] = $lb[12];
+$bilgi_no[12] = 'Forum ayarlarınız güncellenmiştir.<br><br>Yönetim ana sayfasına dönmek için <a href="yonetim/index.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=yonetim/index.php">';
 
-$bilgi_no[13] = $lb[13];
+$bilgi_no[13] = 'E-POSTANIZ GÖNDERİLMİŞTİR...';
 
-$bilgi_no[14] = $lb[14].'<br />'.$lh['spam_kutusu'].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_giris'].'</a>';
+$bilgi_no[14] = 'Etkinleştirme kodu başvurunuz tamamlanmıştır.<br><br>Size gelen E-Postadaki bağlantıyı tıklayarak hesabınızı etkinleştirebilirsiniz.<br><br>Giriş yapmak için <a href="giris.php">tıklayın.</a>';
 
-$bilgi_no[15] = $lb[15].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_giris'].'</a>';
+$bilgi_no[15] = 'Kayıt işleminiz başarıyla tamamlanmıştır. <br><br>Giriş yapmak için <a href="giris.php">tıklayın.</a>';
 
-$bilgi_no[16] = $lb[16].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_giris'].'</a>';
+$bilgi_no[16] = 'Kayıt işleminiz başarıyla tamamlanmıştır.<br><br>Hesabınızı etkinleştirmek için yapmanız gerekenler<br>size gönderilen E-Postada anlatılmaktadır.<br><br>Giriş yapmak için <a href="giris.php">tıklayın.</a>';
 
-$bilgi_no[17] = $lb[17];
+$bilgi_no[17] = 'Kayıt işleminiz başarıyla tamamlanmıştır.<br><br>Hesabınızın etkinleştirilmesi için forum yöneticisinin onayını beklemeniz gerekmektedir.';
 
-$bilgi_no[18] = $lb[18].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_giris'].'</a>';
+$bilgi_no[18] = 'Hesabınız zaten etkinleştirilmiş.';
 
-$bilgi_no[19] = $lb[19].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_giris'].'</a>';
+$bilgi_no[19] = 'Hesabınız etkinleştirilmiştir.<br><br>Giriş yapmak için <a href="giris.php">tıklayın.</a>';
 
-$bilgi_no[20] = $lb[20].'<br />'.$lh['spam_kutusu'].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_giris'].'</a>';
+$bilgi_no[20] = 'Yeni şifre başvurunuz tamamlanmıştır.<br><br>Şifrenizi sıfırlamanız için yapmanız gerekenler<br>size gönderilen E-Postada anlatılmaktadır.<br><br>Giriş yapmak için <a href="giris.php">tıklayın.</a>';
 
-$bilgi_no[21] = $lb[21][0].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lb[21][1].'</a>';
+$bilgi_no[21] = 'Yeni şifreniz oluşturulmuştur.<br><br>Yeni şifrenizle giriş yapmak için <a href="giris.php">tıklayınız.</a>';
 
-$bilgi_no[22] = $lb[22];
+$bilgi_no[22] = 'Yeni Şifre başvurunuz iptal edilmiştir. Eski şifreniz hâlâ geçerlidir.';
 
-$bilgi_no[23] = $lb[23];
+$bilgi_no[23] = 'Kullanıcı hesabı silinmiştir.<br><br>Geri dönmek için <a href="yonetim/kullanicilar.php?kip=engelli">tıklayın.</a>';
 
-$bilgi_no[24] = $lb[24];
+$bilgi_no[24] = 'Kullanıcının engeli kaldırılmıştır.<br><br>Geri dönmek için <a href="yonetim/kullanicilar.php?kip=engelli">tıklayın.</a><br><br>Engeli olmayan kullanıcıları görmek için <a href="yonetim/kullanicilar.php">tıklayın.</a>';
 
-$bilgi_no[25] = $lb[25];
+$bilgi_no[25] = 'Kullanıcı hesabı etkinleştirilmiştir.<br>Geri dönmek için <a href="yonetim/kullanicilar.php?kip=etkisiz">tıklayın.</a><br><br>Etkinleştirilmiş kullanıcıları görmek için <a href="yonetim/kullanicilar.php">tıklayın.</a>';
 
-$bilgi_no[26] = $lb[26];
+$bilgi_no[26] = 'Kullanıcı hesabı silinmiştir.<br><br>Geri dönmek için <a href="yonetim/kullanicilar.php?kip=etkisiz">tıklayın.</a>';
 
-$bilgi_no[27] = $lb[27];
+$bilgi_no[27] = 'Forum dalı içinde bulunan; forumlar, alt forumlar, konular ve <br> cevaplarıyla beraber başarıyla silinmiştir.<br><br>Forum Yönetimi sayfasına dönmek için <a href="yonetim/forumlar.php">tıklayın.</a>';
 
-$bilgi_no[28] = $lb[28];
+$bilgi_no[28] = 'Tüm forumlar, seçmiş olduğunuz forum dalına başarıyla taşınmıştır.<br><br>Forum Yönetimi sayfasına dönmek için <a href="yonetim/forumlar.php">tıklayın.</a>';
 
-$bilgi_no[29] = $lb[29];
+$bilgi_no[29] = 'Forum, forumun konuları ve konuların cevapları başarıyla silinmiştir.<br><br>Forum Yönetimi sayfasına dönmek için <a href="yonetim/forumlar.php">tıklayın.</a>';
 
-$bilgi_no[30] = $lb[30];
+$bilgi_no[30] = 'Forumun konuları ve konuların cevapları başarıyla taşınmıştır.<br><br>Forum Yönetimi sayfasına dönmek için <a href="yonetim/forumlar.php">tıklayın.</a>';
 
-$bilgi_no[31] = $lb[31];
+$bilgi_no[31] = 'Forum, seçtiğiniz forum dalına başarıyla taşınmıştır.<br><br>Forum Yönetimi sayfasına dönmek için <a href="yonetim/forumlar.php">tıklayın.</a>';
 
-$bilgi_no[32] = $lb[32];
+$bilgi_no[32] = 'Üyenin profili güncellenmiştir, görmek için <a href="profil.php?u='.$_GET['mesaj_no'].'">tıklayın.</a><br /><br />Etkin Kullanıcılar sayfasına dönmek için <a href="yonetim/kullanicilar.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=yonetim/kullanicilar.php">';
 
-$bilgi_no[33] = $lb[33];
+$bilgi_no[33] = 'Kullanıcı hesabı etkisizleştirilmiştir.<br>Geri dönmek için <a href="yonetim/kullanicilar.php">tıklayın.</a><br><br>Etkinleştirilmemiş kullanıcıları görmek için <a href="yonetim/kullanicilar.php?kip=etkisiz">tıklayın.</a>';
 
-$bilgi_no[34] = $lb[34];
+$bilgi_no[34] = 'Kullanıcı hesabı silinmiştir.<br><br>Geri dönmek için <a href="yonetim/kullanicilar.php">tıklayın.</a>';
 
-$bilgi_no[35] = $lb[35];
+$bilgi_no[35] = 'Kullanıcı engellenmiştir.<br>Geri dönmek için <a href="yonetim/kullanicilar.php">tıklayın.</a><br><br>Engellenmiş kullanıcıları görmek için <a href="yonetim/kullanicilar.php?kip=engelli">tıklayın.</a>';
 
-$bilgi_no[36] = $lb[36];
+$bilgi_no[36] = 'Forumdaki eski mesajlar silinmiştir.';
 
-$bilgi_no[37] = $lb[37];
+$bilgi_no[37] = 'E-POSTALARINIZ YOLLANMIŞTIR...';
 
-$bilgi_no[38] = $lb[38];
+$bilgi_no[38] = 'Veritabanı yedeğiniz başarıyla geri yüklenmiştir.';
 
-$bilgi_no[39] = $lb[39];
+$bilgi_no[39] = 'Yasaklama bilgileri güncellenmiştir.<br>Geri dönmek için <a href="yonetim/yasaklamalar.php">tıklayın.</a>';
 
-$bilgi_no[40] = $lb[40];
+$bilgi_no[40] = 'Güncelleme Başarıyla Tamamlanmıştır.';
 
-$bilgi_no[41] = $lb[41];
+$bilgi_no[41] = 'Kullanıcı engellenmiştir.<br>Geri dönmek için <a href="yonetim/kullanicilar.php?kip=etkisiz">tıklayın.</a><br><br>Engellenmiş kullanıcıları görmek için <a href="yonetim/kullanicilar.php?kip=engelli">tıklayın.</a>';
 
-$bilgi_no[42] = $lb[42].'<br /><br /><a href="'.$phpkf_dosyalar['profil'].'">'.$lh['tikla_profil'].'</a><meta http-equiv="Refresh" content="5;url='.$phpkf_dosyalar['profil'].'">';
+$bilgi_no[42] = 'E-Posta adresiniz kaydedilmiştir. <br><br>Adres değişikliğin tamamlanması için yapmanız gerekenler <br>size gönderilen E-Postada anlatılmaktadır.<br><br>Profilinizi görmek için <a href="profil.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=profil.php">';
 
-$bilgi_no[43] = $lb[43].'<br /><br /><a href="'.$phpkf_dosyalar['profil'].'">'.$lh['tikla_profil'].'</a><meta http-equiv="Refresh" content="5;url='.$phpkf_dosyalar['profil'].'">';
+$bilgi_no[43] = 'Şifreniz değiştirilmiştir...<br><br>Profilinizi görmek için <a href="profil.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=profil.php">';
 
-$bilgi_no[44] = $lb[44].'<br /><br /><a href="'.$phpkf_dosyalar['profil'].'">'.$lh['tikla_profil'].'</a><meta http-equiv="Refresh" content="5;url='.$phpkf_dosyalar['profil'].'">';
+$bilgi_no[44] = 'Şifreniz ve E-Posta adresiniz kaydedilmiştir. <br><br>Adres değişikliğin tamamlanması için yapmanız gerekenler <br>size gönderilen E-Postada anlatılmaktadır.<br><br>Profilinizi görmek için <a href="profil.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=profil.php">';
 
-$bilgi_no[45] = $lb[45].'<br /><br /><a href="'.$phpkf_dosyalar['profil'].'">'.$lh['tikla_profil'].'</a><meta http-equiv="Refresh" content="5;url='.$phpkf_dosyalar['profil'].'">';
+$bilgi_no[45] = 'Yeni E-Posta adresiniz onaylanmış ve değiştirilmiştir.<br><br>Profilinizi görmek için <a href="profil.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=profil.php">';
 
-$bilgi_no[46] = $lb[46];
+$bilgi_no[46] = 'Özel ileti ayarlarınız güncellenmiştir.<br><br>Geri dönmek için <a href="ozel_ileti.php?kip=ayarlar">tıklayın.</a><meta http-equiv="Refresh" content="5;url=ozel_ileti.php?kip=ayarlar">';
 
-$bilgi_no[47] = $lb[47];
+$bilgi_no[47] = 'Forumdaki eski özel iletiler silinmiştir.<br><br>Yönetim ana sayfasına dönmek için <a href="yonetim/index.php">tıklayın.</a><meta http-equiv="Refresh" content="5;url=yonetim/index.php">';
 
-$bilgi_no[48] = $lb[48];
+$bilgi_no[48] = 'Üye başarıyla oluşturulmuştur, geri dönmek için <a href="yonetim/yeni_uye.php">tıklayın.</a><br><br>Üyenin profilini görmek için <a href="profil.php?u='.$_GET['fno'].'">tıklayın.</a><br>Üyenin profilini değiştirmek için <a href="yonetim/kullanici_degistir.php?u='.$_GET['fno'].'">tıklayın.</a>';
 
-$bilgi_no[49] = $lb[49];
+$bilgi_no[49] = 'Dosya silinmiştir.<br><br>Geri dönmek için <a href="yonetim/yuklemeler.php">tıklayın.</a>';
 
-$bilgi_no[50] = $lb[50];
+$bilgi_no[50] = 'Dosya silinmiştir.<br><br>Geri dönmek için <a href="profil_degistir.php?kosul=yuklemeler">tıklayın.</a>';
 
-$bilgi_no[51] = $lb[51];
+$bilgi_no[51] = 'E-Posta adresiniz onaylanmıştır.<br><br>Hesabınızın etkinleştirilmesi için forum yöneticisinin onayını beklemelisiniz.';
 
-$bilgi_no[52] = $lb[52];
+$bilgi_no[52] = 'Yorum silinmiştir.<br><br>Geri dönmek için <a href="yonetim/silinmis.php">tıklayın.</a>';
 
-$bilgi_no[53] = $lb[53];
+$bilgi_no[53] = 'Yorum başarıyla geri yüklenmiştir.<br><br>Geri dönmek için <a href="yonetim/silinmis.php">tıklayın.</a>';
 
-$bilgi_no[54] = $lb[54];
+$bilgi_no[54] = 'Bildirim silinmiştir.<br><br>Geri dönmek için <a href="profil_degistir.php?kosul=bildirim">tıklayın.</a>';
 
-$bilgi_no[55] = $lb[55];
+$bilgi_no[55] = 'Takip ayarlarınız değiştirilmiştir....<br><br>Geri dönmek için <a href="profil_degistir.php?kosul=takip">tıklayın.</a>';
 
-$bilgi_no[500] = $lb[500].'<br /><br /><a href="'.$phpkf_dosyalar['cms'].'">'.$lh['tikla_anasayfa'].'</a>';
-
-$bilgi_no[501] = '<meta http-equiv="Refresh" content="5;url='.$gelinen.'#yorumlar" />'.$lb[501].', <a href="'.$gelinen.'#yorumlar">'.$lh['tikla_geri2'].'</a>';
-
-$bilgi_no[502] = '<meta http-equiv="Refresh" content="5;url='.$gelinen.'" />'.$lb[502].'<br /><a href="'.$gelinen.'">'.$lh['tikla_geri1'].'</a>';
+$bilgi_no[56] = 'Başarıyla Giriş Yaptınız!';
 
 
 //  BİLGİ İLETİLERİ - SONU  //
@@ -229,463 +215,436 @@ $bilgi_no[502] = '<meta http-equiv="Refresh" content="5;url='.$gelinen.'" />'.$l
 
 
 
-
-
-
 //  HATA İLETİLERİ - BAŞI  //
 
 
-$hata_no[1] = $lh[1];
+$hata_no[1] = 'Son aramanızın üzerinden belli bir süre geçmeden yeni arama yapamazsınız !';
 
-$hata_no[2] = $lh[2];
+$hata_no[2] = 'Tüm alanlar boş bırakılamaz !<br>Aradığınız sözcük 3 harfden uzun olmalıdır !<br><br>Lütfen <a href="arama.php">geri</a> dönüp aramak istediğiniz sözcüğü ilgili bölüme giriniz.';
 
-$hata_no[3] = $lh[3];
+$hata_no[3] = 'Bu konuyu taşımaya yetkiniz yok !';
 
-$hata_no[4] = $lh[4];
+$hata_no[4] = 'Gönderilen kısmı boş bırakılamaz !';
 
-$hata_no[5] = $lh[5];
+$hata_no[5] = 'E-posta başlığı en az 3, en fazla 60 karakterden oluşmalıdır.<br><br>E-posta içeriği en az 3 karakterden oluşmalıdır.';
 
-$hata_no[6] = str_replace('{00}', $ayarlar['yorum_sure'], $lh[6]);
+$hata_no[6] = 'Yolladığınız son iletinin üzerinden<br>'.$ayarlar['ileti_sure'].' saniye geçmeden başka bir ileti gönderemezsiniz.';
 
-$hata_no[7] = $lh[7];
+$hata_no[7] = 'Hatalı kullanıcı adı !<br><br>Göndermek istediğiniz kişiyi kontrol edip tekrar deneyiniz.';
 
-$hata_no[8] = $lh[8];
+$hata_no[8] = 'Lütfen E-Posta adresinizi yazınız !';
 
-$hata_no[9] = $lh[9];
+$hata_no[9] = 'E-Posta adresiniz 70 karakterden uzun olamaz !';
 
-$hata_no[10] = $lh[10];
+$hata_no[10] = 'E-Posta adresiniz hatalı !';
 
-$hata_no[11] = '<font color="#007900">'.$lh[11][0].'</font> <br /><br />'.$lh[11][1].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'?kip=etkinlestir">'.$lh[11][2].'</a>';
+$hata_no[11] = '<font color="#007900">Kayıt işleminiz başarıyla tamamlanmıştır.</font> <br><br>Fakat sunucudaki bir hatadan dolayı E-postanız gönderilememiştir !<br><br><font class="liste-etiket">İstediğiniz zaman <a href="etkinlestir.php">buradan</a> etkinleştirme kodu başvurusunda bulunabilirsiniz.</font>';
 
-$hata_no[12] = $lh[12];
+$hata_no[12] = 'Bu E-Posta adresine bağlı hesabınız zaten etkinleştirilmiş !';
 
-$hata_no[13] = $lh[13];
+$hata_no[13] = 'Yazdığınız E-Posta adresi veritabanında bulunmamaktadır !';
 
-$hata_no[14] = $lh[14];
+$hata_no[14] = 'Seçtiğiniz bölüm veritabanında bulunmamaktadır !';
 
-$hata_no[15] = $lh[15];
+$hata_no[15] = 'Bu bölüme sadece yöneticiler girebilir !';
 
-$hata_no[16] = $lh[16];
+$hata_no[16] = 'Bu bölüme sadece yöneticiler ve yardımcılar girebilir !';
 
-$hata_no[17] = $lh[17];
+$hata_no[17] = 'Bu bölüme sadece, yöneticinin verdiği özel yetkilere sahip üyeler girebilir !';
 
-$hata_no[18] = $lh[18];
+$hata_no[18] = 'Lütfen kullanıcı adı ve şifrenizi giriniz !';
 
-$hata_no[19] = $lh[19];
+$hata_no[19] = 'Kullanıcı adı en az 4, en fazla 20 karakter olmalıdır !';
 
-$hata_no[20] = $lh[20];
+$hata_no[20] = 'Şifreniz en az 5, en fazla 20 karakter olmalıdır !';
 
-$hata_no[21] = str_replace('{00}', ($ayarlar['uye_kilit_sure'] / 60), $lh[21]);
+$hata_no[21] = 'Beş başarısız giriş denemesi yaptınız.<br>'.($ayarlar['kilit_sure'] / 60).' dakika boyunca hesabınız kilitlenmiştir.';
 
-$hata_no[22] = $lh[22].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_geri3'].'</a><br /><br /><a href="'.$phpkf_dosyalar['giris'].'?kip=yeni_sifre">'.$lh['tikla_hatirla1'].'</a>';
+$hata_no[22] = 'Şifreniz Hatalı!<br>Caps Lock açık kalmış olabilir, şifrelerde büyük/küçük harf ayrımı vardır.<br><br>Lütfen geri dönüp <a href="giris.php">tekrar</a> deneyin.';
 
-$hata_no[23] = $lh[23][0].'<br />'.$lh['spam_kutusu'].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'?kip=etkinlestir">'.$lh[23][1].'</a>';
+$hata_no[23] = 'Hesabınız henüz etkinleştirilmemiş !<br><br>Hesabınızı etkinleştirmek için yapmanız gerekenler <br>size gönderilen E-Postada anlatılmaktadır.<br><br><a href="etkinlestir.php">Etkinleştirme kodunu tekrar yolla</a>';
 
-$hata_no[24] = $lh[24];
+$hata_no[24] = 'Hesabınız engellenmiştir !';
 
-$hata_no[25] = $lh[25];
+$hata_no[25] = 'Çok fazla kayıt girişiminde bulundunuz. Daha sonra tekrar deneyin !';
 
-$hata_no[26] = $lh[26];
+$hata_no[26] = 'Tüm bölümlerin doldurulması zorunludur !';
 
-$hata_no[27] = $lh[27];
+$hata_no[27] = 'Kullanıcı adında geçersiz karakterler var ! <br><br>Latin ve Türkçe harf, rakam, alt çizgi( _ ), tire ( - ), nokta ( . ) kullanılabilir. <br>Bunların dışındaki özel karakterleri ve boşluk karakterini içeremez.';
 
-$hata_no[28] = $lh[28];
+$hata_no[28] = 'Kullanıcı adı en az 4, en fazla 20 karakter olmalıdır !';
 
-$hata_no[29] = $lh[29];
+$hata_no[29] = 'Bu kullanıcı adı yasaklanmıştır, lütfen başka bir kullanıcı adı deneyin !';
 
-$hata_no[30] = $lh[30];
+$hata_no[30] = 'Bu E-Posta adresi yasaklanmıştır !';
 
-$hata_no[31] = $lh[31];
+$hata_no[31] = '"Ad Soyad - Lâkap" alanında geçersiz karakterler var !<br><br>Latin ve Türkçe harf, rakam, boşluk, alt çizgi( _ ), tire ( - ), nokta ( . ) kullanılabilir. <br>Bunların dışındaki özel karakterleri içeremez.';
 
-$hata_no[32] = $lh[32];
+$hata_no[32] = '"Ad Soyad - Lâkap" en az 4, en fazla 30 karakter olmalıdır !';
 
-$hata_no[33] = $lh[33];
+$hata_no[33] = 'Yazdığınız şifreler uyuşmuyor !';
 
-$hata_no[34] = $lh[34];
+$hata_no[34] = 'Şifrenizde geçersiz karakterler var ! <br><br>Latin harf, rakam, alt çizgi( _ ), tire ( - ), and ( & ), nokta ( . ) kullanılabilir. <br>Bunların dışındaki özel karakterleri, Türkçe karakterleri ve boşluk karakterini içeremez.';
 
-$hata_no[35] = $lh[35];
+$hata_no[35] = 'Şifreniz en az 5, en fazla 20 karakter olmalıdır !';
 
-$hata_no[36] = $lh[36];
+$hata_no[36] = 'Konum geçersiz !';
 
-$hata_no[37] = $lh[37];
+$hata_no[37] = 'Doğum tarihi geçersiz !';
 
-$hata_no[38] = $lh[38];
+$hata_no[38] = 'Doğum tarihinin yıl kısmı geçersiz !<br>Lütfen 1981 şeklinde 4 rakam ile yazınız.';
 
-$hata_no[39] = $lh[39];
+$hata_no[39] = 'Silmeye çalıştığınız forumun alt forumları var. Önce alt forumlarını  silin !';
 
-$hata_no[40] = $lh[40];
+$hata_no[40] = 'E-Posta adresiniz 70 karakterden uzun olamaz !';
 
-$hata_no[41] = $lh[41];
+$hata_no[41] = 'Kayıt güvenlik sorusunun cevabı hatalı !<br><br>Genelde buraya sadece robot programların giremeyeceği çok kolay sorular yazılır.<br><br>Cevabı tahmin edemiyorsanız forum yöneticisiyle iletişime geçin.';
 
-$hata_no[42] = $lh[42];
+$hata_no[42] = 'Bu kullanıcı adı kullanılmaktadır, lütfen başka bir isim deneyin !';
 
-$hata_no[43] = $lh[43];
+$hata_no[43] = 'Bu E-posta adresiyle daha önce kayıt yapılmıştır !';
 
-$hata_no[44] = $lh['onay_kodu_hatali'].'<br /><br /><a href="'.$phpkf_dosyalar['kayit'].'">'.$lh['tikla_geri3'].'</a>';
+$hata_no[44] = 'Onay kodunu yanlış girdiniz. Lütfen geri dönüp <a href="kayit.php">tekrar</a> deneyiniz.';
 
-$hata_no[45] = $lh[45];
+$hata_no[45] = 'Hatalı Adres !<br>Lütfen kontrol edip tekrar deneyin.';
 
-$hata_no[46] = $lh[46];
+$hata_no[46] = 'Forumda bu isimde bir üye bulunmamaktadır !';
 
-$hata_no[47] = $lh[47];
+$hata_no[47] = 'Seçtiğiniz konu veritabanında bulunmamaktadır !';
 
-$hata_no[48] = $lh[48];
+$hata_no[48] = 'Etkinleştirme kodunuzda eksik var, ya da adresi eksik kopyaladınız.<br><br>Lütfen kontrol edip tekrar deneyiniz.<br>Yine aynı sorunla karşılaşırsanız forum yöneticisine başvurun.';
 
-$hata_no[49] = $lh[49];
+$hata_no[49] = 'Etkinleştirme kodunuz hatalı, ya da adresi eksik kopyaladınız.<br><br>Lütfen kontrol edip tekrar deneyiniz.<br>Yine aynı sorunla karşılaşırsanız forum yöneticisine başvurun.';
 
-$hata_no[50] = $lh[50];
+$hata_no[50] = 'Kilitli konuları değiştiremezsiniz !';
 
-$hata_no[51] = $lh[51];
+$hata_no[51] = 'Kilitli konuların cevaplarını değiştiremezsiniz !';
 
-$hata_no[52] = $lh[52];
+$hata_no[52] = 'Bu iletiyi değiştirmeye yetkiniz yok !';
 
-$hata_no[53] = $lh[53];
+$hata_no[53] = 'İleti başlığı en az 3, en fazla 53 karakterden oluşmalıdır.<br><br>İleti içeriği en az 3 karakterden oluşmalıdır.';
 
-$hata_no[54] = $lh[54];
+$hata_no[54] = 'Bu konuyu kilitlemeye veya açmaya yetkiniz yok !';
 
-$hata_no[55] = $lh[55];
+$hata_no[55] = 'Seçtiğiniz cevap veritabanında bulunmamaktadır !';
 
-$hata_no[56] = $lh[56];
+$hata_no[56] = 'Bu iletiyi silmeye yetkiniz yok !';
 
-$hata_no[57] = $lh[57];
+$hata_no[57] = 'Kilitli konulara cevap yazamazsınız !';
 
-$hata_no[58] = $lh[58];
+$hata_no[58] = 'Bu bölüme sadece yöneticiler cevap yazabilir !';
 
-$hata_no[59] = $lh[59];
+$hata_no[59] = 'Bu bölüme sadece yöneticiler ve yardımcılar cevap yazabilir !';
 
-$hata_no[60] = $lh[60];
+$hata_no[60] = 'Bu bölüme sadece, yöneticinin verdiği özel yetkilere sahip üyeler cevap yazabilir !';
 
-$hata_no[61] = $lh[61];
+$hata_no[61] = 'Site kurucusunu etkisizleştiremezsiniz !';
 
-$hata_no[62] = $lh[62];
+$hata_no[62] = 'Aradığınız özel ileti bulunamıyor.<br>Silinmiş ya da okuma yetkiniz olmayabilir.';
 
-$hata_no[63] = $lh[63];
+$hata_no[63] = 'Gönderilen kısmı boş bırakılamaz !';
 
-$hata_no[64] = $lh[64];
+$hata_no[64] = 'Özel ileti başlığı en az 3, en fazla 60 karakterden oluşmalıdır.<br><br>Özel İleti içeriği en az 3 karakterden oluşmalıdır.';
 
-$hata_no[65] = str_replace('{00}', $ayarlar['yorum_sure'], $lh[65]);
+$hata_no[65] = 'Yolladığınız son iletinin üzerinden '.$ayarlar['ileti_sure'].' saniye geçmeden başka bir ileti gönderemezsiniz.';
 
-$hata_no[66] = $lh[66];
+$hata_no[66] = 'Forumda bu isimde bir üye bulunmamaktadır.<br>Lütfen geri dönüp tekrar deneyin.';
 
-$hata_no[67] = $lh[67];
+$hata_no[67] = 'Gönderdiğiniz kişinin Gelen Kutusu dolu olduğundan ileti gönderilemedi.';
 
-$hata_no[68] = $lh[68];
+$hata_no[68] = 'Seçim yapmadınız !';
 
-$hata_no[69] = $lh[69];
+$hata_no[69] = 'Bu özel iletiyi silmeye yetkiniz yok!';
 
-$hata_no[70] = $lh[70];
+$hata_no[70] = 'Kaydedilen kutunuz dolu.<br>Boşaltmadan başka ileti kaydedemezsiniz.';
 
-$hata_no[71] = $lh[71];
+$hata_no[71] = 'Bu iletiyi kaydetmeye yetkiniz yok!';
 
-$hata_no[72] = $lh[72];
+$hata_no[72] = 'Kullanıcı adı 20 karakterden uzun olamaz !';
 
-$hata_no[73] = $lh[73];
+$hata_no[73] = '* işaretli bölümlerin doldurulması zorunludur !';
 
-$hata_no[74] = $lh[74];
+$hata_no[74] = 'Doğum tarihi geçersiz !<br>Lütfen tire(-)lerde dahil olmaz üzere 31-12-1985 şeklinde yazınız.';
 
-$hata_no[75] = $lh[75];
+$hata_no[75] = 'Web Adresiniz 100 karakterden uzun olamaz !';
 
-$hata_no[76] = $lh[76];
+$hata_no[76] = 'Tema dizini adı, alt çizgi( _ ) ve tire ( - ) dışındaki özel karakterleri ve Türkçe karakterleri içeremez !';
 
-$hata_no[77] = $lh[77];
+$hata_no[77] = 'Tema klasörünün adı 20 karakterden uzun olamaz !';
 
-$hata_no[78] =  str_replace('{00}', $ayarlar['uye_imza_uzunluk'], $lh[78]);
+$hata_no[78] = 'İmzanız '.$ayarlar['imza_uzunluk'].' karakterden uzun olamaz !';
 
-$hata_no[79] = $lh[79];
+$hata_no[79] = 'ICQ Numaranız 30 karakterden uzun olamaz !';
 
-$hata_no[80] = $lh[80];
+$hata_no[80] = 'Facebook adresiniz 100 karakterden uzun olamaz !';
 
-$hata_no[81] = $lh[81];
+$hata_no[81] = 'Skype - MSN Messenger Adınız 100 karakterden uzun olamaz !';
 
-$hata_no[82] = $lh[82];
+$hata_no[82] = 'Yahoo! Messenger Adınız 100 karakterden uzun olamaz !';
 
-$hata_no[83] = $lh[83];
+$hata_no[83] = 'Twitter adresiniz 100 karakterden uzun olamaz !';
 
-$hata_no[84] = $lh[84];
+$hata_no[84] = 'Yüklemeye çalıştığınız resim bozuk !';
 
-$hata_no[85] = $lh[85];
+$hata_no[85] = 'Sadece jpeg, gif veya png resimleri yüklenebilir ! <br>Eğer dosyanız doğru tipte ise bozuk olabilir.';
 
-$hata_no[86] = str_replace('{00}', ($ayarlar['uye_resim_boyut']/1024), $lh[86]);
+$hata_no[86] = 'Yüklemeye çalıştığınız resim '.($ayarlar['resim_boyut']/1024).' kilobayt`dan büyük !';
 
-$hata_no[87] = str_replace('{00}', ($ayarlar['uye_resim_genislik'].'x'.$ayarlar['uye_resim_yukseklik']), $lh[87]);
+$hata_no[87] = 'Yüklemeye çalıştığınız resmin boyutları '.$ayarlar['resim_genislik'].'x'.$ayarlar['resim_yukseklik'].'`den büyük !';
 
-$hata_no[88] = $lh[88];
+$hata_no[88] = 'Dosya yüklenemedi !<br><br>Yöneticiyseniz FTP programınızdan dosyalar/resimler/yuklenen/<br>dizinine yazma hakkı vermeyi (chmod 777) deneyin.';
 
-$hata_no[89] = $lh[89];
+$hata_no[89] = 'Uzak resim, kontrol edilirken bir sorunla karşılaşıldı.<br>Sunucunun uzak dosya erişimi kapatılmış olabilir ya da <br>adreste veya resim dosyasında bir sorun olabilir.';
 
-$hata_no[90] = str_replace('{00}', ($ayarlar['uye_resim_boyut']/1024), $lh[90]);
+$hata_no[90] = 'Eklemeye çalıştığınız resim '.($ayarlar['resim_boyut']/1024).' kilobayt`dan büyük !';
 
-$hata_no[91] = str_replace('{00}', ($ayarlar['uye_resim_genislik'].'x'.$ayarlar['uye_resim_yukseklik']), $lh[91]);
+$hata_no[91] = 'Eklemeye çalıştığınız resmin boyutları '.$ayarlar['resim_genislik'].'x'.$ayarlar['resim_yukseklik'].'`den büyük !';
 
-$hata_no[92] = $lh[92];
+$hata_no[92] = 'E-Posta Adresini Göster, Doğum Tarihini Göster, Konum Göster ve <br>Çevrimiçi Durumunu Göster ayarları sadece açık-kapalı değeri alabilir !';
 
-$hata_no[93] = $lh[93];
+$hata_no[93] = 'Bu E-posta adresi başka bir kullanıcıya aittir !';
 
-$hata_no[94] = $lh[94];
+$hata_no[94] = 'YETKİNİZ YOK !!!';
 
-$hata_no[95] = $lh[95];
+$hata_no[95] = 'Buradaki yazıları ancak forum üzerinden okuyabilirsiniz.';
 
-$hata_no[96] = $lh[96];
+$hata_no[96] = 'Yeni Şifre kodunuz hatalı, ya da adresi eksik kopyaladınız.<br>Lütfen kontrol edip tekrar deneyiniz.<br>Yine aynı sorunla karşılaşırsanız forum yöneticisine başvurun.';
 
-$hata_no[97] = $lh[97];
+$hata_no[97] = 'Çok fazla girişiminde bulundunuz. Daha sonra tekrar deneyin !';
 
-$hata_no[98] = $lh[98];
+$hata_no[98] = 'Tüm alanları doldurmalısınız! <i>(SMTP sunucusu ayarları hariç)</i>';
 
-$hata_no[99] = $lh[99];
+$hata_no[99] = 'Sayfa başlığı 100 karakterden uzun olamaz !';
 
-$hata_no[100] = $lh[100];
+$hata_no[100] = 'Alan adı 100 karakterden uzun olamaz !';
 
-$hata_no[101] = $lh[101];
+$hata_no[101] = 'Dizin adı 100 karakterden uzun olamaz !';
 
-$hata_no[102] = $lh[102];
+$hata_no[102] = 'Konu ve cevap sayısı alanlarına en fazla 99 değerini girebilirsiniz !';
 
-$hata_no[103] = $lh[103];
+$hata_no[103] = 'Konu ve cevap sayısı alanları sadece rakamdan oluşabilir !';
 
-$hata_no[104] = $lh[104];
+$hata_no[104] = 'Çerez geçerlilik süresi sadece rakamdan oluşabilir !';
 
-$hata_no[105] = $lh[105];
+$hata_no[105] = 'Çerez geçerlilik süreleri en fazla 5 rakamdan oluşabilir !<br><br>Yani en fazla 99`999 dakika değerini alabilir ki bu da 69 gün eder.';
 
-$hata_no[106] = $lh[106];
+$hata_no[106] = 'İki ileti arası bekleme süresi sadece rakamdan oluşabilir !';
 
-$hata_no[107] = $lh[107];
+$hata_no[107] = 'İki ileti arası bekleme süresi en fazla 86`400 saniye alabilir ki bu da 24 saat eder.';
 
-$hata_no[108] = $lh[108];
+$hata_no[108] = 'Hesap kilit süresi sadece rakamdan oluşabilir !';
 
-$hata_no[109] = $lh[109];
+$hata_no[109] = 'Beş başarısız girişten sonra hesabın kilitli kalacağı süre<br>en fazla 1440 dakika olabilir ki bu da 24 saat eder.';
 
-$hata_no[110] = $lh[110];
+$hata_no[110] = 'Kayıt sorusu açık kapalı ayarları sadece açık-kapalı değeri alabilir !';
 
-$hata_no[111] = $lh[111];
+$hata_no[111] = 'Kayıt sorusu ve cevabı 100 karakterden uzun olamaz !';
 
-$hata_no[112] = $lh[112];
+$hata_no[112] = 'İmza uzunluğu 1 ila 500 arası olabilir !';
 
-$hata_no[113] = $lh[113];
+$hata_no[113] = 'Tarih biçimi en fazla 20 karakter olabilir !';
 
-$hata_no[114] = $lh[114];
+$hata_no[114] = 'Zaman dilimi 1 ila  4 karakter arası olabilir !';
 
-$hata_no[115] = $lh[115];
+$hata_no[115] = 'Hatalı forum rengi !';
 
-$hata_no[116] = $lh[116];
+$hata_no[116] = 'Hesap Etkinleştirme ayarı sadece kapalı, kullanıcı ve yönetici değerlerini alabilir !';
 
-$hata_no[117] = $lh[117];
+$hata_no[117] = 'BBCode, Özel ileti ve Güncel Konular ayarları sadece açık-kapalı değeri alabilir !';
 
-$hata_no[118] = $lh[118];
+$hata_no[118] = 'Gösterilecek güncel konu sayısı ayarı sadece rakamdan oluşabilir !';
 
-$hata_no[119] = $lh[119];
+$hata_no[119] = 'Gösterilecek güncel konu sayısı ayarı 50`den fazla olamaz !';
 
-$hata_no[120] = $lh[120];
+$hata_no[120] = 'Site kurucusu adı 100 karakterden uzun olamaz !';
 
-$hata_no[121] = $lh[121];
+$hata_no[121] = 'Forum yöneticisi adı 100 karakterden uzun olamaz !';
 
-$hata_no[122] = $lh[122];
+$hata_no[122] = 'Forum yardımcısı adı 100 karakterden uzun olamaz !';
 
-$hata_no[123] = $lh[123];
+$hata_no[123] = 'Kayıtlı kullanıcı adı 100 karakterden uzun olamaz !';
 
-$hata_no[124] = $lh[124];
+$hata_no[124] = 'Gelen, ulaşan ve kaydedilen kutusu kota değerleri en fazla 3 rakamdan oluşabilir !<br><br>Yani en fazla 999 değerini alabilir.';
 
-$hata_no[125] = $lh[125];
+$hata_no[125] = 'Gelen, ulaşan ve kaydedilen kutusu kota değerleri sadece rakamdan oluşabilir !';
 
-$hata_no[126] = $lh[126];
+$hata_no[126] = 'Resim yükleme özelliği sadece açık-kapalı değeri alabilir !';
 
-$hata_no[127] = $lh[127];
+$hata_no[127] = 'Uzak resim özelliği sadece açık-kapalı değeri alabilir !';
 
-$hata_no[128] = $lh[128];
+$hata_no[128] = 'Resim galerisi özelliği sadece açık-kapalı değeri alabilir !';
 
-$hata_no[129] = $lh[129];
+$hata_no[129] = 'Resim dosyasının büyüklüğü 1 ila 999 kb. arası olabilir !';
 
-$hata_no[130] = $lh[130];
+$hata_no[130] = 'Resim boyutu en büyük 999 x 999 arası olabilir !';
 
-$hata_no[131] = $lh[131];
+$hata_no[131] = 'Yönetici E-Posta adresi 100 karakterden uzun olamaz !';
 
-$hata_no[132] = $lh[132];
+$hata_no[132] = 'E-Posta yöntemi sadece mail, sendmail ve smtp değerlerini alabilir !';
 
-$hata_no[133] = $lh[133];
+$hata_no[133] = 'SMTP kimlik doğrulaması alanı sadece true ve false değerlerini alabilir !';
 
-$hata_no[134] = $lh[134];
+$hata_no[134] = 'SMTP sunucu adresi 100 karakterden uzun olamaz !';
 
-$hata_no[135] = $lh[135];
+$hata_no[135] = 'SMTP kullanıcı adı 100 karakterden uzun olamaz !';
 
-$hata_no[136] = $lh[136];
+$hata_no[136] = 'SMTP şifresi 100 karakterden uzun olamaz !';
 
-$hata_no[137] = $lh[137];
+$hata_no[137] = 'Site kurucusunu silemezsiniz !';
 
-$hata_no[138] = $lh[138];
+$hata_no[138] = 'Bir hata oluştu ya da sayfaya doğrudan erişmeye çalışıyorsunuz. <br>Yapmak istediğiniz işlemi <a href="yonetim/forumlar.php">Forum Yönetimi</a> sayfasından seçiniz.';
 
-$hata_no[139] = $lh[139];
+$hata_no[139] = 'Seçtiğiniz forum dalı veritabanında bulunmamaktadır !';
 
-$hata_no[140] = $lh[140];
+$hata_no[140] = 'Forum dalı başlığını girmeyi unuttunuz !';
 
-$hata_no[141] = $lh[141];
+$hata_no[141] = 'Forum başlığını girmeyi unuttunuz !';
 
-$hata_no[142] = $lh[142];
+$hata_no[142] = 'Taşımak istediğniz forum dalını seçmeyi unuttunuz. <br><br>Lütfen geri dönüp tekrar deneyin.';
 
-$hata_no[143] = $lh[143];
+$hata_no[143] = 'Taşımak istediğniz forumu seçmeyi unuttunuz. <br><br>Lütfen geri dönüp tekrar deneyin.';
 
-$hata_no[144] = $lh[144];
+$hata_no[144] = 'Yönetim Yetkiniz Yok !';
 
-$hata_no[145] = $lh[145];
+$hata_no[145] = '<a href="yonetim/kullanicilar.php">Bu sayfadan</a> istediğiniz üyenin kullanıcı adını tıklayın.<br><br>Açılan "Kullanıcı Profilini Değiştir" sayfasındaki, Diğer Yetkiler bağlantısını tıklayın.<br><br>Açılan sayfadan özel yetki vermek istediğiniz forumu seçerek kullanıcıya istediğiniz özel yetkiyi verebilirsiniz. ';
 
-$hata_no[146] = $lh[146];
+$hata_no[146] = 'Seçtiğiniz forumun yetkisi sadece yöneticilere verilmiş.<br>Özel bir üyeye izin veremezsiniz !';
 
-$hata_no[147] = $lh[147];
+$hata_no[147] = 'Site kurucusunun bilgilerini buradan değişteremezsiniz !';
 
-$hata_no[148] = $lh[148];
+$hata_no[148] = 'Yetki alanı verisi geçersiz !';
 
-$hata_no[149] = $lh[149];
+$hata_no[149] = 'Site kurucusunu engelleyemezsiniz !';
 
-$hata_no[150] = $lh[150];
+$hata_no[150] = 'Varsayılan tema seçeneklerden kaldırılamaz !';
 
-$hata_no[151] = $lh[151];
+$hata_no[151] = 'Bu sayfaya sadece site kurucusu girebilir.';
 
-$hata_no[152] = $lh[152];
+$hata_no[152] = 'Forum seçmeyi unuttunuz !';
 
-$hata_no[153] = $lh[153];
+$hata_no[153] = 'Gün alanına 1 ila 999 arasında bir sayı girmelisiniz.';
 
-$hata_no[154] = $lh[154];
+$hata_no[154] = 'Seçmiş olduğunuz grupta hiçbir üye bulunmamaktadır !';
 
-$hata_no[155] = $lh[155];
+$hata_no[155] = 'Sunucunuz sıkıştırılmış dosya oluşturulmasını desteklemiyor !';
 
-$hata_no[156] = $lh[156];
+$hata_no[156] = 'Dosya Yüklenemedi, Dosya adı alınamadı !<br><br>Bunun nedeni dosyanın 2mb.`dan büyük olması ya da<br>dosya adının kabul edilemeyen karakterler içermesi olabilir. <br><br>Yedeği tablo tablo ayrı dosyalara bölmeyi deneyin veya dosya adını değiştirmeyi deneyin.';
 
-$hata_no[157] = $lh[157];
+$hata_no[157] = '2mb.`dan büyük yedek yükleyemezsiniz. <br>Yedeği tablo tablo ayrı dosyalara bölmeyi deneyin.';
 
-$hata_no[158] = $lh[158];
+$hata_no[158] = 'Sunucunuz sıkıştırılmış dosya yüklemesini desteklemiyor !';
 
-$hata_no[159] = $lh[159];
+$hata_no[159] = 'Sadece .sql ve .gz uzantılı dosyalar yüklenebilir !';
 
-$hata_no[160] = $lh[160];
+$hata_no[160] = 'BBCode, Özel ileti, Forum durumu, Portal kullanımı, Kayıt Onay Kodu, SEO,<br> Üye Alımı, Boyutlandırma, Güncel Konular, Bölüm ve Konu görüntüleyenler<br> ayarları sadece açık-kapalı değeri alabilir !';
 
-$hata_no[161] = $lh[161];
+$hata_no[161] = 'Seçtiğiniz bölüm kapatılmış.<br>Özel bir üyeye izin veremezsiniz !';
 
-$hata_no[162] = $lh[162];
+$hata_no[162] = 'Çevrimiçi süresi sadece rakamdan oluşabilir !';
 
-$hata_no[163] = $lh[163];
+$hata_no[163] = 'Çevrimiçi süresi için en fazla 99 dakika değerini girebilirsiniz !';
 
-$hata_no[164] = $lh[164];
+$hata_no[164] = 'Bu bölüm kapatılmıştır !';
 
-$hata_no[165] = $lh[165];
+$hata_no[165] = 'Bu bölüme sadece yöneticiler konu açabilir !';
 
-$hata_no[166] = $lh[166];
+$hata_no[166] = 'Bu bölüme sadece yöneticiler ve yardımcılar konu açabilir !';
 
-$hata_no[167] = $lh[167];
+$hata_no[167] = 'Bu bölüme sadece, yöneticinin verdiği özel yetkilere sahip üyeler konu açabilir !';
 
-$hata_no[168] = $lh[168];
+$hata_no[168] = 'Bu konu daha önceden geri yüklenmiş veya silinmemiş !';
 
-$hata_no[169] = $lh[169];
+$hata_no[169] = 'Bu cevap daha önceden geri yüklenmiş veya silinmemiş !';
 
-$hata_no[170] = $lh[170];
+$hata_no[170] = 'Bu konuyu üst veya alt konu yapmaya yetkiniz yok !';
 
-$hata_no[171] = $lh[171];
+$hata_no[171] = 'Kurmaya çalıştığınız eklentinin adında kabul edilmeyen karakterler var !';
 
-$hata_no[172] = $lh[172];
+$hata_no[172] = '/eklentiler dizinine yazılamıyor ! <br><br>Eklenti kurulumu için bu dizine yazma hakkı (chmod 777) vermelisiniz.';
 
-$hata_no[173] = $lh[173];
+$hata_no[173] = 'Belirtilen eklenti dosyası bulunamıyor ! <br><br>Tıkladığınız adresi kontrol edip tekrar deneyin.';
 
-$hata_no[174] = $lh[174];
+$hata_no[174] = 'Bu eklenti zaten kurulu !';
 
-$hata_no[175] = $lh[175];
+$hata_no[175] = 'Sunucudaki bir hatadan dolayı onay E-Postası gönderilememiştir !<br> <br>Lütfen daha sonra tekrar deneyin ve durumu yöneticiye bildirin.';
 
-$hata_no[176] = $lh[176];
+$hata_no[176] = 'Bu üye kimseden özel ileti kabul etmiyor !';
 
-$hata_no[177] = $lh[177];
+$hata_no[177] = 'Bu üye sizden özel ileti kabul etmiyor !';
 
-$hata_no[178] = $lh[178];
+$hata_no[178] = 'Bu üye forumdan uzaklaştırılmış !';
 
-$hata_no[179] = $lh[179];
+$hata_no[179] = 'Bu üyenin hesabı henüz etkinleştirilmemiş !';
 
-$hata_no[180] = $lh[180];
+$hata_no[180] = 'Tarayıcınız çerez kabul etmiyor !<br>Tarayıcınızın çerez özelliği kapalı veya desteklemiyor olabilir.<br><br>Giriş yapabilmeniz için çerez özelliği gereklidir.<br>Çerezlere izin verin veya başka bir tarayıcıda tekrar deneyin.';
 
-$hata_no[181] = $lh[181];
+$hata_no[181] = 'Sadece yöneticiler güncelleme yapabilir !<br><br>Yönetici olarak giriş yapıp tekrar deneyin.';
 
-$hata_no[182] = $lh[182];
+$hata_no[182] = 'Bu eklenti kurulu değil !';
 
-$hata_no[183] = $lh[183];
+$hata_no[183] = 'Bu eklenti zaten etkin !';
 
-$hata_no[184] = $lh[184];
+$hata_no[184] = 'Bu eklenti zaten etkisiz !';
 
-$hata_no[185] = $lh[185];
+$hata_no[185] = 'Bu eklenti kullandığınız sürüm ile uyumsuz görünüyor !';
 
-$hata_no[186] = $lh[186];
+$hata_no[186] = '"Ad Soyad - Lâkap" alanına girdiğiniz isim yasaklanmıştır !';
 
-$hata_no[187] = $lh[187];
+$hata_no[187] = 'Kurulu eklentileri silemezsiniz !<br>Önce eklentiyi kaldırıp sonra silmeyi deneyin.';
 
-$hata_no[188] = $lh[188].'<br /><br /><a href="'.$phpkf_dosyalar['sifre_degistir'].'">'.$lh['tikla_geri3'].'</a>';
+$hata_no[188] = 'Şifreniz yanlış !<br><br>Lütfen <a href="profil_degistir.php?kosul=sifre">geri dönüp</a> tekrar deneyiniz.';
 
-$hata_no[189] = $lh[189];
+$hata_no[189] = 'Kurmaya çalıştığınız eklenti portal için fakat sitenizde portal kurulu değil !';
 
-$hata_no[190] = $lh[190];
+$hata_no[190] = 'Hatalı ip adresi !';
 
-$hata_no[191] = $lh[191];
+$hata_no[191] = 'Bölüm yardımcısı adı 100 karakterden uzun olamaz !';
 
-$hata_no[192] = $lh[192];
+$hata_no[192] = 'Bu bölüm konu açmaya kapatılmıştır !';
 
-$hata_no[193] = $lh[193];
+$hata_no[193] = 'Bu bölüm cevap yazmaya kapatılmıştır !';
 
-$hata_no[194] = $lh[194];
+$hata_no[194] = 'Seçtiğiniz forumun yetkisi sadece yönetici ve yardımcılara verilmiş.<br>Özel bir üyeye izin veremezsiniz !';
 
-$hata_no[195] = $lh[195];
+$hata_no[195] = 'Konuyu taşıdığınız bölümde yetkiniz yok !';
 
-$hata_no[196] = $lh[196];
+$hata_no[196] = 'Bu tema kullandığınız sürüm ile uyumsuz görünüyor !';
 
-$hata_no[197] = $lh[197];
+$hata_no[197] = 'Seçeneklerde olmayan bir tema varsayılan olarak ayarlanamaz !<br>Temayı önce seçenekler arasına ekleyin.';
 
-$hata_no[198] = '<font color="#007900">'.$lh[198][0].'</font> <br /><br />'.$lh[198][1].'<br /><br /><a href="'.$phpkf_dosyalar['index'].'">'.$lh['tikla_anasayfa'].'</a>';
+$hata_no[198] = '<font color="#007900">Kayıt işleminiz başarıyla tamamlanmıştır.</font> <br><br>Fakat sunucudaki bir hatadan dolayı E-postanız gönderilememiştir !<br><br><font class="liste-etiket">Foruma dönmek için <a href="'.$forum_index.'">tıklayın.</a></font>';
 
-$hata_no[199] = '<font color="#007900">'.$lh[198][0].'</font> <br /><br />'.$lh[198][1].'<br /><br />'.$lh[199];
+$hata_no[199] = '<font color="#007900">Kayıt işleminiz başarıyla tamamlanmıştır.</font> <br><br>Fakat sunucudaki bir hatadan dolayı E-postanız gönderilememiştir !<br><br><font class="liste-etiket">Hesabınızın etkinleştirilmesi için forum yöneticisinin onayını beklemelisiniz.';
 
-$hata_no[200] = $lh[200];
+$hata_no[200] = 'Bu eklenti etkisizleştirmeyi desteklemiyor !';
 
-$hata_no[201] = $lh[201];
+$hata_no[201] = 'Grup adında karakterler var !<br><br>Latin ve Türkçe harf, rakam, boşluk, alt çizgi( _ ), tire ( - ), nokta ( . ) kullanılabilir. <br>Bunların dışındaki özel karakterleri içeremez.';
 
-$hata_no[202] = $lh[202];
+$hata_no[202] = 'Grup adı en az 4, en fazla 30 karakter olmalıdır !';
 
-$hata_no[203] = $lh[203];
+$hata_no[203] = 'Bu grup adı kullanılmaktadır, başka bir ad deneyin !';
 
-$hata_no[204] = $lh[204];
+$hata_no[204] = 'Forumda böyle bir grup bulunmamaktadır !';
 
-$hata_no[205] = $lh[205];
+$hata_no[205] = 'Grubun bölüm yardımcılığı yetkisini değiştirmek için önce<br><a href="yonetim/ozel_izinler.php">özel izinler</a> sayfasında görünen bölüm yönetme izinlerini alın !';
 
-$hata_no[206] = $lh[206];
+$hata_no[206] = 'Aradığınız dosya bulunamıyor.<br>Dosya daha önceden silinmiş olabilir. Lütfen kontrol edip tekrar deneyin.';
 
-$hata_no[207] = $lh[207].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_geri3'].'</a><br /><br /><a href="'.$phpkf_dosyalar['giris'].'?kip=yeni_sifre">'.$lh['tikla_hatirla2'].'</a>';
+$hata_no[207] = 'Forumda bu isimde bir üye bulunmamaktadır !<br>Kullanıcı adını yanlış girmiş olabilirsiniz.<br><br>Lütfen geri dönüp <a href="giris.php">tekrar</a> deneyin.';
 
-$hata_no[208] = $lh[208].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].'">'.$lh['tikla_geri3'].'</a><br /><br /><a href="'.$phpkf_dosyalar['giris'].'?kip=yeni_sifre">'.$lh['tikla_hatirla2'].'</a>';
+$hata_no[208] = 'Kullanıcı adı olarak E-posta adresi kullanılmamaktadır !<br><br>Lütfen  kayıt olurken yazdığınız kullanıcı adını giriniz.';
 
-$hata_no[209] = $lh[209];
+$hata_no[209] = 'Seçtiğiniz yorum veritabanında bulunmamaktadır !';
 
-$hata_no[210] = $lh[210];
+$hata_no[210] = 'Bu yorum daha önceden geri yüklenmiş veya silinmemiş !';
 
-$hata_no[211] = $lh[211];
+$hata_no[220] = 'Aradığınız dosya bulunamıyor.<br>Dosya daha önceden silinmiş olabilir. Lütfen kontrol edip tekrar deneyin.';
 
-$hata_no[220] = $lh[220];
+$hata_no[221] = 'Hesabınızın etkinleştirilmesi için yöneticinin onayını beklemelisiniz !';
 
-$hata_no[221] = $lh[221];
+$hata_no[223] = 'Hesabınız henüz etkinleştirilmemiş !<br><br>Hesabınızın etkinleştirilmesi için önce size gönderilen E-Postadaki<br> bağlantıyı tıklayın daha sonra yöneticinin onayını bekleyin.';
 
-$hata_no[223] = $lh[223];
-
-$hata_no[224] = $lh[224];
-
-$hata_no[500] = $lh[500].' "'.$ayarlar['anasyfdosya'].'"';
-
-$hata_no[501] = $lh[501];
-
-$hata_no[502] = $lh[502];
-
-$hata_no[503] = $lh[503];
-
-$hata_no[504] = $lh[504];
-
-$hata_no[505] = $lh[505];
-
-$hata_no[506] = $lh[506];
-
-$hata_no[507] = $lh[507];
-
-$hata_no[508] = $lh['onay_kodu_hatali'].'<br /><br /><a href="'.$gelinen.'">'.$lh['tikla_geri3'].'</a>';
-
-$hata_no[509] = $lh[509];
-
-$hata_no[510] = $lh[510];
+$hata_no[224] = 'Hakkında bilgisi 1000 karakterden uzun olamaz !';
 
 
 //  HATA İLETİLERİ - SONU  //
@@ -702,25 +661,23 @@ $hata_no[510] = $lh[510];
 //  UYARI İLETİLERİ - BAŞI  //
 
 
-$uyari_no[1] = '<font color="orange">'.$lu[1].'</font>';
+$uyari_no[1] = '<font color="orange">Sürüm güncellemesi yapılmış !</font>';
 
-$uyari_no[2] = '<font color="orange">'.$lu[2].'</font>';
+$uyari_no[2] = '<font color="orange">Özel İleti hizmeti kapatılmıştır !</font>';
 
-$uyari_no[3] = '<font color="orange">'.$lu[3].'</font>';
+$uyari_no[3] = '<font color="orange">Seçtiğiniz kullanıcı bir yönetici !<br> Yöneticilerin yetkileri sınırsızdır.</font>';
 
-$uyari_no[4] = '<font color="orange">'.$lu[4].'</font>';
+$uyari_no[4] = '<font color="orange">Seçtiğiniz kullanıcı forum yardımcısı !<br> Forum yardımcıları tüm forum bölümleri üzerinde yetki sahibidir.</font>';
 
-$uyari_no[5] = $lu[5];
+$uyari_no[5] = 'Konuyu ve altındaki tüm cevapları silmek istediğinize emin misiniz ?<br><br><a href="bilesenler/mesaj_sil.php?onay=kabul&amp;kip=mesaj&amp;fno='.$_GET['fno'].'&amp;mesaj_no='.$_GET['mesaj_no'].'&amp;o='.$_GET['o'].'&amp;fsayfa='.$_GET['fsayfa'].'">Evet</a> &nbsp; - &nbsp; <a href="konu.php?k='.$_GET['mesaj_no'].$fs.'">Hayır</a>';
 
-$uyari_no[6] = $lu[6].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].$git.'" style="color:#ff0000">'.$lu['giris_yap'].'</a> &nbsp; &nbsp; &nbsp; <a href="'.$phpkf_dosyalar['kayit'].'" style="color:#ff0000">'.$lu['uye_ol'].'</a>';
+$uyari_no[6] = '<font color="orange">Bu sayfaya sadece üyeler girebilir !</font><br><br>Giriş yapmak için <a href="giris.php'.$git.'">tıklayın.</a> <br><br> Üye olmak için <a href="kayit.php">tıklayın.</a>';
 
-$uyari_no[7] = $lu[7];
+$uyari_no[7] = 'Cevabı silmek istediğinize emin misiniz ?<br><br><a href="bilesenler/mesaj_sil.php?onay=kabul&amp;kip=cevap&amp;mesaj_no='.$_GET['mesaj_no'].'&amp;cevap_no='.$_GET['cevap_no'].'&amp;o='.$_GET['o'].'&amp;fsayfa='.$_GET['fsayfa'].'&amp;sayfa='.$_GET['sayfa'].'">Evet</a> &nbsp; - &nbsp; <a href="konu.php?k='.$_GET['mesaj_no'].$ks.$fs.'">Hayır</a>';
 
-$uyari_no[8] = $lu[8].'<br /><br /><a href="'.$phpkf_dosyalar['sifre_degistir'].'">'.$lh['tikla_geri1'].'</a><meta http-equiv="Refresh" content="5;url='.$phpkf_dosyalar['sifre_degistir'].'">';
+$uyari_no[8] = 'Herhangi bir değişiklik yapmadınız.<br><br>Geri dönmek için <a href="profil_degistir.php?kosul=sifre">tıklayın.</a><meta http-equiv="Refresh" content="5;url=profil_degistir.php?kosul=sifre">';
 
-$uyari_no[9] = '<font color="orange">'.$lu[9].'</font>';
-
-$uyari_no[10] = $lu[10].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].$git.'" style="color:#ff0000">'.$lu['giris_yap'].'</a> &nbsp; &nbsp; &nbsp; <a href="'.$phpkf_dosyalar['kayit'].'" style="color:#ff0000">'.$lu['uye_ol'].'</a>';
+$uyari_no[9] = '<font color="orange">Üye alımı geçici bir süre için durdurulmuştur !</font>';
 
 
 //  UYARI İLETİLERİ - SONU  //
@@ -733,24 +690,23 @@ $uyari_no[10] = $lu[10].'<br /><br /><a href="'.$phpkf_dosyalar['giris'].$git.'"
 
 
 
-
-// GELEN VERİYE GÖRE SAYFA HAZIRLANIYOR - BAŞI  //
+//  GELEN VERİYE GÖRE SAYFA HAZIRLANIYOR - BAŞI  //
 
 if ( isset($_GET['bilgi']) )
 {
 		if (!is_numeric($_GET['bilgi'])) $_GET['bilgi'] = 0;
 
-		if ( (empty($bilgi_no[$_GET['bilgi']])) OR (!is_numeric($_GET['bilgi'])) )
+		if ( (empty($bilgi_no[$_GET['bilgi']])) OR (is_numeric($_GET['bilgi']) == false) )
 		{
-			$sayfa_adi = $lh['hatali_adres'];
-			$hata_baslik = $lh['hatali_adres'];
-			$hata_icerik = $lh['hatali_adres'];
+			$sayfa_adi = 'Hatalı Adres !';
+			$hata_baslik = 'Hatalı Adres !';
+			$hata_icerik = 'Hatalı Adres !';
 		}
 
 		else
 		{
-			$sayfa_adi = $lh['bilgi_iletisi'];
-			$hata_baslik = $lh['bilgi_iletisi'];
+			$sayfa_adi = 'Bilgi iletisi ';
+			$hata_baslik = 'Bilgi iletisi :';
 			$hata_icerik = $bilgi_no[$_GET['bilgi']];
 		}
 }
@@ -761,17 +717,17 @@ elseif ( isset($_GET['hata']) )
 {
 		if (!is_numeric($_GET['hata'])) $_GET['hata'] = 0;
 
-		if ( (empty($hata_no[$_GET['hata']])) OR (!is_numeric($_GET['hata'])) )
+		if ( (empty($hata_no[$_GET['hata']])) OR (is_numeric($_GET['hata']) == false) )
 		{
-			$sayfa_adi = $lh['hatali_adres'];
-			$hata_baslik = $lh['hatali_adres'];
-			$hata_icerik = $lh['hatali_adres'];
+			$sayfa_adi = 'Hatalı Adres !';
+			$hata_baslik = 'Hatalı Adres !';
+			$hata_icerik = 'Hatalı Adres !';
 		}
 
 		else
 		{
-			$sayfa_adi = $lh['hata_iletisi'];
-			$hata_baslik = $lh['hata_iletisi'];
+			$sayfa_adi = 'Hata iletisi ';
+			$hata_baslik = 'Hata iletisi :';
 			$hata_icerik = '<font color="red">'.$hata_no[$_GET['hata']].'</font>';
 		}
 }
@@ -782,17 +738,17 @@ elseif ( isset($_GET['uyari']) )
 {
 		if (!is_numeric($_GET['uyari'])) $_GET['uyari'] = 0;
 
-		if ( (empty($uyari_no[$_GET['uyari']])) OR (!is_numeric($_GET['uyari'])) )
+		if ( (empty($uyari_no[$_GET['uyari']])) OR (is_numeric($_GET['uyari']) == false) )
 		{
-			$sayfa_adi = $lh['hatali_adres'];
-			$hata_baslik = $lh['hatali_adres'];
-			$hata_icerik = $lh['hatali_adres'];
+			$sayfa_adi = 'Hatalı Adres !';
+			$hata_baslik = 'Hatalı Adres !';
+			$hata_icerik = 'Hatalı Adres !';
 		}
 
 		else
 		{
-			$sayfa_adi = $lh['uyari_iletisi'];
-			$hata_baslik = $lh['uyari_iletisi'];
+			$sayfa_adi = 'Uyarı iletisi ';
+			$hata_baslik = 'Uyarı iletisi :';
 			$hata_icerik = $uyari_no[$_GET['uyari']];
 		}
 }
@@ -801,26 +757,27 @@ elseif ( isset($_GET['uyari']) )
 
 else
 {
-	$sayfa_adi = $lh['hatali_adres'];
-	$hata_baslik = $lh['hatali_adres'];
-	$hata_icerik = $lh['hatali_adres'];
+	$sayfa_adi = 'Hatalı Adres !';
+	$hata_baslik = 'Hatalı Adres !';
+	$hata_icerik = 'Hatalı Adres !';
 }
 
-// GELEN VERİYE GÖRE SAYFA HAZIRLANIYOR - SONU  //
+//  GELEN VERİYE GÖRE SAYFA HAZIRLANIYOR - SONU  //
 
 
 
 
+//  TEMA UYGULANIYOR  //
 
-$sayfano = 39;
-$sayfa_baslik = $sayfa_adi;
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 $ornek1 = new phpkf_tema();
 $tema_dosyasi = 'temalar/'.$temadizini.'/hata.php';
 eval($ornek1->tema_dosyasi($tema_dosyasi));
 
-$ornek1->dongusuz(array('{HATA_BASLIK}' => $hata_baslik, '{HATA_ICERIK}' => $hata_icerik));
+
+$ornek1->dongusuz(array('{HATA_BASLIK}' => $hata_baslik,
+						'{HATA_ICERIK}' => $hata_icerik));
 
 eval(TEMA_UYGULA);
 

@@ -1,8 +1,0 @@
-
-{siteadi} Sitesine Hoş Geldiniz.
-
-Etkinleştirme kodu başvurusunda bulundunuz!
-Hesabınızı etkinleştirmek için alttaki bağlantıyı tıklayın.
-
-{site_link}
-

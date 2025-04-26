@@ -50,16 +50,13 @@
 <input type="text" name="mesaj_baslik" placeholder="Konu Başlık" style="width: 100%;" class="hizliKime" value="">
 
 <?php
-// Hızlı Cevap için ayarlanan düzenleyici seçiliyor
-$duzenleyici_dizin = '../';
-$duzenleyici = $ayarlar['yduzenleyici'];
-$duzenleyici_tip = 'hizli';
-
 // Düz textarea kodu
-$duzenleyici_textarea = '<textarea cols="30" rows="7" name="mesaj_icerik" id="mesaj_icerik" style="width: 100%" class="hizliTextarea" placeholder="Konu içerik..." onkeyup="if(EnterGonder(event)&&denetle_mesaj()){if(document.form1.onsubmit())document.form1.submit()}">{FORM_ICERIK}</textarea>';
+$duzenleyici_textarea = '<textarea cols="30" rows="7" name="mesaj_icerik" id="mesaj_icerik_div" style="width: 100%" class="hizliTextarea" placeholder="Konu içerik..." onkeyup="if(EnterGonder(event)&&denetle_mesaj()){if(document.form1.onsubmit())document.form1.submit()}">{FORM_ICERIK}</textarea>';
 
 // Düzenleyici (Editör) yükleniyor
-include_once('../phpkf-bilesenler/editor/index.php');
+$ayarlar['duzenleyici'] = 'duz';
+$duzenleyici_dizin = '../';
+include_once('../bilesenler/editor/index.php');
 ?>
 
 <p style="margin-bottom:12px"><label style="cursor:pointer"><input type="checkbox" checked="checked" name="enter_gonder">Enter tuşu ile gönder</label></p>

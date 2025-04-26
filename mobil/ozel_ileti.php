@@ -1,28 +1,28 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
 if (!defined('DOSYA_AYAR')) include '../ayar.php';
-if (!defined('DOSYA_GUVENLIK')) include '../phpkf-bilesenler/guvenlik.php';
-if (!defined('DOSYA_KULLANICI_KIMLIK')) include '../phpkf-bilesenler/kullanici_kimlik.php';
-if (!defined('DOSYA_GERECLER')) include '../phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GUVENLIK')) include '../bilesenler/guvenlik.php';
+if (!defined('DOSYA_KULLANICI_KIMLIK')) include '../bilesenler/kullanici_kimlik.php';
+if (!defined('DOSYA_GERECLER')) include '../bilesenler/gerecler.php';
 
 
 // özel ileti özelliği kapalıysa
@@ -47,7 +47,7 @@ if ($_GET['kip'] == 'ulasan')
 {
 $sayfano = 25;
 $sayfa_adi = 'Özel iletiler Ulaşan Kutusu';
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 
 //	 ULAŞAN İLETİLER OKUNMA TARİH SIRASINA GÖRE ÇEKİLİYOR	//
@@ -110,7 +110,7 @@ else
 			// son cevap kendinin değilse
 			if ($satir2['kimden'] != $kullanici_kim['kullanici_adi'])
 			{
-				$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
+				$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
 				if ($satir2['okunma_tarihi']) $oi_okunma_tarihi = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir2['okunma_tarihi']);
 				else $oi_okunma_tarihi = '<font size="3">-</font>';
 				$oi_gonderme_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir2['gonderme_tarihi']);
@@ -125,8 +125,8 @@ else
 				$satir3 = $vt->fetch_assoc($vtsonuc3);
 
 				if ($satir3['kimden'] == $kullanici_kim['kullanici_adi'])
-					$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
-				else $oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
+					$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
+				else $oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
 
 				if ($satir2['okunma_tarihi']) $oi_okunma_tarihi = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir2['okunma_tarihi']);
 				else $oi_okunma_tarihi = '<font size="3">-</font>';
@@ -139,7 +139,7 @@ else
 
 		else
 		{
-			$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen" width="26" height="26">';
+			$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen" width="26" height="26">';
 			$oi_gonderme_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir['gonderme_tarihi']);
 			$oi_okunma_tarihi = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir['okunma_tarihi']);
 			$oi_soncevap = '<font size="3">-</font>';
@@ -234,7 +234,7 @@ elseif ($_GET['kip'] == 'gonderilen')
 {
 $sayfano = 26;
 $sayfa_adi = 'Özel iletiler Gönderilen Kutusu';
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 
 //	GÖNDERİLEN İLETİLER TARİH SIRASINA GÖRE ÇEKİLİYOR	//
@@ -305,8 +305,8 @@ else
 
 
 			if ($satir2['kimden'] == $kullanici_kim['kullanici_adi'])
-				$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
-			else $oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
+				$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
+			else $oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
 		}
 
 		else
@@ -317,7 +317,7 @@ else
 			$oi_kime = '<a href="../profil.php?kim='.$satir['kime'].'" class="nopadding">'.$satir['kime'].'</a>';
 			$oi_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir['gonderme_tarihi']);
 			$oi_tarih2 = '<font size="3">-</font>';
-			$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen" width="26" height="26">';
+			$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen" width="26" height="26">';
 			$oi_soncevap = '<font size="3">-</font>';
 		}
 
@@ -394,7 +394,7 @@ elseif ($_GET['kip'] == 'kaydedilen')
 {
 $sayfano = 27;
 $sayfa_adi = 'Özel iletiler Kaydedilen Kutusu';
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 
 //	KAYDEDİLEN İLETİLER TARİH SIRASINA GÖRE ÇEKİLİYOR	//
@@ -457,16 +457,16 @@ else
 		if ($satir['cevap_sayi'] != '0')
 		{
 			if ($satir['kimden'] == $kullanici_kim['kullanici_adi'])
-				$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
-			else $oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
+				$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
+			else $oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
 			$oi_soncevap = '<a href="../profil.php?kim='.$satir['kimden'].'" class="nopadding">'.$satir['kimden'].'</a>';
 		}
 
 		else
 		{
 			if ($satir['kimden'] == $kullanici_kim['kullanici_adi'])
-				$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen" width="26" height="26">';
-			else $oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan" width="26" height="26">';
+				$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen" width="26" height="26">';
+			else $oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan" width="26" height="26">';
 			$oi_soncevap = '';
 		}
 
@@ -552,7 +552,7 @@ else:
 
 $sayfano = 28;
 $sayfa_adi = 'Özel iletiler Gelen Kutusu';
-include 'phpkf-bilesenler/sayfa_baslik.php';
+include 'bilesenler/sayfa_baslik.php';
 
 
 // tema sınıfı örneği oluşturuluyor
@@ -621,7 +621,7 @@ else
 			$satir['kimden'] = $kimden;
 			$satir['gonderme_tarihi'] = $gonderme_tarihi;
 			$oi_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir['gonderme_tarihi']);
-			$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Okunmuş" width="26" height="26">';
+			$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Okunmuş" width="26" height="26">';
 		}
 
 
@@ -650,15 +650,15 @@ else
 			$satir['cevap_sayi'] = $cevap_sayi;
 
 			if ($satir['kimden'] == $kullanici_kim['kullanici_adi'])
-				$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
-			else $oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
+				$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_giden.png" alt="" title="Gönderilen Yanıtlanmış" width="26" height="26">';
+			else $oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_gelen.png" alt="" title="Alınan Yanıtlanmış" width="26" height="26">';
 		}
 
 		else
 		{
 			if (!isset($satir['okunma_tarihi']))
-				$oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_kapali.png" alt="" title="Okunmamış" width="26" height="26">';
-			else $oi_simge = '<img src="../phpkf-dosyalar/resimler/oi_simge/oi_acik.png" alt="" title="Okunmuş" width="26" height="26">';
+				$oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_kapali.png" alt="" title="Okunmamış" width="26" height="26">';
+			else $oi_simge = '<img src="../dosyalar/resimler/oi_simge/oi_acik.png" alt="" title="Okunmuş" width="26" height="26">';
 
 			$oi_tarih = zonedate($ayarlar['tarih_bicimi'], $ayarlar['saat_dilimi'], false, $satir['gonderme_tarihi']);
 			$oi_tarih2 = '<font size="3">-</font>';

@@ -294,13 +294,13 @@ Yorumlar
 	<td class="liste-veri" align="left" colspan="5" style="border-top:1px solid #e0e0e0">
 <a name="yorum"></a>
 
-<div id="uye_imza" align="left" style="min-height:60px; max-height:205px; display:block; padding:7px; overflow:auto">{UYE_IMZA}</div>
+<div id="uye_imza" align="left" style="position:relative; float:left; width:100%; min-height:40px; max-height:205px; display:inline; padding:7px; overflow:auto">{UYE_IMZA}</div>
 
-<div id="uye_hakkinda" align="left" style="min-height:60px; max-height:205px; display:none; padding:7px; overflow:auto">{UYE_HAKKINDA}</div>
+<div id="uye_hakkinda" align="left" style="position:relative; float:left; width:100%; min-height:40px; max-height:205px; display:none; padding:7px; overflow:auto">{UYE_HAKKINDA}</div>
 
-<div id="uye_yazilar" align="left" style="min-height:60px; display:none"></div>
+<div id="uye_yazilar" align="left" style="position:relative; float:left; width:100%; display:none"></div>
 
-<div id="uye_yorum" align="left" style="min-height:60px; display:none; padding:7px"></div>
+<div id="uye_yorum" align="left" style="position:relative; display:none; padding:7px"></div>
 
 	</td>
 	</tr>
@@ -321,7 +321,7 @@ else alan1.style.backgroundColor = Renk2;}
 {JAVASCRIPT_KODU}
 
 
-<img width="0" height="0" border="0" src="phpkf-dosyalar/yukleniyor2.gif" alt="">
+<img width="0" height="0" border="0" src="dosyalar/yukleniyor2.gif" alt="">
 
 </div>
 

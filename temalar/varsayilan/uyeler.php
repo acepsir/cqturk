@@ -13,11 +13,11 @@
 
 <!--__KOSUL_BASLAT-4__-->
 
-<table cellspacing="1" cellpadding="4" width="330" border="0" align="center" class="tablo-ana">
+<table cellspacing="1" cellpadding="4" width="330" border="0" align="center" bgcolor="#d0d0d0">
 	<tr class="forum-kategori-alt-baslik">
 	<td align="center" colspan="2">{KURUCU_BASLIK}</td>
 	</tr>
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="center" valign="middle" width="80" height="90">{KURUCU_RESIM}</td>
 	<td align="left" valign="middle">{KURUCU_BILGI}</td>
 	</tr>
@@ -25,12 +25,12 @@
 
 
 
-<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" class="tablo-ana" style="margin-left:11px; margin-top:20px; margin-bottom:30px">
+<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" bgcolor="#d0d0d0" style="margin-left:11px; margin-top:20px; margin-bottom:30px">
 	<tr class="forum-kategori-alt-baslik">
 	<td align="center" colspan="2">{YONETICI_BASLIK}</td>
 	</tr>
 <!--__TEKLI_BASLAT-2__-->
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="center" valign="middle" width="50" height="70">{YONETICI_RESIM}</td>
 	<td align="left" valign="middle">{YONETICI_BILGI}</td>
 	</tr>
@@ -39,12 +39,12 @@
 
 
 
-<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" class="tablo-ana" style="margin-left:10px; margin-top:20px; margin-bottom:30px">
+<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" bgcolor="#d0d0d0" style="margin-left:10px; margin-top:20px; margin-bottom:30px">
 	<tr class="forum-kategori-alt-baslik">
 	<td align="center" colspan="2">{YARDIMCI_BASLIK}</td>
 	</tr>
 <!--__TEKLI_BASLAT-3__-->
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="center" valign="middle" width="50" height="70">{YARDIMCI_RESIM}</td>
 	<td align="left" valign="middle">{YARDIMCI_BILGI}</td>
 	</tr>
@@ -53,12 +53,12 @@
 
 
 
-<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" class="tablo-ana" style="margin-left:10px; margin-top:20px; margin-bottom:30px">
+<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" bgcolor="#d0d0d0" style="margin-left:10px; margin-top:20px; margin-bottom:30px">
 	<tr class="forum-kategori-alt-baslik">
 	<td align="center" colspan="2">{BLM_YRD_BASLIK}</td>
 	</tr>
 <!--__TEKLI_BASLAT-4__-->
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="center" valign="middle" width="50" height="70">{BLM_YRD_RESIM}</td>
 	<td align="left" valign="middle">{BLM_YRD_BILGI}</td>
 	</tr>
@@ -84,12 +84,12 @@
 <!--__DIS_BASLAT-1__-->
 
 {ASAGI_AT}
-<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" class="tablo-ana" style="margin-left:10px; margin-top: 20px">
+<table cellspacing="1" cellpadding="3" width="225" border="0" align="left" bgcolor="#d0d0d0" style="margin-left:10px; margin-top: 20px">
 	<tr class="forum-kategori-alt-baslik">
 	<td align="center" colspan="2">{GRUP_ADI}</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="left" valign="top" colspan="2">
 {GRUP_BILGI}
 	</td>
@@ -97,7 +97,7 @@
 
 <!--__IC_BASLAT-1__-->
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="center" valign="middle" width="50" height="70">
 {GRUP_RESIM}
 	</td>
@@ -130,7 +130,7 @@
 
 <form action="uyeler.php" name="kul_ara" method="get">
 
-<table cellspacing="10" width="96%" cellpadding="0" border="0" align="center" style="margin:0; padding:0; margin-left:-20px">
+<table cellspacing="10" width="96%" cellpadding="0" border="0" align="center" bgcolor="#ffffff" style="margin:0; padding:0; margin-left:-20px">
 	<tr>
 	<td class="liste-veri" valign="bottom" align="left">
 <input class="formlar" type="text" name="kul_ara" size="20" maxlength="20" value="{KULLANICI_ARA}">
@@ -153,7 +153,7 @@
 	<tr>
 	<td colspan="2">
 
-<table cellspacing="1" width="100%" cellpadding="5" border="0" align="center" class="tablo-ana">
+<table cellspacing="1" width="100%" cellpadding="5" border="0" align="center" bgcolor="#cccccc">
 	<tr class="forum-kategori-alt-baslik">
 	<td align="center" title="Kullanıcı profilini görüntüle">Kullanıcı Adı</td>
 	<td align="center" width="120">Yetkisi</td>
@@ -167,7 +167,7 @@
 
 <!--__KOSUL_BASLAT-2__-->
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-etiket" bgcolor="#ffffff">
 	<td colspan="8" align="center" height="70" valign="middle">
 {SONUC_YOK}
 	</td>
@@ -180,15 +180,41 @@
 <!--__KOSUL_BASLAT-1__-->
 
 <!--__TEKLI_BASLAT-1__-->
-	<tr class="liste-veri tablo-satir">
-	<td title="Kullanıcı profilini görüntüle" align="left">{UYE_ADI}</td>
-	<td align="center">{UYE_YETKISI}</td>
-	<td align="center">{UYE_MESAJ}</td>
-	<td align="center" class="mobil-gizle">{UYE_KATILIM}</td>
-	<td align="center" class="mobil-gizle">{UYE_SEHIR}</td>
-	<td align="center" class="mobil-gizle" title="Forum üzerinden E-Posta gönder">{UYE_EPOSTA}</td>
-	<td align="center" class="mobil-gizle" title="Özel ileti gönder">{UYE_OZEL}</td>
+
+
+
+	<tr class="liste-veri" bgcolor="#ffffff" onMouseOver="this.bgColor= '#e0e0e0'" onMouseOut="this.bgColor= '#ffffff'">
+	<td title="Kullanıcı profilini görüntüle" align="left">
+{UYE_ADI}
+	</td>
+
+	<td align="center">
+{UYE_YETKISI}
+	</td>
+
+	<td align="center">
+{UYE_MESAJ}
+	</td>
+
+	<td align="center" class="mobil-gizle">
+{UYE_KATILIM}
+	</td>
+
+	<td align="center" class="mobil-gizle">
+{UYE_SEHIR}
+	</td>
+
+	<td align="center" class="mobil-gizle" title="Forum üzerinden E-Posta gönder">
+{UYE_EPOSTA}
+	</td>
+
+	<td align="center" class="mobil-gizle" title="Özel ileti gönder">
+{UYE_OZEL}
+	</td>
 	</tr>
+
+
+
 <!--__TEKLI_BITIR-1__-->
 
 <!--__KOSUL_BITIR-1__-->

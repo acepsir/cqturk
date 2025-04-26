@@ -1,27 +1,27 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
-include_once('phpkf-bilesenler/seo.php');
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
+include_once('bilesenler/seo.php');
 
 
 //		GRUPLAR SIRALANIYOR		//
@@ -34,7 +34,7 @@ $sbaslik = 'FORUM YETKİLİLERİ';
 $gbaslik = 'ÜYE GRUPLARI';
 $sayfano = 42;
 $sayfa_adi = 'Yetkililer ve Gruplar';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 
@@ -73,17 +73,17 @@ $vtsonuc5 = $vt->query($vtsorgu) or die ($vt->hata_ver());
 $kurucubag = linkver('profil.php?u='.$kurucu['id'].'&kim='.$kurucu['kullanici_adi'],$kurucu['kullanici_adi']);
 
 if ($kurucu['resim'] != '') $kurucu_resim = '<a href="'.$kurucubag.'"><img src="'.$kurucu['resim'].'" alt="Kullanıcı Resmi" border="0" width="65"></a>';
-elseif ($ayarlar['v-uye_resmi'] != '') $kurucu_resim = '<a href="'.$kurucubag.'"><img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="65"></a>';
+elseif ($ayarlar['kul_resim'] != '') $kurucu_resim = '<a href="'.$kurucubag.'"><img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="65"></a>';
 else $kurucu_resim = '';
 
 $kurucu_bilgi = '<span style="float:left;width:100%;margin:1px;">&nbsp;
-Üye Adı: <a href="'.$kurucubag.'" style="text-decoration:none">'.$kurucu['kullanici_adi'].'</a>&nbsp; ('.$kurucu['gercek_ad'].')</span>
+<b>Üye Adı:</b> <a href="'.$kurucubag.'" style="text-decoration:none">'.$kurucu['kullanici_adi'].'</a>&nbsp; ('.$kurucu['gercek_ad'].')</span>
 <br><span style="float:left;width:100%;margin:1px;">&nbsp;
-Kayıt Tarihi: '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $kurucu['katilim_tarihi']).'</span>
+<b>Kayıt Tarihi:</b> '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $kurucu['katilim_tarihi']).'</span>
 <br><span style="float:left;width:100%;margin:1px;">&nbsp;
-İleti Sayısı: '.$kurucu['mesaj_sayisi'].'</span>
+<b>İleti Sayısı: </b> '.$kurucu['mesaj_sayisi'].'</span>
 <br><span style="float:left;width:100%;margin:1px;">&nbsp;
-Konum: '.$kurucu['sehir'].'</span>';
+<b>Konum:</b> '.$kurucu['sehir'].'</span>';
 
 
 
@@ -96,17 +96,17 @@ if ($vt->num_rows($vtsonuc2))
 		$yonetbag = linkver('profil.php?u='.$yonetici['id'].'&kim='.$yonetici['kullanici_adi'],$yonetici['kullanici_adi']);
 
 		if ($yonetici['resim'] != '') $yonetici_resim = '<a href="'.$yonetbag.'"><img src="'.$yonetici['resim'].'" alt="Kullanıcı Resmi" border="0" width="45" /></a>';
-		elseif ($ayarlar['v-uye_resmi'] != '') $yonetici_resim = '<a href="'.$yonetbag.'"><img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
+		elseif ($ayarlar['kul_resim'] != '') $yonetici_resim = '<a href="'.$yonetbag.'"><img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
 		else $yonetici_resim = '';
 
 		$yonetici_bilgi = '<span style="float:left;width:100%;margin:1px;">
-Üye Adı: <a href="'.$yonetbag.'" style="text-decoration:none">'.$yonetici['kullanici_adi'].'</a></span>
+<b>Üye Adı:</b> <a href="'.$yonetbag.'" style="text-decoration:none">'.$yonetici['kullanici_adi'].'</a></span>
 <br><span style="float:left;width:100%;margin:1px;">
-Kayıt Tarihi: '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $yonetici['katilim_tarihi']).'</span>
+<b>Kayıt Tarihi:</b> '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $yonetici['katilim_tarihi']).'</span>
 <br><span style="float:left;width:100%;margin:1px;">
-İleti Sayısı: '.$yonetici['mesaj_sayisi'].'</span>
+<b>İleti Sayısı: </b> '.$yonetici['mesaj_sayisi'].'</span>
 <br><span style="float:left;width:100%;margin:1px;">
-Konum: '.$yonetici['sehir'].'</span>';
+<b>Konum:</b> '.$yonetici['sehir'].'</span>';
 
 
 		$tekli2[] = array('{YONETICI_RESIM}' => $yonetici_resim,
@@ -131,17 +131,17 @@ if ($vt->num_rows($vtsonuc3))
 		$yardimbag = linkver('profil.php?u='.$yardimci['id'].'&kim='.$yardimci['kullanici_adi'],$yardimci['kullanici_adi']);
 
 		if ($yardimci['resim'] != '') $yardimci_resim = '<a href="'.$yardimbag.'"><img src="'.$yardimci['resim'].'" alt="Kullanıcı Resmi" border="0" width="45" /></a>';
-		elseif ($ayarlar['v-uye_resmi'] != '') $yardimci_resim = '<a href="'.$yardimbag.'"><img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
+		elseif ($ayarlar['kul_resim'] != '') $yardimci_resim = '<a href="'.$yardimbag.'"><img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
 		else $yardimci_resim = '';
 
 		$yardimci_bilgi = '<span style="float:left;width:100%;margin:1px;">
-Üye Adı: <a href="'.$yardimbag.'" style="text-decoration:none">'.$yardimci['kullanici_adi'].'</a></span>
+<b>Üye Adı:</b> <a href="'.$yardimbag.'" style="text-decoration:none">'.$yardimci['kullanici_adi'].'</a></span>
 <br><span style="float:left;width:100%;margin:1px;">
-Kayıt Tarihi: '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $yardimci['katilim_tarihi']).'</span>
+<b>Kayıt Tarihi:</b> '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $yardimci['katilim_tarihi']).'</span>
 <br><span style="float:left;width:100%;margin:1px;">
-İleti Sayısı: '.$yardimci['mesaj_sayisi'].'</span>
+<b>İleti Sayısı: </b> '.$yardimci['mesaj_sayisi'].'</span>
 <br><span style="float:left;width:100%;margin:1px;">
-Konum: '.$yardimci['sehir'].'</span>';
+<b>Konum:</b> '.$yardimci['sehir'].'</span>';
 
 
 		$tekli3[] = array('{YARDIMCI_RESIM}' => $yardimci_resim,
@@ -166,17 +166,17 @@ if ($vt->num_rows($vtsonuc4))
 		$byardimbag = linkver('profil.php?u='.$byardimci['id'].'&kim='.$byardimci['kullanici_adi'],$byardimci['kullanici_adi']);
 
 		if ($byardimci['resim'] != '') $blm_yrd_resim = '<a href="'.$byardimbag.'"><img src="'.$byardimci['resim'].'" alt="Kullanıcı Resmi" border="0" width="45" /></a>';
-		elseif ($ayarlar['v-uye_resmi'] != '') $blm_yrd_resim = '<a href="'.$byardimbag.'"><img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
+		elseif ($ayarlar['kul_resim'] != '') $blm_yrd_resim = '<a href="'.$byardimbag.'"><img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
 		else $blm_yrd_resim = '';
 
 		$blm_yrd_bilgi = '<span style="float:left;width:100%;margin:1px;">
-Üye Adı: <a href="'.$byardimbag.'" style="text-decoration:none">'.$byardimci['kullanici_adi'].'</a></span>
+<b>Üye Adı:</b> <a href="'.$byardimbag.'" style="text-decoration:none">'.$byardimci['kullanici_adi'].'</a></span>
 <br><span style="float:left;width:100%;margin:1px;">
-Kayıt Tarihi: '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $byardimci['katilim_tarihi']).'</span>
+<b>Kayıt Tarihi:</b> '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $byardimci['katilim_tarihi']).'</span>
 <br><span style="float:left;width:100%;margin:1px;">
-İleti Sayısı: '.$byardimci['mesaj_sayisi'].'</span>
+<b>İleti Sayısı: </b> '.$byardimci['mesaj_sayisi'].'</span>
 <br><span style="float:left;width:100%;margin:1px;">
-Konum: '.$byardimci['sehir'].'</span>';
+<b>Konum:</b> '.$byardimci['sehir'].'</span>';
 
 
 		$tekli4[] = array('{BLM_YRD_RESIM}' => $blm_yrd_resim,
@@ -257,17 +257,17 @@ while ($gruplar = $vt->fetch_assoc($vtsonuc5))
 			$gbag = linkver('profil.php?u='.$guye['id'].'&kim='.$guye['kullanici_adi'],$guye['kullanici_adi']);
 
 			if ($guye['resim'] != '') $grup_resim = '<a href="'.$gbag.'"><img src="'.$guye['resim'].'" alt="Kullanıcı Resmi" border="0" width="45" /></a>';
-			elseif ($ayarlar['v-uye_resmi'] != '') $grup_resim = '<a href="'.$gbag.'"><img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
+			elseif ($ayarlar['kul_resim'] != '') $grup_resim = '<a href="'.$gbag.'"><img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" border="0" width="45" /></a>';
 			else $grup_resim = '';
 
 			$grup_uye = '<span style="float:left;width:100%;margin:1px;"></span><span style="float:left;width:100%;margin:1px;">
-			Üye Adı: <a href="'.$gbag.'" style="text-decoration:none">'.$guye['kullanici_adi'].'</a></span>
+			<b>Üye Adı:</b> <a href="'.$gbag.'" style="text-decoration:none">'.$guye['kullanici_adi'].'</a></span>
 			<br><span style="float:left;width:100%;margin:1px;">
-			Kayıt Tarihi: '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $guye['katilim_tarihi']).'</span>
+			<b>Kayıt Tarihi:</b> '.zonedate2('d-m-Y', $ayarlar['saat_dilimi'], false, $guye['katilim_tarihi']).'</span>
 			<br><span style="float:left;width:100%;margin:1px;">
-			İleti Sayısı: '.$guye['mesaj_sayisi'].'</span>
+			<b>İleti Sayısı: </b> '.$guye['mesaj_sayisi'].'</span>
 			<br><span style="float:left;width:100%;margin:1px;">
-			Konum: '.$guye['sehir'].'</span>';
+			<b>Konum:</b> '.$guye['sehir'].'</span>';
 
 			$tema_ic[$tablosayi][] = array(	'{GRUP_RESIM}' => $grup_resim,
 			'{GRUP_UYE}' => $grup_uye);
@@ -283,13 +283,13 @@ while ($gruplar = $vt->fetch_assoc($vtsonuc5))
 
 	$grup_bilgi = '<span style="float:left;width:100%;margin:1px;"></span>
 	<span style="float:left;width:100%;margin:1px;">
-	Üye Sayısı:'.(count($guyed)-1).'</span>
+	<b>Üye Sayısı: </b>'.(count($guyed)-1).'</span>
 	<br><span style="float:left;width:100%;margin:1px;">
-	Açıklama: '.$gruplar['grup_bilgi'].'</span>
+	<b>Açıklama:</b> '.$gruplar['grup_bilgi'].'</span>
 	<br><span style="float:left;width:100%;margin:1px;">
-	Özel Ad: '.$gozel_ad.'</span>
+	<b>Özel Ad:</b> '.$gozel_ad.'</span>
 	<br><span style="float:left;width:100%;margin:1px;">
-	Yetki: '.$gyetki.'</span>
+	<b>Yetki:</b> '.$gyetki.'</span>
 	<span style="float:left;width:100%;margin:1px;"></span>';
 
 
@@ -370,8 +370,11 @@ $uyeler_kota = 30;
 if (empty($_GET['sayfa'])) {$_GET['sayfa'] = 0; $baslik_ek = '';}
 else
 {
-	$_GET['sayfa'] = @zkTemizleNumara($_GET['sayfa']);
-	$baslik_ek = ' - Sayfa '.(($_GET['sayfa']/$uyeler_kota)+1);
+    $_GET['sayfa'] = @zkTemizle($_GET['sayfa']);
+    $_GET['sayfa'] = @str_replace(array('-','x'), '', $_GET['sayfa']);
+    if (is_numeric($_GET['sayfa']) == false) $_GET['sayfa'] = 0;
+    if ($_GET['sayfa'] < 0) $_GET['sayfa'] = 0;
+    $baslik_ek = ' - Sayfa '.(($_GET['sayfa']/$uyeler_kota)+1);
 }
 
 
@@ -399,7 +402,7 @@ if (( strlen($_GET['kul_ara']) >  20))
 }
 
 
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 //	SORGU SONUCUNDAKİ TOPLAM SONUÇ SAYISI ALINIYOR	//
@@ -498,7 +501,7 @@ else $uye_adi = '&nbsp;<a href="'.$uye_bag.'"><s>'.$uyeler_satir['kullanici_adi'
 
 
 if ($uyeler_satir['resim'] != '') $uye_resim = '<a href="'.$uye_bag.'"><img src="'.$uyeler_satir['resim'].'" alt="Kullanıcı Resmi" border="0" style="max-width:98%" /></a>';
-elseif ($ayarlar['v-uye_resmi'] != '') $uye_resim = '<a href="'.$uye_bag.'"><img src="'.$ayarlar['v-uye_resmi'].'" alt="Varsayılan Kullanıcı Resmi" border="0" style="max-width:98%" /></a>';
+elseif ($ayarlar['kul_resim'] != '') $uye_resim = '<a href="'.$uye_bag.'"><img src="'.$ayarlar['kul_resim'].'" alt="Varsayılan Kullanıcı Resmi" border="0" style="max-width:98%" /></a>';
 else $uye_resim = '';
 
 
@@ -533,7 +536,7 @@ $sayfalama = '';
 if ($satir_sayi > $uyeler_kota):
 
 $sayfalama .= '<p>
-<table cellspacing="1" cellpadding="4" border="0" align="right" class="tablo_border">
+<table cellspacing="1" cellpadding="2" border="0" align="right" class="tablo_border">
 	<tbody>
 	<tr>
 	<td class="forum_baslik">

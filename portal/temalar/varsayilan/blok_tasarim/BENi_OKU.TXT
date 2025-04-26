@@ -1,3 +1,0 @@
-Bu klasöre attığınız farklı blok tasarımları, "Portal Yönetim Masası - Genel Ayarlar" da otomatik olarak görünecektir.
-
-Buradan istediğiniz blok tasarımını seçerek, blokların görünümünü değiştirebilirsiniz.

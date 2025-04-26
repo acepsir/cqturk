@@ -1,25 +1,25 @@
 <?php
 /*
  +-=========================================================================-+
- |                              phpKF Forum v3.00                            |
+ |                       php Kolay Forum (phpKF) v2.10                       |
  +---------------------------------------------------------------------------+
- |                  Telif - Copyright (c) 2007 - 2019 phpKF                  |
- |                    www.phpKF.com   -   phpKF@phpKF.com                    |
+ |               Telif - Copyright (c) 2007 - 2017 phpKF Ekibi               |
+ |                 http://www.phpKF.com   -   phpKF@phpKF.com                |
  |                 Tüm hakları saklıdır - All Rights Reserved                |
  +---------------------------------------------------------------------------+
  |  Bu yazılım ücretsiz olarak kullanıma sunulmuştur.                        |
  |  Dağıtımı yapılamaz ve ücretli olarak satılamaz.                          |
- |  Yazılımı dağıtma, sürüm çıkarma ve satma hakları sadece phpKF`ye aittir. |
+ |  Yazılımı dağıtma, sürüm çıkartma ve satma hakları sadece phpKF`ye aittir.|
  |  Yazılımdaki kodlar hiçbir şekilde başka bir yazılımda kullanılamaz.      |
  |  Kodlardaki ve sayfa altındaki telif yazıları silinemez, değiştirilemez,  |
  |  veya bu telif ile çelişen başka bir telif eklenemez.                     |
  |  Yazılımı kullanmaya başladığınızda bu maddeleri kabul etmiş olursunuz.   |
  |  Telif maddelerinin değiştirilme hakkı saklıdır.                          |
- |  Güncel telif maddeleri için  phpKF.com/telif.php  adresini ziyaret edin. |
+ |  Güncel telif maddeleri için  www.phpKF.com  adresini ziyaret edin.       |
  +-=========================================================================-+*/
 
 
-$phpkf_ayarlar_kip = "WHERE kip='1' OR kip='2' OR kip='4'";
+if (!defined('PHPKF_ICINDEN')) define('PHPKF_ICINDEN', true);
 if (!defined('DOSYA_AYAR')) include 'ayar.php';
 
 
@@ -41,7 +41,7 @@ if ( (!isset($_POST['posta'])) OR ($_POST['posta'] == '') ):
 	exit();
 endif;
 
-if (@strlen($_POST['posta']) > 100):
+if (@strlen($_POST['posta']) > 70):
 	header('Location: hata.php?hata=40');
 	exit();
 endif;
@@ -57,7 +57,7 @@ endif;
 
 //	FORM DOĞRU DOLDURULDUYSA İŞLEMLERE DEVAM	//
 
-if (!defined('DOSYA_GERECLER')) include 'phpkf-bilesenler/gerecler.php';
+if (!defined('DOSYA_GERECLER')) include 'bilesenler/gerecler.php';
 
 $_POST['posta'] = @zkTemizle($_POST['posta']);
 
@@ -72,15 +72,9 @@ if ($vt->num_rows($etkin_sonuc)):
 $etkin_satir = $vt->fetch_array($etkin_sonuc);
 
 
-if ($etkin_satir['kul_etkin'] == 1)
+if ( $etkin_satir['kul_etkin'] == 1 )
 {
 	header('Location: hata.php?hata=12');
-	exit();
-}
-
-if ($ayarlar['kayit_hesap_etkin'] == 2)
-{
-	header('Location: hata.php?hata=211');
 	exit();
 }
 
@@ -91,19 +85,34 @@ if ($ayarlar['kayit_hesap_etkin'] == 2)
 //		... BELİRTİLEN YERLERE YENİ BİLGİLER GİRİLİYOR		// 
 
 
-$site_link = $TEMA_SITE_ANADIZIN.'phpkf-bilesenler/kul_etkin.php?kulid='.$etkin_satir['id'].'&kulkod='.$etkin_satir['kul_etkin_kod'];
-
-if (!($dosya_ac = fopen('./phpkf-bilesenler/postalar/etkinlestirme.txt','r'))) die ('Dosya Açılamıyor');
+if (!($dosya_ac = fopen('./bilesenler/postalar/etkinlestirme.txt','r'))) die ('Dosya Açılamıyor');
 $posta_metni = fread($dosya_ac,1024);
 fclose($dosya_ac);
 
-$bul = array('{siteadi}',
-'{site_link}',
-);
+$bul = array('{forumadi}',
+'{alanadi}',
+'{f_dizin}',
+'{kullanici_adi}',
+'{posta}',
+'{gercek_ad}',
+'{dogum_tarihi}',
+'{sehir}',
+'{kulid}',
+'{kul_etkin_kod}');
 
-$cevir = array($ayarlar['site_adi'],
-$site_link,
-);
+$cevir = array($ayarlar['anasyfbaslik'],
+$ayarlar['alanadi'],
+$ayarlar['f_dizin'],
+$etkin_satir['kullanici_adi'],
+$etkin_satir['posta'],
+$etkin_satir['gercek_ad'],
+$etkin_satir['dogum_tarihi'],
+$etkin_satir['sehir'],
+$etkin_satir['id'],
+$etkin_satir['kul_etkin_kod']);
+
+if ($cevir[2] == '/')
+$cevir[2] = '';
 
 $posta_metni = str_replace($bul,$cevir,$posta_metni);
 
@@ -112,7 +121,7 @@ $posta_metni = str_replace($bul,$cevir,$posta_metni);
 
 //	ETKİNLEŞTİRME BİLGİLERİ POSTALANIYOR		//
 
-require('phpkf-bilesenler/sinif_eposta.php');
+require('bilesenler/eposta_sinif.php');
 $mail = new eposta_yolla();
 
 
@@ -121,22 +130,23 @@ elseif ($ayarlar['eposta_yontem'] == 'smtp') $mail->SMTPKullan();
 
 
 $mail->sunucu = $ayarlar['smtp_sunucu'];
-if ($ayarlar['smtp_kd'] == '1') $mail->smtp_dogrulama = true;
+if ($ayarlar['smtp_kd'] == 'true') $mail->smtp_dogrulama = true;
 else $mail->smtp_dogrulama = false;
 $mail->kullanici_adi = $ayarlar['smtp_kullanici'];
 $mail->sifre = $ayarlar['smtp_sifre'];
 
-$mail->gonderen = $ayarlar['site_posta'];
-$mail->gonderen_adi = $ayarlar['site_adi'];
+$mail->gonderen = $ayarlar['y_posta'];
+$mail->gonderen_adi = $ayarlar['anasyfbaslik'];
 $mail->GonderilenAdres($etkin_satir['posta']);
-$mail->YanitlamaAdres($ayarlar['site_posta']);
-$mail->konu = $ayarlar['site_adi'].' - Etkinleştirme Kodu';
+$mail->YanitlamaAdres($ayarlar['y_posta']);
+$mail->konu = $ayarlar['anasyfbaslik'].' - Etkinleştirme Kodu';
 $mail->icerik = $posta_metni;
 
 
-// E-POSTA YOLLANDI, EKRAN ÇIKTISI VERİLİYOR //
 if ($mail->Yolla())
 {
+// E-POSTA YOLLANDI, EKRAN ÇIKTISI VERİLİYOR //
+
 	header('Location: hata.php?bilgi=14');
 	exit();
 }
@@ -166,7 +176,7 @@ else :
 
 $sayfano = 35;
 $sayfa_adi = 'Etkinleştirme Kodu Başvurusu';
-include_once('phpkf-bilesenler/sayfa_baslik_forum.php');
+include_once('bilesenler/sayfa_baslik.php');
 
 
 

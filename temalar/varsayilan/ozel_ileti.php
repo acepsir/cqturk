@@ -5,7 +5,7 @@
 
 <table cellspacing="1" cellpadding="4" border="0" align="center" class="genel-tablo" style="width:100%">
 	<tr>
-	<td class="liste-etiket tablo-ici" align="center" valign="middle" style="padding:25px 25px;">
+	<td class="liste-etiket" bgcolor="#ffffff" align="center" valign="middle" style="padding:25px 25px;">
 <font color="#ff0000"><b>{OZEL_DUYURU_BASLIK}</b></font>
 <br><br>
 {OZEL_DUYURU_ICERIK}
@@ -54,11 +54,11 @@
 
 
 
-<table cellspacing="4" width="100%" cellpadding="0" border="0" align="center" class="tablo-ici">
+<table cellspacing="4" width="100%" cellpadding="0" border="0" align="center" class="tablo_ici">
 	<tr>
 	<td align="center">
 
-<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" class="tablo-ici">
+<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" bgcolor="#ffffff">
 	<tr>
 	<td align="left" valign="top" width="100%">
 
@@ -78,9 +78,9 @@
 	<td align="left" valign="top" width="100%">
 
 
-<table cellspacing="1" width="100%" cellpadding="4" border="0" align="center" class="tablo-ana">
-	<tr class="forum-kategori-baslik">
-	<td colspan="8" height="35" align="center" class="liste-etiket">
+<table cellspacing="1" width="100%" cellpadding="4" border="0" align="center" bgcolor="#cccccc">
+	<tr>
+	<td colspan="8" height="35" class="liste-etiket" align="center" bgcolor="#f8f8f8">
 {GELEN_KUTUSU_BAG}{GELEN_KUTUSU}{GELEN_KUTUSU_BAG2} &nbsp; | &nbsp; 
 {ULASAN_KUTUSU_BAG}{ULASAN_KUTUSU}{ULASAN_KUTUSU_BAG2} &nbsp; | &nbsp; 
 {GONDERILEN_KUTUSU_BAG}{GONDERILEN_KUTUSU}{GONDERILEN_KUTUSU_BAG2} &nbsp; | &nbsp; 
@@ -103,7 +103,7 @@
 <!--__KOSUL_BASLAT-1__-->
 
 	<tr>
-	<td class="liste-veri tablo-ici" colspan="8" align="center">
+	<td class="liste-veri" bgcolor="#ffffff" colspan="8" align="center">
 <br>
 {KUTU_BOS}
 <br>
@@ -119,7 +119,7 @@
 
 <!--__TEKLI_BASLAT-1__-->
 
-	<tr class="liste-veri tablo-ici" id="secili{TABLO_NO}">
+	<tr class="liste-veri" bgcolor="#ffffff" id="secili{TABLO_NO}">
 	<td align="center" style="height:25px;">
 <input type="checkbox" name="sec_ileti[]" value="{OI_NO}" onclick="secili_yap({TABLO_NO})">
 	</td>
@@ -197,7 +197,7 @@
 	</tr>
 
 	<tr>
-	<td class="forum-kategori-alt-baslik" bgcolor="#ececec" align="center">Özel İletiler</td>
+	<td class="forum-kategori-alt-baslik" bgcolor="#ececec" align="center" >Özel İletiler</td>
 	</tr>
 
 	<tr>
@@ -232,7 +232,7 @@
 	<tr>
 	<td align="center">
 
-<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" class="tablo-ici">
+<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" class="tablo_ici">
 	<tr>
 	<td colspan="2" height="10"></td>
 	</tr>
@@ -245,13 +245,13 @@ kişileri engelleyebilirsiniz. Kullanımı ile ilgili ayrıntılı bilgi aşağ�
 
 <br><br><br>
 
-<table cellspacing="1" width="96%" cellpadding="8" border="0" align="center" class="tablo-ana">
+<table cellspacing="1" width="96%" cellpadding="8" border="0" align="center" bgcolor="#e0e0e0">
 	<tr>
-	<td class="liste-etiket tablo-ici" valign="middle" align="center" width="170">
+	<td class="liste-etiket" bgcolor="#ffffff" valign="middle" align="center" width="170">
 Seçenekler: 
 	</td>
 
-	<td class="liste-veri tablo-ici" align="left">
+	<td class="liste-veri" bgcolor="#ffffff" align="left">
 <label style="cursor: pointer;">
 <input type="radio" name="engel_tipi" value="0" {TIP_HICKIMSE}>
 Hiç kimseyi engelleme</label>&nbsp;&nbsp;
@@ -267,7 +267,7 @@ Hiç kimseyi engelleme</label>&nbsp;&nbsp;
 	</tr>
 
 	<tr>
-	<td class="liste-etiket tablo-ici" valign="top" align="left">
+	<td class="liste-etiket" bgcolor="#ffffff" valign="top" align="left">
 <br>
 Yasaklılar / izinliler:
 
@@ -287,13 +287,13 @@ Yasaklılar / izinliler:
 <br><br>
 	</td>
 
-	<td class="liste-veri tablo-ici" align="left">
+	<td bgcolor="#ffffff" align="left">
 <textarea class="formlar" cols="36" rows="9" name="engellenenler" onkeyup="imzaUzunluk()" style="width: 240px; height: 130px">{ENGELLENENLER}</textarea>
 	</td>
 	</tr>
 
 	<tr>
-	<td class="liste-veri tablo-ici" colspan="2" height="45" align="center">
+	<td colspan="2" height="45" bgcolor="#ffffff" align="center">
 <input class="dugme" type="submit" value="Değiştir"> &nbsp; &nbsp; 
 <input class="dugme" type="reset">
 	</td>

@@ -45,7 +45,7 @@ Kullanıcı İletileri
 </font>
 </p>
 
-<table cellspacing="1" width="97%" cellpadding="4" border="0" align="center" class="tablo-ana">
+<table cellspacing="1" width="97%" cellpadding="4" border="0" align="center" bgcolor="#d0d0d0">
 	<tr>
 	<td class="forum-kategori-baslik" colspan="6" align="center" valign="middle">
 ARAMA SONUÇLARI
@@ -63,14 +63,37 @@ ARAMA SONUÇLARI
 
 
 <!--__TEKLI_BASLAT-1__-->
-	<tr class="liste-veri tablo-satir">
-	<td align="left">{BASLIK_BAGLANTI}</td>
-	<td align="left" class="mobil-gizle">{FORUM_BAGLANTI}</td>
-	<td align="center" class="mobil-gizle">{YAZAN}</td>
-	<td align="center">{CEVAP_SAYI}</td>
-	<td align="center" class="mobil-gizle">{GORUNTULEME}</td>
-	<td align="center">{TARIH}</td>
+
+
+	<tr class="liste-veri" bgcolor="#ffffff" onMouseOver="this.bgColor= '#e0e0e0'" onMouseOut="this.bgColor= '#ffffff'">
+
+	<td align="left">
+{BASLIK_BAGLANTI}
+	</td>
+
+	<td align="left" class="mobil-gizle">
+{FORUM_BAGLANTI}
+	</td>
+
+	<td align="center" class="mobil-gizle">
+{YAZAN}
+	</td>
+
+	<td align="center">
+{CEVAP_SAYI}
+	</td>
+
+	<td align="center" class="mobil-gizle">
+{GORUNTULEME}
+	</td>
+
+	<td align="center">
+{TARIH}
+	</td>
+
 	</tr>
+
+
 <!--__TEKLI_BITIR-1__-->
 
 </table>

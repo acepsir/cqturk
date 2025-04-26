@@ -2,7 +2,7 @@
 
 <!--__KOSUL_BASLAT-4__-->
 
-<div class="link-agaci" style="margin:0 auto; margin-bottom:20px">{FORUM_ANASAYFA}{FORUM_BASLIK}{ALT_FORUM_BASLIK}{SAYFA_BASLIK}{CEVAP_BASLIK}</div>
+<div class="link-agaci" style="margin:0 auto; margin-bottom:20px; max-width:798px">{FORUM_ANASAYFA}{FORUM_BASLIK}{ALT_FORUM_BASLIK}{SAYFA_BASLIK}{CEVAP_BASLIK}</div>
 
 <!--__KOSUL_BITIR-4__-->
 
@@ -77,22 +77,23 @@
 <div class="yazar-bilgi">{ONIZLEME_YETKISI}</div>
 <div class="yazar-bilgi"><div style="max-width:160px; max-height:160px; overflow:auto">{ONIZLEME_RESIM}</div></div>
 <div class="yazar-bilgi">
-<font size="1" face="verdana">
-Kayıt: {ONIZLEME_KATILIM}
+	<font size="1" face="verdana">
+Kayıt Tarihi: {ONIZLEME_KATILIM}
 <br>
-İleti: {ONIZLEME_MESAJ_SAYI}
+İleti Sayısı: {ONIZLEME_MESAJ_SAYI}
 <br>
 Konum: {ONIZLEME_SEHIR}
 <br>
-Durum: {ONIZLEME_DURUM}
-<br><br>
-{ONIZLEME_EPOSTA}E-Posta Gönder</a>
+Durum: <font color="#339900">Forumda</font>
+<br>
+<br>
+{ONIZLEME_EPOSTA}E-Posta Gönder
 {ONIZLEME_WEB}
 <br>
-{ONIZLEME_OI}Özel ileti Gönder</a>
+{ONIZLEME_OI}Özel ileti Gönder
 <br>
 </font>
-</div>
+
 	</td>
 
 	<td valign="top" height="190" align="left">
@@ -120,8 +121,8 @@ Durum: {ONIZLEME_DURUM}
 
 
 
-<div class="genel-tablo" style="box-sizing:border-box; display:table; width:100%" id="tablo_buyut3">
-<div class="giris-form-baslik">{SAYFA_KIP}<span class="mobil-gizle" style="float:right; cursor:pointer; font-weight:normal; font-size:30px; line-height:12px" onclick="alan_buyut('811px')">&#8652;</span></div>
+<div class="genel-tablo" style="box-sizing:border-box; display:table; width:840px" id="tablo_buyut3">
+<div class="giris-form-baslik">{SAYFA_KIP}<span class="mobil-gizle" style="float:right; cursor:pointer; font-weight:normal; font-size:30px; line-height:12px" onclick="alan_buyut('840px')">&#8652;</span></div>
 
 <table cellspacing="0" cellpadding="0" border="0" align="center" id="tablo_buyut" style="width:100%;padding-right:20px">
 	<tr>
@@ -157,8 +158,9 @@ KONU:
 	<td class="liste-etiket mobil-gizle" align="left" valign="top" rowspan="5">
 İÇERİK:
 <div style="height:24px"></div>
+<img src="temalar/varsayilan/resimler/bosluk170.gif" width="140" height="1" border="0" alt="boşluk">
+<div align="center" style="font-weight:normal; font-size:10px; position:relative; float:center; overflow:auto; width:100%; height:140px">
 
-<div class="ifadeler">
 <b>ifadeler:</b>
 <div style="height:12px"></div>
 <?php echo ifade_olustur('5'); ?>
@@ -178,7 +180,7 @@ KONU:
 [img] resim.gif [/img]
 <div style="height:18px"></div>
 
-<a href="<?php echo $phpkf_dosyalar['yardim']; ?>#bbcode" target="_blank">[BBCode Yardım]</a>
+<a href="bbcode_yardim.php#bbcode" target="_blank">[BBCode Yardım]</a>
 </font>
 	</td>
 
@@ -186,11 +188,10 @@ KONU:
 	<td class="liste-etiket" valign="top" id="tablo_buyut2">
 <?php
 // Düz textarea kodu
-$duzenleyici_textarea = '<textarea cols="70" rows="20" name="mesaj_icerik" id="mesaj_icerik" class="post" placeholder="'.$l['cevap_yaz'].'...">{FORM_ICERIK}</textarea>';
+$duzenleyici_textarea = '<textarea cols="69" rows="27" name="mesaj_icerik" id="mesaj_icerik" class="formlar_mesajyaz">{FORM_ICERIK}</textarea>';
 
 // Düzenleyici (Editör) yükleniyor
-$duzenleyici = $ayarlar['bduzenleyici'];
-include_once('phpkf-bilesenler/editor/index.php');
+include_once('bilesenler/editor/index.php');
 ?>
 	</td>
 	</tr>

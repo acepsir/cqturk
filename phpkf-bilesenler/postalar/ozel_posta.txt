@@ -1,9 +1,0 @@
-
-Sayın {uye_adi}; bu E-posta size @{gonderen_adi} tarafından, {siteadi} sitesinden gönderilmiştir.
-
-
-{eposta_baslik}
----------------------
-
-{eposta_icerik}
-

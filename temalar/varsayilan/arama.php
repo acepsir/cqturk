@@ -10,7 +10,8 @@ Konu ve İçerik Arama
 	<tr>
 	<td align="center" valign="top">
 
-<table cellspacing="5" width="100%" cellpadding="0" border="0" align="center">
+<table cellspacing="5" width="100%" cellpadding="0" border="0" align="center" bgcolor="#ffffff">
+
 
 <!--__KOSUL_BASLAT-1__-->
 
@@ -22,16 +23,16 @@ Konu ve İçerik Arama
 
 {BULUNAMADI}
 
-<table cellspacing="1" cellpadding="8" border="0" align="center" class="tablo-ana" style="max-width:720px; margin:20px 0">
+<table cellspacing="1" cellpadding="8" border="0" align="center" bgcolor="#d0d0d0" style="max-width:720px">
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td width="40%" align="center">
 <b>Yazılar içinde sözcük(ler) ara:</b>
 	</td>
 	<td width="60%">&nbsp;</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici" align="left">
+	<tr class="liste-veri" bgcolor="#ffffff" align="left">
 	<td>
 Bu sözcüklerin hepsi için ara:
 	</td>
@@ -40,7 +41,7 @@ Bu sözcüklerin hepsi için ara:
 	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="left">
 Bu sözcüklerden herhangi biri için ara:
 	</td>
@@ -49,7 +50,7 @@ Bu sözcüklerden herhangi biri için ara:
 	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="left">
 Bu sözcükleri aynen yazıldığı gibi ara: 
 	</td>
@@ -58,7 +59,7 @@ Bu sözcükleri aynen yazıldığı gibi ara:
 	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="left">
 Bu sözcükler hariç ara:
 	</td>
@@ -67,7 +68,7 @@ Bu sözcükler hariç ara:
 	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="left">
 Seçili tarihden yenilerde ara:
 	</td>
@@ -86,7 +87,7 @@ Seçili tarihden yenilerde ara:
 	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="center">
 <b>Sadece bu üyenin yazılarında ara:</b>
 	</td>
@@ -95,7 +96,7 @@ Seçili tarihden yenilerde ara:
 	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td valign="top" align="center">
 <br>
 <br>
@@ -112,20 +113,24 @@ Seçili tarihden yenilerde ara:
 	</tr>
 </table>
 
+<p align="center"><br>
 <input type="submit" value="Aramayı başlat" class="dugme">
 </form>
-<br>
 	</td>
 	</tr>
 
+
+
 <!--__KOSUL_BITIR-1__-->
 
-
+	<tr>
+	<td>
 
 <!--__KOSUL_BASLAT-2__-->
 
 	<tr>
 	<td align="left">
+
 
 <font face="verdana" size="1">
 &nbsp; &nbsp; Aradığınız koşula uyan &nbsp;<b>{TOPLAM_SONUC}</b>&nbsp; sonuç bulundu.
@@ -134,14 +139,17 @@ Seçili tarihden yenilerde ara:
 
 <table cellspacing="1" width="97%" cellpadding="4" border="0" align="center" bgcolor="#d0d0d0">
 	<tr>
-	<td class="forum-kategori-alt-baslik" colspan="6" height="20" align="center" valign="middle">- ARAMA SONUÇLARI -</td>
+	<td class="forum-kategori-alt-baslik" colspan="6" height="20" align="center" valign="middle">
+- ARAMA SONUÇLARI -
+	</td>
 	</tr>
 
 
 <!--__TEKLI_BASLAT-1__-->
 
+
 	<tr>
-	<td colspan="6" align="center" class="arama_baslik tablo-ici">Arama Sonucu {SONUC_SAYISI}</td>
+	<td colspan="6" align="center" class="arama_baslik">Arama Sonucu {SONUC_SAYISI}</td>
 	</tr>
 
 	<tr class="forum-kategori-baslik">
@@ -153,16 +161,33 @@ Seçili tarihden yenilerde ara:
 	<td align="center" width="120">Tarih</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
-	<td>{KONU_BASLIK}</td>
-	<td>{FORUM_BASLIK}</td>
-	<td align="center" width="100">{YAZAN}</td>
-	<td align="center" width="55">{CEVAP_SAYI}</td>
-	<td align="center" width="70">{GOSTERIM}</td>
-	<td align="center" width="120">{TARIH}</td>
+	<tr class="liste-veri" bgcolor="#ffffff">
+	<td>
+{KONU_BASLIK}
+	</td>
+
+    <td>
+{FORUM_BASLIK}
+    </td>
+
+	<td align="center" title="Kullanıcı profilini görüntüle" width="100">
+{YAZAN}
+	</td>
+
+	<td align="center" width="55">
+{CEVAP_SAYI}
+	</td>
+
+	<td align="center" width="70">
+{GOSTERIM}
+	</td>
+
+	<td align="center" width="120">
+{TARIH}
+	</td>
 	</tr>
 
-	<tr class="liste-veri tablo-ici">
+	<tr class="liste-veri" bgcolor="#ffffff">
 	<td align="left" valign="top" colspan="6">
 <br>
 <b>Mesaj içeriği:</b>
@@ -173,6 +198,8 @@ Seçili tarihden yenilerde ara:
 <br><br><br><br>
 	</td>
 	</tr>
+
+
 
 <!--__TEKLI_BITIR-1__-->
 

@@ -10,12 +10,12 @@
 	<tr>
 	<td valign="top" align="left" width="100%">
 
-<table cellspacing="1" width="100%" cellpadding="2" border="0" align="center" class="forum-kategori-taban" style="margin-bottom:20px;">
+<table cellspacing="1" width="100%" cellpadding="2" border="0" align="center" bgcolor="#d0d0d0" style="margin-bottom:20px;">
 	<tr align="center">
-	<td colspan="3" class="forum-kategori-alt-baslik"><?php echo $l['alt_forum']; ?></td>
-	<td width="225" class="forum-kategori-alt-baslik tablet-gizle mobil-gizle"><?php echo $l['son_konu']; ?></td>
-	<td width="45" class="forum-kategori-alt-baslik mobil-gizle"><?php echo $l['baslik']; ?></td>
-	<td width="45" class="forum-kategori-alt-baslik mobil-gizle"><?php echo $l['ileti_sayisi']; ?></td>
+	<td colspan="3" class="forum-kategori-alt-baslik">Alt Forum</td>
+	<td width="225" class="forum-kategori-alt-baslik tablet-gizle mobil-gizle">Son Konu</td>
+	<td width="45" class="forum-kategori-alt-baslik mobil-gizle">Başlık</td>
+	<td width="45" class="forum-kategori-alt-baslik mobil-gizle">ileti</td>
 	</tr>
 
 <!--__TEKLI_BASLAT-3__-->
@@ -72,20 +72,20 @@
 <div style="float: right; position: relative; width: 69%" class="sayfalama">{SAYFALAMA}</div>
 </div>
 
-<table cellspacing="1" width="100%" cellpadding="4" border="0" align="left" class="tablo-ana">
+<table cellspacing="1" width="100%" cellpadding="4" border="0" align="left" bgcolor="#d0d0d0">
 	<tr>
-	<td class="forum-kategori-baslik" align="center" colspan="2"><?php echo $l['baslik']; ?></td>
-	<td class="forum-kategori-baslik mobil-gizle" align="center" width="40"><?php echo $l['cevap']; ?></td>
-	<td class="forum-kategori-baslik mobil-gizle" align="center" width="110"><?php echo $l['yazan']; ?></td>
-	<td class="forum-kategori-baslik mobil-gizle" align="center" width="40"><?php echo $l['gosterim']; ?></td>
-	<td class="forum-kategori-baslik" align="center" width="120"><?php echo $l['son_ileti']; ?></td>
+	<td class="forum-kategori-baslik" align="center" colspan="2">Başlık</td>
+	<td class="forum-kategori-baslik mobil-gizle" align="center" width="40">Cevap</td>
+	<td class="forum-kategori-baslik mobil-gizle" align="center" width="110">Yazan</td>
+	<td class="forum-kategori-baslik mobil-gizle" align="center" width="40">Gösterim</td>
+	<td class="forum-kategori-baslik" align="center" width="120">Son ileti</td>
 	</tr>
 
 
 <!--__KOSUL_BASLAT-1__-->
 
 	<tr>
-	<td align="center" height="50" class="liste-etiket tablo-ici" colspan="6">
+	<td align="center" height="50" class="liste-etiket" bgcolor="#ffffff" colspan="6">
 {KONU_YOK_UYARI}
 	</td>
 	</tr>
@@ -108,7 +108,7 @@
 	</td>
 
 	<td align="left">
-<b><?php echo $l['ust_konu']; ?>:</b><br>
+<b>üst konu:</b><br>
 {KONU_BAGLANTI}
 {KONU_SAYFALARI}
 	</td>
@@ -144,10 +144,14 @@
 <!--__KOSUL_BASLAT-4__-->
 	<tr>
 	<td height="40" colspan="6" bgcolor="#ffffff" align="center" valign="bottom">
-<div style="width:60%; position:relative; float:center; font-family:arial; font-size:1px; border:0px solid #000000">
-<div style="background:#cccccc; height:2px; width:45%; position:relative; float:left; font-family:arial; font-size:1px"></div>
-<div style="width:9%; position:relative; float:left; font-family:arial; font-size:20px; color:#cccccc; text-weight:bolder; text-align:center; top:-9px">O</div>
-<div style="background:#cccccc; height:2px; width:45%; position:relative; float:left; font-family:arial; font-size:1px"></div>
+<div style="width: 60%; position: relative; float: center; font-family: arial; font-size: 1px; border: 0px solid #000000; height: 10px; top: 9px">
+
+<div style="background: #cccccc; height: 2px; width: 45%; position: relative; float: left; font-family: arial; font-size: 1px;"></div>
+
+<div style="width: 9%; position: relative; float: left; font-family: arial; font-size: 20px; color: #cccccc; text-weight: bolder; text-align: center; top: -9px;">O</div>
+
+<div style="background: #cccccc; height: 2px; width: 45%; position: relative; float: left; font-family: arial; font-size: 1px;"></div>
+
 </div>
 	</td>
 	</tr>
@@ -207,7 +211,10 @@
 	<tr>
 	<td align="left">
 
-<div style="width:250px; float:left; margin-top:10px">{YENI_BASLIK}</div>
+<div style="width: 250px; float: left;margin-top:10px;">
+
+{YENI_BASLIK}
+</div>
 <div style="margin-top:10px" class="sayfalama">{SAYFALAMA}</div>
 
 
@@ -217,7 +224,7 @@
 
 <!--__KOSUL_BASLAT-6__-->
 
-<table cellspacing="1" cellpadding="0" width="100%" border="0" align="center" class="forum-kategori-taban" style="border-bottom:0">
+<table cellspacing="1" cellpadding="0" width="100%" border="0" align="center" bgcolor="#cccccc" style="margin-bottom:20px">
 	<tr>
 	<td colspan="2" class="forum-kategori-baslik" align="left">
 {GOR_KISI}
@@ -225,7 +232,7 @@
 	</tr>
 
 	<tr>
-	<td colspan="2" align="left" bgcolor="#ffffff" class="liste-veri" style="padding:10px">
+	<td colspan="2" class="liste-veri" bgcolor="#ffffff" align="left" style="padding:10px">
 {GOR_UYELER}
 	</td>
 	</tr>
@@ -234,16 +241,16 @@
 <!--__KOSUL_BITIR-6__-->
 
 
-<table cellspacing="1" width="100%" cellpadding="5" border="0" align="center" class="forum-kategori-taban" style="border-bottom:0; margin-bottom:0">
+<table cellspacing="1" width="100%" cellpadding="5" border="0" align="center" bgcolor="#dddddd">
 <tr bgcolor="#ffffff">
-	<td align="center" width="80"><img {ACIK_FORUM} alt="."></td>
-	<td align="left"><font class="liste-veri" style="font-size:13px">&nbsp;<?php echo $l['acik_baslik']; ?></font></td>
+	<td align="center" width="80"><img {ACIK_FORUM} alt="Açık Başlık"></td>
+	<td align="left"><font class="liste-veri" style="font-size:13px">&nbsp;Açık Başlık</font></td>
 
-	<td align="center" width="80"><img {OZEL_FORUM} alt="."></td>
-	<td align="left"><font class="liste-veri" style="font-size:13px">&nbsp;<?php echo $l['ust_konu']; ?></font></td>
+	<td align="center" width="80"><img {OZEL_FORUM} alt="Üst Konu"></td>
+	<td align="left"><font class="liste-veri" style="font-size:13px">&nbsp;Üst Konu</font></td>
 
-	<td align="center" width="80"><img {YONETICI_FORUM} alt="."></td>
-	<td align="left"><font class="liste-veri" style="font-size:13px">&nbsp;<?php echo $l['kilitli_konu']; ?></font></td>
+	<td align="center" width="80"><img {YONETICI_FORUM} alt="Kilitli Başlık"></td>
+	<td align="left"><font class="liste-veri" style="font-size:13px">&nbsp;Kilitli Başlık</font></td>
 </tr>
 </table>
 {FORUMLAR_ARASI_GECIS}

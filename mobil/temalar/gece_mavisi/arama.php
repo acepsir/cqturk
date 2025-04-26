@@ -1,7 +1,7 @@
 <?php if (!defined('PHPKF_ICINDEN_TEMA')) exit(); ?>
 
 <style type="text/css" scoped="scoped">
-@import url("../temalar/varsayilan/css/sablon.css");
+@import url("../temalar/varsayilan/sablon.css");
 div.sayfalama_mobil .tablo_border{
 	border:1px solid #246A8A;
 }
@@ -10,17 +10,11 @@ div.sayfalama_mobil td{
 	border:1px solid #246A8A;
 }
 .arama_dis_tablo {
-	margin:20px;
+margin:20px;
 }
 .arama_dis_tablo td{
-	border:1px solid #ddd;
-	padding:5px;
-}
-input.formlar{
-	height:30px;
-}
-ol, ul{
-padding-left:unset;
+border:1px solid #ddd;
+padding:5px;
 }
 </style>
 
@@ -50,7 +44,7 @@ Konu ve İçerik Arama
 <table cellspacing="1" cellpadding="8" border="0" align="center" bgcolor="#d0d0d0" class="arama_dis_tablo">
 
 	<tr class="liste-veri" bgcolor="#ffffff">
-	<td align="center" width="230">
+	<td align="center" width="220">
 <b>Yazılar içinde sözcük(ler) ara:</b>
 	</td>
 	<td>

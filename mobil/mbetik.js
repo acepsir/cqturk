@@ -4,8 +4,8 @@
  |                  php Kolay Forum (phpKF)                  |
  +===========================================================+
  |                                                           |
- |          Telif - Copyright (c) 2007 - 2019 phpKF          |
- |            www.phpKF.com   -   phpKF@phpKF.com            |
+ |            Telif - Copyright (c) 2007 - 2018              |
+ |       http://www.phpkf.com   -   phpkf @ phpkf.com        |
  |        Tüm hakları saklıdır - All Rights Reserved         |
  |              http://www.phpkf.com/telif.php               |
  |                                                           |

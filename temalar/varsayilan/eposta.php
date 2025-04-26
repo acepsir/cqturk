@@ -10,14 +10,14 @@ E-Posta Gönder
 	</tr>
 
 	<tr>
-	<td class="tablo-ici">
+	<td bgcolor="#f8f8f8">
 
 <form action="eposta.php" method="post" onsubmit="return denetle()" name="eposta_form">
 <input type="hidden" name="kayit_yapildi_mi" value="form_dolu">
 <input type="hidden" name="eposta_kime" value="{EPOSTA_KIME}">
 
 
-<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center">
+<table cellspacing="10" width="100%" cellpadding="0" border="0" align="center" bgcolor="#ffffff">
 	<tr>
 	<td width="24%" class="liste-etiket" align="left">
 &nbsp; Kime :
