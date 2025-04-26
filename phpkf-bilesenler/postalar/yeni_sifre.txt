@@ -1,0 +1,18 @@
+
+Sayın {kullanici_adi};
+
+{siteadi} sitesinde bulunan hesabınızdan yeni şifre başvurusunda bulundunuz.
+
+Şifrenizi sıfırlamak için alttaki bağlantıyı tıklayın. 
+Açılan sayfadan yeni şifrenizi oluşturabilirsiniz.
+
+
+{sifre_sifirlama_link}
+
+-----------------------
+
+Yeni şifre talebinde bulunmadıysanız alttaki linki tıklayarak başvurunuzu iptal edin.
+Eski şifreniz geçerlidir.
+
+{sifre_sifirlama_iptal_link}
+

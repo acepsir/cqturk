@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+.son-yorumlar{padding:0;margin:0;}
+.son-yorumlar ul{
+	margin:0 ;
+	padding:0;
+}
+.son-yorumlar ul li {
+	display: block;
+	border-bottom: 1px dashed #ddd;
+	padding:3px;
+	line-height: 1.2em;
+	font-size: 11px;
+}
+.son-yorumlar ul li a {
+	color: #777;
+}
+.son-yorumlar ul li a:hover {
+	color: #555;
+}
+.son-yorumlar ul li span {
+	padding-top:6px;
+	clear:both;
+	display: block;
+	color: #333;
+	font-style: italic;
+}
+.son-yorumlar ul li .son-yorumlar-avatar {
+	margin: 3px 6px 0 0;
+	width:30px;
+	height:30px;
+	padding:2px;
+	float:left;
+	border:1px solid #ddd;
+	border-radius:50%;
+	-moz-transition:all 0.2s ease-in-out;
+	-o-transition:all 0.2s ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	transition:all 0.2s ease-in-out;
+}
+.son-yorumlar ul li:hover img, .son-yorumlar-avatar:hover{
+	border-radius:5px;
+	border-color:#999;
+}

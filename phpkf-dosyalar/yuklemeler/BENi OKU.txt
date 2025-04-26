@@ -1,0 +1,3 @@
+Siteye yüklenilen dosyalar burada tutulur.
+
+Dosya yüklemesi baþarýsýz oluyorsa, bu dizinin haklarýný chmod 777  (permission 777) yaparak dizine yazma hakký verin.

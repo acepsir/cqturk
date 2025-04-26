@@ -1,0 +1,30 @@
+
+#   phpKF-PORTAL - BAŞ   #
+
+<IfModule mod_rewrite.c>
+#Options -FollowSymLinks +SymLinksIfOwnerMatch
+RewriteEngine On
+
+RewriteRule ^hk([0-9][0-9]*)-(.*).html haberler.php?hd=$1
+RewriteRule ^h([0-9][0-9]*)-(.*).html haberler.php?hn=$1
+RewriteRule ^e-(.*).html haberler.php?etiket=$1
+RewriteRule ^a([0-9][0-9]*)-(.*).html anket.php?anketno=$1
+RewriteRule ^dk([0-9][0-9]*)-(.*).html dosyalar.php?kategorino=$1
+RewriteRule ^d([0-9][0-9]*)-(.*).html dosyalar.php?no=$1
+RewriteRule ^g([0-9][0-9]*)-(.*).html galeri.php?gd=$1
+RewriteRule ^sd([0-9][0-9]*)-(.*).html site_ekle.php?sd=$1
+RewriteRule ^s([0-9][0-9]*)-(.*).html ozel_sayfa.php?o_sayfa=$1
+RewriteRule ^takvim-(.*).html takvim.php?yil=$1
+
+RewriteRule ^hk([0-9]+)s([0-9]+)-(.*).html haberler.php?s=$2&hd=$1
+RewriteRule ^h([0-9]+)s([0-9]+)-(.*).html haberler.php?s=$2&hn=$1
+RewriteRule ^sy([0-9]+)e-(.*).html haberler.php?s=$1&etiket=$2
+RewriteRule ^a([0-9]+)s([0-9]+)-(.*).html anket.php?s=$2&anketno=$1
+RewriteRule ^dk([0-9]+)s([0-9]+)-(.*).html dosyalar.php?s=$2&kategorino=$1
+RewriteRule ^n([0-9]+)s([0-9]+)-(.*).html dosyalar.php?s=$2&no=$1
+RewriteRule ^g([0-9]+)s([0-9]+)-(.*).html galeri.php?s=$2&gd=$1
+RewriteRule ^sd([0-9]+)s([0-9]+)-(.*).html site_ekle.php?s=$2&sd=$1
+RewriteRule ^([0-9]+)-([0-9]+)(.*)-takvim.html takvim.php?gun=$1&ay=$2
+</IfModule>
+
+#   phpKF-PORTAL - son   #

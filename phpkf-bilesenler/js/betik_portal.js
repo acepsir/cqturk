@@ -1,0 +1,22 @@
+<!-- //
+/*
+ +===========================================================+
+ |                  php Kolay Forum (phpKF)                  |
+ +===========================================================+
+ |                                                           |
+ |          Telif - Copyright (c) 2007 - 2019 phpKF          |
+ |            www.phpKF.com   -   phpKF@phpKF.com            |
+ |        Tüm hakları saklıdır - All Rights Reserved         |
+ |              http://www.phpkf.com/telif.php               |
+ |                                                           |
+ +===========================================================+*/
+
+function denetle2(){var dogruMu=true;if((document.giris.kullanici_adi.value.length<4)||(document.giris.sifre.value.length<5)){dogruMu=false;alert(kp_dil_437);}return dogruMu;}function resimDegistir(resim,yer){if(yer==2){var dosya1=alanadi+"alt_forum_arti.gif";var dosya2=alanadi+"alt_forum_eksi.gif";}else if(yer==3){var dosya1=alanadi+"alt_forum_sonu_arti.gif";var dosya2=alanadi+"alt_forum_sonu_eksi.gif";}else{var dosya1=alanadi+"assagi.png";var dosya2=alanadi+"yukari.png";}var blsresim=document.getElementById(resim);if(blsresim.src==dosya1)blsresim.src=dosya2;else blsresim.src=dosya1;}function ResimBuyut(resim,ratgele,en,boy,islem){var katman=document.getElementById(ratgele);if(islem=="buyut"){resim.width=en;resim.onclick=function(){ResimBuyut(resim,ratgele,en,boy,"kucult")};katman.style.width=(en-12)+"px";katman.innerHTML=kp_dil_543+" ("+en+"x"+boy+")";if(document.all)resim.style.cursor="pointer";else resim.style.cursor="-moz-zoom-out";}else if(islem=="kucult"){resim.width=430;resim.onclick=function(){ResimBuyut(resim,ratgele,en,boy,"buyut")};katman.style.width="418px";katman.innerHTML=kp_dil_542+" ("+en+"x"+boy+")";if(document.all)resim.style.cursor="pointer";else resim.style.cursor="-moz-zoom-in";}else if(islem=="ac")window.open(resim,"_blank","scrollbars=yes,left=1,top=1,width="+(en+40)+",height="+(boy+30)+",resizable=yes");}function ResimBoyutlandir(resim){if(resim.width>"430"){var en=resim.width;var boy=resim.height;var adres=resim.src;var rastgele="resim_boyut_"+Math.random();oyazi=document.createTextNode(kp_dil_542+" ("+resim.width+"x"+resim.height+")");okatman=document.createElement("div");okatman.id=rastgele;okatman.className="resim_boyutlandir";okatman.align="left";okatman.title=kp_dil_525;okatman.style.cursor="pointer";okatman.onclick=function(){ResimBuyut(adres,rastgele,en,boy,"ac")};okatman.textNode=oyazi;okatman.appendChild(oyazi);resim.onclick=function(){ResimBuyut(resim,rastgele,en,boy,"buyut")};resim.width="430";resim.border="1";resim.title=kp_dil_525;resim.parentNode.insertBefore(okatman, resim);if(document.all)resim.style.cursor="pointer";else resim.style.cursor="-moz-zoom-in";}}function hareketli_yazi(div_id,marquee_id,direction,scrollamount,scrolldelay,scrollheight,css){var marquee_div=document.getElementById(div_id);if(marquee_div){css=css?' class="'+css+'"':'';marquee_div.style.overflow='';marquee_div.innerHTML='<marquee id="'+marquee_id+'" direction="'+direction+'" scrollamount="'+scrollamount+'" scrolldelay="'+scrolldelay+'" height="'+scrollheight+'"'+css+'>'+marquee_div.innerHTML+'</marquee>';}}function karakterfiltre(deger){var yaz=new String();var numaralar="0123456789";var chars=deger.value.split("");for(i=0;i<chars.length;i++){if(numaralar.indexOf(chars[i])!=-1)yaz+=chars[i];}if(deger.value!=yaz)deger.value=yaz;}function hepsiniSec(kodCizelgesi){if(document.selection){var secim=document.body.createTextRange();secim.moveToElementText(document.getElementById(kodCizelgesi));secim.select();}else if(window.getSelection){var secim=document.createRange();secim.selectNode(document.getElementById(kodCizelgesi));window.getSelection().addRange(secim);}else if(document.createRange&&(document.getSelection||window.getSelection)){secim=document.createRange();secim.selectNodeContents(document.getElementById(kodCizelgesi));a=window.getSelection?window.getSelection():document.getSelection();a.removeAllRanges();a.addRange(secim);}}
+function gizle_goster(alan1, alan2){
+var alan1=document.getElementById(alan1);var alan2=document.getElementById(alan2);
+if(alan1.style.display=='inline'){alan1.style.display='none';alan1.style.visibility='hidden';}
+else {alan1.style.display='inline';alan1.style.visibility='visible';}
+if(alan2){if(alan2.style.display=='inline'){alan2.style.display='none';alan2.style.visibility='hidden';}
+else {alan2.style.display='inline';alan2.style.visibility='visible';}}}
+
+//  -->

@@ -1,0 +1,8 @@
+
+Bu E-Posta {siteadi} sitesinden otomatik olarak gönderilmiştir.
+
+@{uye_adi} isimli üye size bir özel ileti yolladı.
+Özel iletiyi okumak için tıklayın.
+
+{ozel_ileti_sayfasi}
+

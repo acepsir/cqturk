@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+.begenilen-yazilar{padding:0;}
+.begenilen-yazilar ul{margin:0;padding:0;}
+.begenilen-yazilar ul li{
+	display: block;
+	border-bottom: 1px dashed #ddd;
+	padding:8px;
+	color: #999;
+	line-height: 1.4em;
+	font-size: 11px
+}
+.begenilen-yazilar ul li b {
+	color: #777;
+}
+.begenilen-yazilar ul li b:hover{
+	color:#333;
+}
+.begenilen-yazilar ul li span{
+	font-style:italic;
+}
+.begenilen-yazilar ul li span a{
+	color:#555;
+	font-style:normal;
+}
+.begenilen-yazilar ul li a:hover{
+	color:#000;
+}

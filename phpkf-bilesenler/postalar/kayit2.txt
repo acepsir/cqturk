@@ -1,0 +1,23 @@
+
+{siteadi} Sitesine Hoş Geldiniz.
+
+
+Aşağıdaki bilgilerle kaydınız yapılmıştır.
+Şifrenizi unutma olasılığına karşı bu E-Postayı saklayınız.
+
+
+Kullanıcı Adı: {kullanici_adi}
+Şifre: {sifre}
+E-Posta: {posta}
+
+
+Şifre veritabanına iki farklı yöntemle şifrelenerek kaydedildiğinden,
+geri getirilmesi veya yönetici tarafından görülmesi olanaksızdır.
+Şifrenizi unuttuğunuzda ancak yenisi oluşturulup size yollanabilir.
+
+
+E-Posta adresinizin onaylanması için aşağıdaki bağlantıyı tıklayın.
+
+
+{site_link}
+

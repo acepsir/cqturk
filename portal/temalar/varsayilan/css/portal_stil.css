@@ -1,0 +1,471 @@
+@charset "utf-8";
+
+/*   Takvim Sayfası Başlangıcı   */
+
+.takvim_sayfa_hafta_ici
+{
+background-color:white;
+}
+.takvim_sayfa_hafta_ici a:link
+{
+color:black;
+font-family:Verdana;
+font-size: 10px;
+}
+.takvim_sayfa_hafta_ici a:active
+{
+color:black;
+font-family:Verdana;
+font-size: 10px;
+}
+.takvim_sayfa_hafta_ici a:visited
+{
+color:black;
+font-family:Verdana;
+font-size: 10px;
+}
+.takvim_sayfa_hafta_ici a:hover
+{
+color:red;
+font-family:Verdana;
+font-size: 10px;
+}
+
+
+.takvim_sayfa_hafta_sonu
+{
+background-color:red;
+}
+.takvim_sayfa_hafta_sonu a:link
+{
+color:white;
+font-family:Verdana;
+font-size: 10px;
+}
+.takvim_sayfa_hafta_sonu a:active
+{
+color:white;
+font-family:Verdana;
+font-size: 10px;
+}
+.takvim_sayfa_hafta_sonu a:visited
+{
+color:white;
+font-family:Verdana;
+font-size: 10px;
+}
+.takvim_sayfa_hafta_sonu a:hover
+{
+color:black;
+font-family:Verdana;
+font-size: 10px;
+}
+
+
+.takvim_sayfa_bugun
+{
+color:white;
+background-color:blue;
+font-family:Verdana;
+font-size: 10px;
+}
+
+
+
+
+.onceki_ve_sonraki_ay_hafta_ici
+{
+background-color:white;
+font-family:Verdana;
+font-size: 10px;
+color:#646464;
+}
+.onceki_ve_sonraki_ay_hafta_sonu
+{
+background-color:red;
+font-family:Verdana;
+font-size: 10px;
+color:white;
+}
+
+.hr_cizgisi
+{
+border-top: 1px dotted #dddddd;
+border-bottom: 1px dotted #dddddd;
+margin-top:5px;
+margin-bottom:5px;
+padding-top:5px;
+padding-bottom:5px;
+font-size: 10px;
+text-align:left;
+font-family:Verdana;
+}
+
+
+.takvim_cubuk
+{
+    color: #000000;
+	font-family: Verdana;
+	font-size:10px;
+	width: 100%;
+	height: 25px;
+    background: #dedede url("../resimler/resimler/cubuk.gif") repeat-x;
+	border: #dddddd 1px solid;
+}
+.takvim_cubuk2
+{
+    color: #000000;
+	font-family: Verdana;
+	font-size:10px;
+	height: 25px;
+    background: #dedede url("../resimler/resimler/cubuk.gif") repeat-x;
+	border: #dddddd 1px solid;
+}
+
+.takvim_ust
+{
+    color: #000000;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 22px;
+	width: 100%;
+	height: 40px;
+    background: #dedede url("../resimler/resimler/cubuk.gif") repeat-x;
+	border: #dddddd 1px solid;
+}
+
+.takvim_ust a:link
+{
+    color: #000000;
+	padding: 1px;
+	margin: 1px;
+	text-decoration: none;
+}
+
+
+.takvim_ust A:active 
+{
+    color: #000000;
+	text-decoration: none;
+}
+.takvim_ust A:visited 
+{
+    color: #000000;
+	text-decoration: none;
+}
+.takvim_ust a:hover
+{
+    color: #aaaaaa;
+	text-decoration: none;
+}
+
+/*   Takvim Sayfası Sonu   */
+
+
+
+
+
+/*   Takvim Blok Başlangıcı   */
+
+.blok_takvim_gun_isimleri_haftasonu
+{
+color:#ff0000;
+font-family:Verdana;
+font-size: 10px;
+}
+.blok_takvim_gun_isimleri
+{
+color:#000000;
+background-color:white;
+font-family:Verdana;
+font-size: 10px;
+}
+.blok_takvim_gunler
+{
+color:#000000;
+background-color:white;
+font-family:Verdana;
+font-size: 11px;
+}
+.blok_takvim_bugun
+{
+color:white;
+background-color:red;
+font-family:Verdana;
+font-size: 11px;
+}
+.blok_takvim_oncekivesonrakiay
+{
+color:#646464;
+background-color:white;
+font-family:Verdana;
+font-size: 10px;
+}
+
+/*   Takvim Blok Sonu   */
+
+
+
+
+
+
+.padmar_ayari
+{
+padding: 8px;
+margin-bottom: 10px;
+}
+
+#ileti_taban
+{
+background:url("../resimler/resimler/ileti.png") no-repeat;
+width:358px;
+height:182px;
+}
+
+hr
+{
+border: 1px dotted #dddddd;
+}
+
+
+.bls_blok_ust
+{
+background:url("../resimler/resimler/b_ust.png") no-repeat top;
+margin: 0px;
+padding: 0px;
+width: 184px;
+border: 1px solid #e0e0e0;
+line-height:15px;
+}
+
+
+.bls_blok_alt
+{
+background:url("../resimler/resimler/b_alt.png") no-repeat top;
+margin: 0px;
+padding: 0px;
+width: 184px;
+height: 20px;
+}
+
+
+.blok_fieldset_menu
+{
+padding:0px;
+margin:0px;
+width:150px;
+border: 0px solid #0099ff;
+line-height:16px;
+}
+
+.blok_yazilari_menu
+{
+font-size: 11px;
+}
+
+
+
+
+
+.haber_cubuk
+{
+    color: #000000;
+	font-weight: bold;
+	font-size: 11px;
+	width: 100%;
+	height: 25px;
+    background: #dedede url("../resimler/resimler/cubuk.gif") repeat-x;
+	border: #dddddd 1px solid;
+}
+
+.bloklar_yonetim_cizgi_renk
+{
+border: 1px solid #dddddd;
+}
+
+.linkler5
+{
+font-family: verdana, sans-serif, tahoma, arial, helvetica; 
+font-size: 9px;
+}
+
+.style5
+ {
+font-family:Verdana;
+font-size: 10px;
+color:#FFFFFF;
+}
+
+
+
+.style1 
+{
+font-family: Verdana;
+font-size:10px;
+}
+.style2 
+{
+font-family:Verdana;
+font-size: 11px;
+}
+.style3
+ {
+ font-family:Verdana;
+font-size: 11px;
+color:#FFFFFF;
+}
+.style4
+ {
+ font-family:Verdana;
+font-size: 10px;
+color:#646464;
+}
+
+.linkler
+{
+font-family: verdana, sans-serif, tahoma, arial, helvetica; 
+font-size: 11px; 
+font-weight: bold;
+}
+.linkler2
+{
+font-family: verdana, sans-serif, tahoma, arial, helvetica; 
+font-size: 12px; 
+font-weight: bold;
+}
+.linkler3
+{
+font-family: verdana, sans-serif, tahoma, arial, helvetica; 
+font-size: 11px;
+}
+.linkler4
+{
+font-family: verdana, sans-serif, tahoma, arial, helvetica; 
+font-size: 10px;
+font-weight: bold;
+}
+
+
+
+
+#form_taban
+{
+background:url("../resimler/resimler/form2.png") no-repeat;
+}
+
+#ac_kapa
+{
+ cursor: pointer;
+ background-image: url("../resimler/resimler/menu_ac.gif");
+ padding: 0px 2px 0px 5px;
+ border: 0px;
+ width: 11px;
+ height: 10px;
+}
+
+
+
+
+
+#sayfalama_cubuk
+{
+    color: #000000;
+	font-weight: bold;
+	font-size: 11px;
+	width: 100%;
+	height: 50px;
+    background: #dedede url("../resimler/resimler/cubuk.gif") repeat-x;
+	border: #dddddd 1px solid;
+}
+
+#sayfalama_cubuk a:link
+{
+    color: #000000;
+	padding: 1px;
+	margin: 1px;
+}
+#sayfalama_cubuk a:hover
+{
+    color: #aaaaaa;
+	
+}
+
+
+
+
+#dotted
+{
+padding:5px;
+}
+
+.dotted-cerceve
+{
+padding:5px;
+}
+.dotted-cerceve2
+{
+padding: 0;
+}
+
+
+
+#alt_yorum2
+{
+color: #00305d;
+font: 11px tahoma;
+border-bottom: #dddddd 1px solid;
+border-left: #dddddd 1px solid;
+padding: 5px;
+margin: 5px;
+}
+.alt_yorum3
+{
+color: #00305d;
+font: 11px tahoma;
+border-bottom: #dddddd 1px solid;
+}
+
+
+.resim_boyutlandir
+{
+ position: relative;
+ margin: 0px;
+ padding: 6px;
+ width: 418px;
+ background: #e8e8e8;
+ color: #000;
+ font-family:arial;
+ font-size:13px;
+ border: 1px solid #000;
+ cursor: default;
+}
+
+.son_mesajlar
+{
+font-family: verdana, sans-serif, tahoma, arial, helvetica; 
+font-size: 11px;
+}
+
+.rssmobil
+{
+ font-family:verdana,sans-serif,tahoma,arial,helvetica;
+ font-size:13px;
+ border-top:1px solid #ddd;
+ border-bottom:1px solid #aaa;
+ border-left:1px solid #d0d0d0;
+ border-right:1px solid #aaa;
+ box-shadow:2px 2px 5px #AfA4Af;
+}
+
+.rssmobil a
+{
+ text-decoration:none;
+ color:#000000;
+ line-height:27px;
+ display:block;
+}
+
+.rssmobil:hover
+{
+ box-shadow:0px 0px 0px #AfA4Af;
+}
